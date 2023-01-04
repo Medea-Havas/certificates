@@ -1,11 +1,12 @@
+import { Button } from '@mui/material';
 import Head from 'next/head';
-import styles from '../styles/Home.module.css';
+import styles from '../styles/Courses.module.css';
 
-export default function Home() {
+export default function Courses() {
   return (
     <>
       <Head>
-        <title>Certificados Medea</title>
+        <title>Certificados Medea - Cursos</title>
         <meta
           name='description'
           content='Gestor de certificados de los cursos de Medea'
@@ -14,7 +15,8 @@ export default function Home() {
         <link rel='icon' href='/favicon.ico' />
       </Head>
       <main className={styles.main}>
-        <h2>Home</h2>
+        <h2>Cursos</h2>
+        <Button variant='contained'>Contained</Button>
       </main>
     </>
   );
