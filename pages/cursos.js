@@ -1,9 +1,9 @@
 import { Button } from '@mui/material';
 import { TextField } from '@mui/material';
+import next from 'next';
 import Head from 'next/head';
+import Image from 'next/Image';
 import styles from '../styles/Courses.module.css';
-
-import logo from './img/pexels.jpeg';
 
 export default function Courses() {
   return (
@@ -73,7 +73,14 @@ export default function Courses() {
               <text className={styles.typeSmall}> Madrid</text>
               <text className={styles.typeSmall}> 13,6</text>
               <text className={styles.typeSmall}> 07-AFOC-03874.3/2020</text>
-              <div><img src={logo}  width="100" height="50"/></div>
+              <div><Image
+                src={'/pexels.jpeg'}
+                alt="Picture of the author"
+                width={50}
+                height={50}
+                // blurDataURL="data:..." automatically provided
+                // placeholder="blur" // Optional blur-up while loading
+              /></div>
             </div>
           </div>
         </div>

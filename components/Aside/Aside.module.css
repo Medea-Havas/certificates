@@ -11,3 +11,12 @@
   padding: 20px 40px;
   border-bottom: 1px solid var(--steelbluelowlight);
 }
+
+.button
+{
+  align-items: start;
+  align-self: flex-start;
+  padding: 20px 10%;
+  color: black;
+  text-transform: capitalize;
+}
