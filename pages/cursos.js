@@ -1,9 +1,48 @@
+import * as React from 'react';
+import { DataGrid } from '@mui/x-data-grid';
 import { Button } from '@mui/material';
 import { TextField } from '@mui/material';
 import next from 'next';
 import Head from 'next/head';
 import Image from 'next/Image';
+import {moment} from 'moment'
 import styles from '../styles/Courses.module.css';
+import { Margin } from '@mui/icons-material';
+
+
+const columns = [
+  { field: 'curso', headerName: 'Curso', width: 110 },
+  {
+    field: 'inicio',
+    headerName: 'Inicio',
+    width: 100,
+    Cell: props => {moment(props.value).format('dd/MM/yyyy')}
+  },
+  {
+    field: 'fin',
+    headerName: 'Fin',
+    width: 100,
+      Cell: props => {moment(props.value).format('dd/MM/yyyy')}
+  },
+  { field: 'tutores', headerName: 'Tutores', width: 130 },
+  { field: 'ciudad', headerName: 'Ciudad', width: 130 },
+  {
+    field: 'n_creditos',
+    headerName: 'Nº créditos',
+    type: 'number',
+    width: 90,
+  },
+  { field: 'id', headerName: 'Nº Expediente', width: 200 },
+
+];
+
+const rows = [
+  {curso: "Curso 01", inicio: "16/04/22", fin: "30/10/22", tutores: "Dr. John Doe", ciudad:"madrid", n_creditos: 13, id: "07-AFOC-03874.3/2020"},
+  {curso: "Curso 01", inicio: "16/04/22", fin: "30/10/22", tutores: "Dr. John Doe", ciudad:"madrid", n_creditos: 13, id: "07-AFOC-03874.3/2020"},
+  {curso: "Curso 01", inicio: "16/04/22", fin: "30/10/22", tutores: "Dr. John Doe", ciudad:"madrid", n_creditos: 13, id: "07-AFOC-03874.3/2020"},
+  {curso: "Curso 01", inicio: "16/04/22", fin: "30/10/22", tutores: "Dr. John Doe", ciudad:"madrid", n_creditos: 13, id: "07-AFOC-03874.3/2020"},
+
+];
 
 export default function Courses() {
   return (
@@ -55,7 +94,7 @@ export default function Courses() {
                   <TextField id="outlined-basic" label="" variant="outlined" InputLabelProps={{className: styles.input}} InputProps={{className: styles.label}} />
                 </div>
               </div>
-            <div className={styles.fieldsTitle}>
+            {/*<div className={styles.fieldsTitle}>
               <text className={styles.typeMedium}> Curso</text>
               <text className={styles.typeMedium}> Inicio</text>
               <text className={styles.typeMedium}> Fin</text>
@@ -81,7 +120,17 @@ export default function Courses() {
                 // blurDataURL="data:..." automatically provided
                 // placeholder="blur" // Optional blur-up while loading
               /></div>
-            </div>
+              </div>*/}
+
+          <div className={styles.table}>
+            <DataGrid
+              rows={rows}
+              columns={columns}
+              pageSize={7}
+              rowsPerPageOptions={[4]}
+
+            />
+          </div>
           </div>
         </div>
       </main>

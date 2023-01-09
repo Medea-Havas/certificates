@@ -62,3 +62,9 @@
     display: flex;
     justify-content: space-between;
 }
+
+.table {
+    height: 319px;
+    width: 100%;
+    margin-top:20px;
+}
