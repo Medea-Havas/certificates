@@ -1,0 +1,64 @@
+.typeXLarge{
+    font-size: x-large;
+}
+
+.typeLarge{
+    font-size: large;
+    margin-bottom: 20px;
+    display: block;
+}
+
+.typeMedium{
+    font-size: medium;
+    margin-top: 60px;
+    display: block;
+}
+
+.typeSmall{
+    font-size: small;
+}
+
+.typeXSmall{
+    font-size: x-small;
+}
+
+.coursesTop{
+    padding: 30px 40px;
+    width: 80vw;
+    display: flex;
+    justify-content: space-between;
+}
+
+.searcherContainer{
+    width: 80vw;
+    height: 70vh;
+    padding: 10px 40px;
+}
+
+.input {
+    color: white;
+}
+
+.label {
+    margin-top: 10px;
+    border: 1px solid white;
+    color: white;
+    font-size: x-small;
+    width: 120px;
+    height: 20px;
+}
+
+.searcherField{
+    display: flex;
+    flex-direction: column;
+}
+
+.allSearchers{
+    display: flex;
+    justify-content: space-around;
+}
+
+.fieldsTitle{
+    display: flex;
+    justify-content: space-between;
+}

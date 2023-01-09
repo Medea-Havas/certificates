@@ -1,1 +1,48 @@
 
+.typeXXSmall {
+    font-size: xx-small;
+}
+
+.typeMedium {
+    font-size: medium;
+    display: block;
+    margin-bottom: 15px;
+}
+
+.typeLarge {
+    font-size: large;
+    padding-bottom: 15px;
+}
+
+.typeXLarge {
+    font-size: xx-large;
+}
+
+.totalDiv {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 70px;
+}
+
+.coursesDiv {
+    width: 50%;
+    padding-right: 10%;
+    text-align: end;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.studentsDiv {
+    width: 50%;
+    padding-left: 10%;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.homeContainer{
+    height: 100vh;
+    width: 80vw;
+    display: flex;
+}

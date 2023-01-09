@@ -3,6 +3,8 @@ import Header from '../Header/index';
 import Footer from '../Footer/index';
 import Aside from '../Aside/index';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import styles from './Layout.module.css';
+
 
 // Theme builder: https://bareynol.github.io/mui-theme-creator/
 const theme = createTheme({
@@ -55,8 +57,10 @@ export default class Layout extends Component {
       <ThemeProvider theme={theme}>
         <div className='layout'>
           <Header />
+          <div className={styles.body}>
           <Aside />
           {children}
+          </div>
           <Footer />
         </div>
       </ThemeProvider>

@@ -1,4 +1,13 @@
 .aside {
   background-color: var(--skybluehighlight);
   color: var(--steelbluelowlight);
+  width: 20vw;
+  height: 100vh;
+  border-right: 1px solid var(--steelbluelowlight);
+}
+
+.li {
+  width: 100%;
+  padding: 20px 40px;
+  border-bottom: 1px solid var(--steelbluelowlight);
 }

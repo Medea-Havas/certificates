@@ -5,14 +5,14 @@ export default function Aside() {
   return (
     <nav className={styles.aside}>
       <ul>
-        <li>
+        <li className={styles.li}>
           <Link href='/'>Home</Link>
         </li>
-        <li>
-          <Link href='/usuarios'>Usuarios</Link>
-        </li>
-        <li>
+        <li className={styles.li}>
           <Link href='/cursos'>Cursos</Link>
+        </li>
+        <li className={styles.li}>
+          <Link href='/usuarios'>Usuarios</Link>
         </li>
       </ul>
     </nav>
