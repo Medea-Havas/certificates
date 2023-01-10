@@ -64,7 +64,18 @@
 }
 
 .table {
-    height: 319px;
+    height: 57vh;
     width: 100%;
-    margin-top:20px;
+    margin-top:40px;
+}
+
+.buttonAtions {
+    display: flex;
+    flex-direction: column;
+}
+
+.buttonStyle {
+    text-transform: capitalize;
+    border: 0.5px solid black;
+    margin-bottom: 5px;
 }

@@ -11,36 +11,79 @@ import { Margin } from '@mui/icons-material';
 
 
 const columns = [
-  { field: 'curso', headerName: 'Curso', width: 110 },
+  { field: 'curso', headerName: 'Curso', width: 110, headerAlign: 'center', align: 'center' },
   {
     field: 'inicio',
     headerName: 'Inicio',
-    width: 100,
+    flex: 1,
+    headerAlign: 'center',
+    align: 'center',
     Cell: props => {moment(props.value).format('dd/MM/yyyy')}
   },
   {
     field: 'fin',
     headerName: 'Fin',
-    width: 100,
+    flex: 1,
+    headerAlign: 'center',
+    align: 'center',
       Cell: props => {moment(props.value).format('dd/MM/yyyy')}
   },
-  { field: 'tutores', headerName: 'Tutores', width: 130 },
-  { field: 'ciudad', headerName: 'Ciudad', width: 130 },
+  { field: 'tutores', headerName: 'Tutores',flex: 1, headerAlign: 'center', align: 'center' },
+  { field: 'ciudad', headerName: 'Ciudad',flex: 1, headerAlign: 'center', align: 'center' },
   {
     field: 'n_creditos',
     headerName: 'Nº créditos',
     type: 'number',
-    width: 90,
+    flex: 1,
+    headerAlign: 'center',
+    align: 'center'
   },
-  { field: 'id', headerName: 'Nº Expediente', width: 200 },
+  { field: 'id', headerName: 'Nº Expediente', width: 250, headerAlign: 'center', align: 'center' },
+  {
+    field: "imagen",
+    headerName: "Imagen",
+    sortable: false,
+    flex: 1,
+    headerAlign: 'center',
+    align: 'center',
+    renderCell: (params) => {
+      const onClick = (e) => {
+      };
+      return <Image
+      src={'/pexels.jpeg'}
+      alt="Picture of the author"
+      width={100}
+      height={100}
+      // blurDataURL="data:..." automatically provided
+      // placeholder="blur" // Optional blur-up while loading
+    />;
+    }
+  },
+  {
+    field: "buttonAtions",
+    headerName: "",
+    sortable: false,
+    flex: 1,
+    headerAlign: 'center',
+    align: 'center',
+    renderCell: (params) => {
+      const onClick = (e) => {
+      };
+      return <div className={styles.buttonAtions}><Button onClick={onClick} className={styles.buttonStyle}>Ver</Button><Button onClick={onClick} className={styles.buttonStyle}>Editar</Button><Button onClick={onClick} className={styles.buttonStyle}>Borrar</Button></div>;
+    }
+  }
 
 ];
 
 const rows = [
-  {curso: "Curso 01", inicio: "16/04/22", fin: "30/10/22", tutores: "Dr. John Doe", ciudad:"madrid", n_creditos: 13, id: "07-AFOC-03874.3/2020"},
-  {curso: "Curso 01", inicio: "16/04/22", fin: "30/10/22", tutores: "Dr. John Doe", ciudad:"madrid", n_creditos: 13, id: "07-AFOC-03874.3/2020"},
-  {curso: "Curso 01", inicio: "16/04/22", fin: "30/10/22", tutores: "Dr. John Doe", ciudad:"madrid", n_creditos: 13, id: "07-AFOC-03874.3/2020"},
-  {curso: "Curso 01", inicio: "16/04/22", fin: "30/10/22", tutores: "Dr. John Doe", ciudad:"madrid", n_creditos: 13, id: "07-AFOC-03874.3/2020"},
+  {curso: "Curso 01", inicio: "16/04/22", fin: "31/10/22", tutores: "Dr. John Doe", ciudad:"madrid", n_creditos: 13, id: "07-AFOC-03874.3/2020"},
+  {curso: "Curso 01", inicio: "17/04/22", fin: "30/10/22", tutores: "Dr. John Doe", ciudad:"madrid", n_creditos: 13, id: "08-AFOC-03874.3/2020"},
+  {curso: "Curso 01", inicio: "18/04/22", fin: "29/10/22", tutores: "Dr. John Doe", ciudad:"ciudad real", n_creditos: 13, id: "01-AFOC-03874.3/2020"},
+  {curso: "Curso 01", inicio: "19/04/22", fin: "30/10/22", tutores: "Dr. John Doe", ciudad:"madrid", n_creditos: 13, id: "03-AFOC-03874.3/2020"},
+  {curso: "Curso 01", inicio: "16/04/22", fin: "28/10/22", tutores: "Dr. John Doe", ciudad:"barcelona", n_creditos: 13, id: "06-AFOC-03874.3/2020"},
+  {curso: "Curso 01", inicio: "16/04/22", fin: "30/10/22", tutores: "Dr. John Doe", ciudad:"madrid", n_creditos: 13, id: "02-AFOC-03874.3/2020"},
+  {curso: "Curso 01", inicio: "16/04/22", fin: "30/10/22", tutores: "Dr. John Doe", ciudad:"madrid", n_creditos: 13, id: "04-AFOC-03874.3/2020"},
+  {curso: "Curso 01", inicio: "16/04/22", fin: "30/10/22", tutores: "Dr. John Doe", ciudad:"madrid", n_creditos: 13, id: "05-AFOC-03874.3/2020"},
 
 ];
 
@@ -126,9 +169,10 @@ export default function Courses() {
             <DataGrid
               rows={rows}
               columns={columns}
-              pageSize={7}
+              pageSize={4}
               rowsPerPageOptions={[4]}
-
+              rowHeight={149.8}
+              
             />
           </div>
           </div>

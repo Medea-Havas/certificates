@@ -1,0 +1,82 @@
+.typeXLarge{
+    font-size: x-large;
+}
+
+.typeLarge{
+    font-size: large;
+    margin-bottom: 20px;
+    display: block;
+}
+
+.typeMedium{
+    font-size: medium;
+    margin-top: 60px;
+    display: block;
+}
+
+.typeSmall{
+    font-size: small;
+}
+
+.typeXSmall{
+    font-size: x-small;
+}
+
+.studentsTop{
+    padding: 30px 40px;
+    width: 80vw;
+    display: flex;
+    justify-content: space-between;
+}
+
+.searcherContainer{
+    width: 80vw;
+    height: 85vh;
+    padding: 10px 40px;
+}
+
+.input {
+    color: black;
+}
+
+.label {
+    margin-top: 10px;
+    border: 1px solid white;
+    color: black;
+    font-size: x-small;
+    width: 120px;
+    height: 20px;
+}
+
+.searcherField{
+    display: flex;
+    flex-direction: column;
+    padding-right: 50px;
+}
+
+.allSearchers{
+    display: flex;
+    justify-content: left;
+}
+
+.fieldsTitle{
+    display: flex;
+    justify-content: space-between;
+}
+
+.table {
+    height: 72vh;
+    width: 100%;
+    margin-top:40px;
+}
+
+.buttonAtions {
+    display: flex;
+    flex-direction: column;
+}
+
+.buttonStyle {
+    text-transform: capitalize;
+    border: 0.5px solid black;
+    margin-right: 5px;
+}
