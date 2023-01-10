@@ -1,0 +1,65 @@
+.typeXSmall{
+    font-size: x-small;
+    color: black;
+}
+
+.typeMedium{
+    font-size: medium;
+}
+
+.typeXLarge{
+    font-size: x-large;
+    color: black;
+}
+
+.buttonTop {
+    margin-right: 10px;
+}
+
+.buttonImage
+{
+    margin-top: 10px;
+    width: 150px;
+    align-self: flex-end;
+}
+
+.button{
+    margin-left: 30px;
+    padding: 10px 10px;
+    font-size: medium;
+    width: 250px;
+}
+
+.coursesInfoTop{
+    padding: 30px 40px;
+    width: 80vw;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.coursesRoute{
+    margin-top: 30px;
+    margin-left: 20px;
+}
+
+.diplomaContent{
+    margin-left: 30px;
+}
+
+.diplomaTitle{
+    margin-top: 20px;
+    padding: 30px 0;
+}
+
+.diplomaDiv{
+    display: flex;
+    flex-direction: column;
+    width: 30vw;
+}
+
+.imageDiploma{
+    margin-bottom: 20px;
+    margin-top: 30px;
+}
+

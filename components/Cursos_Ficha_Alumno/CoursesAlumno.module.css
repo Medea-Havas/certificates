@@ -1,0 +1,54 @@
+.typeXLarge{
+    font-size: x-large;
+    color: black;
+}
+
+.typeMedium{
+    font-size: medium;
+    color: black;
+}
+
+.typeXSmall{
+    font-size: x-small;
+    color: black;
+}
+
+.alumnosContent{
+    margin-left: 30px;
+}
+
+.alumnoTitle{
+    margin-top: 20px;
+    padding: 30px 0;
+}
+
+.coursesInfoTop{
+    padding: 30px 40px;
+    width: 80vw;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.coursesRoute{
+    margin-top: 30px;
+    margin-left: 20px;
+}
+
+.buttonTop {
+    margin-right: 10px;
+}
+
+.button{
+    margin-left: 30px;
+    padding: 10px 10px;
+    font-size: medium;
+    width: 250px;
+}
+
+.table {
+    height: 65vh;
+    width: 100%;
+    margin-top:20px;
+    margin-bottom: 20px;
+}

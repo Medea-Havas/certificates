@@ -1,0 +1,70 @@
+
+.typeXLarge{
+    font-size: x-large;
+    color: black;
+}
+
+.typeLarge{
+    font-size: large;
+    margin-bottom: 30px;
+    display: block;
+}
+
+.typeMedium{
+    font-size: medium;
+    color: black;
+}
+
+.typeMediumBold{
+    font-size: medium;
+    font-weight: bold;
+    color: black;
+}
+
+.typeXSmall{
+    font-size: x-small;
+    color: black;
+}
+
+.alumnoInfoContainer{
+    margin-left: 30px;
+}
+
+
+.buttonTop {
+    margin-right: 30px;
+    font-size: medium;
+    height: 50px;
+    width: 250px;
+}
+
+.button {
+    margin-top: 40px;
+    margin-bottom: 30px;
+    margin-right: 20px;
+    font-size: x-small;
+    height: 30px;
+    width: 150px;
+}
+
+.alumnoInfoTop{
+    padding: 30px 30px;
+    width: 80vw;
+    height: 15vh;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+.alumnoInfo{
+    display: flex;
+    flex-direction: column;
+    height: 10vh;
+    justify-content: space-around;
+}
+
+.alumnoRoute{
+    margin-top: 30px;
+    margin-left: 30px;
+}

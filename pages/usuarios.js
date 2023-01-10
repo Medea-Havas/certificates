@@ -13,6 +13,9 @@ import { DataGrid } from '@mui/x-data-grid';
 import { Button } from '@mui/material';
 import { TextField } from '@mui/material';
 
+import Alumnos_Mat_A1 from '../components/Alumnos_Mat_A1/index';
+import Alumnos_Mat_B2 from '../components/Alumnos_Mat_B2/index';
+
 const columns = [
   { field: 'nombre', headerName: 'Nombre', width: 110, headerAlign: 'center', align: 'center' },
   {field: 'apellidos', headerName: 'Apellidos', flex: 1, headerAlign: 'center', align: 'center',},
@@ -82,7 +85,7 @@ export default function Users() {
         </FormControl>
   </main>*/}
   <main className={styles.main}>
-    <div>
+    {/*<div>
       <div className={styles.studentsTop}>
         <text className={styles.typeXLarge}>Estudiantes</text>
         <Button variant='contained'>+ Nuevo Estudiante</Button>
@@ -121,7 +124,8 @@ export default function Users() {
             />
           </div>
           </div>
-        </div>
+      </div>*/}
+      <Alumnos_Mat_B2 />
       </main>
     </>
   );

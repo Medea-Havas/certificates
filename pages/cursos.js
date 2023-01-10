@@ -8,6 +8,9 @@ import Image from 'next/Image';
 import {moment} from 'moment'
 import styles from '../styles/Courses.module.css';
 import { Margin } from '@mui/icons-material';
+import CursosFichaInfo from '../components/Cursos_Ficha_Info/index';
+import CursosFichaDiploma from '../components/Cursos_Ficha_Diploma/index';
+import CursosFichaAlumno from '../components/Cursos_Ficha_Alumno/index';
 
 
 const columns = [
@@ -163,7 +166,7 @@ export default function Courses() {
                 // blurDataURL="data:..." automatically provided
                 // placeholder="blur" // Optional blur-up while loading
               /></div>
-              </div>*/}
+              </div>/////*/}
 
           <div className={styles.table}>
             <DataGrid
@@ -172,11 +175,11 @@ export default function Courses() {
               pageSize={4}
               rowsPerPageOptions={[4]}
               rowHeight={149.8}
-              
             />
           </div>
           </div>
         </div>
+         {/*<CursosFichaInfo />*/}
       </main>
     </>
   );
