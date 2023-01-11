@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React , {useState} from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import { Button } from '@mui/material';
 import { TextField } from '@mui/material';
@@ -11,6 +11,12 @@ import { Margin } from '@mui/icons-material';
 import CursosFichaInfo from '../components/Cursos_Ficha_Info/index';
 import CursosFichaDiploma from '../components/Cursos_Ficha_Diploma/index';
 import CursosFichaAlumno from '../components/Cursos_Ficha_Alumno/index';
+import Modal from '@mui/material/Modal';
+import Box from '@mui/material/Box';
+import Select from '@mui/material/Select';
+import Typography from '@mui/material/Typography';
+import FormControl from '@mui/material/FormControl';
+import MenuItem from '@mui/material/MenuItem';
 
 
 const columns = [
@@ -91,6 +97,36 @@ const rows = [
 ];
 
 export default function Courses() {
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const [nombre, setNombre] = React.useState('');
+  const handleChangeNombre = (event) => {
+    setNombre(event.target.value);
+  };
+
+  const [apellidos, setApellidos] = React.useState('');
+  const handleChangeApellidos = (event) => {
+    setApellidos(event.target.value);
+  };
+
+  const [email, setEmail] = React.useState(' ');
+  const handleChangeEmail = (event) => {
+    setEmail(event.target.value);
+  }
+
+  const [id, setID] = React.useState(' ');
+  const handleChangeID = (event) => {
+    setID(event.target.value);
+  }
+
+  const [userType, setUserType] = React.useState(' ');
+  const handleChangeUserType = (event) => {
+    setUserType(event.target.value);
+  }
+
+
   return (
     <>
       <Head>
@@ -106,7 +142,7 @@ export default function Courses() {
         <div>
           <div className={styles.coursesTop}>
             <text className={styles.typeXLarge}>Cursos</text>
-            <Button variant='contained'>+ Nuevo Curso</Button>
+            <Button variant='contained' onClick={handleOpen}>+ Nuevo Curso</Button>
           </div>
           <div className={styles.searcherContainer}>
             <text className={styles.typeLarge}> Buscador</text>
@@ -140,46 +176,97 @@ export default function Courses() {
                   <TextField id="outlined-basic" label="" variant="outlined" InputLabelProps={{className: styles.input}} InputProps={{className: styles.label}} />
                 </div>
               </div>
-            {/*<div className={styles.fieldsTitle}>
-              <text className={styles.typeMedium}> Curso</text>
-              <text className={styles.typeMedium}> Inicio</text>
-              <text className={styles.typeMedium}> Fin</text>
-              <text className={styles.typeMedium}> Tutores</text>
-              <text className={styles.typeMedium}> Ciudad</text>
-              <text className={styles.typeMedium}> Nº créditos</text>
-              <text className={styles.typeMedium}> Nº expediente</text>
-              <text className={styles.typeMedium}> Imagen</text>
-            </div>
-            <div className={styles.course}>
-              <text className={styles.typeSmall}> Curso 01</text>
-              <text className={styles.typeSmall}> 16-04-22</text>
-              <text className={styles.typeSmall}> 31-10-22</text>
-              <text className={styles.typeSmall}> Dr. John Doe</text>
-              <text className={styles.typeSmall}> Madrid</text>
-              <text className={styles.typeSmall}> 13,6</text>
-              <text className={styles.typeSmall}> 07-AFOC-03874.3/2020</text>
-              <div><Image
-                src={'/pexels.jpeg'}
-                alt="Picture of the author"
-                width={50}
-                height={50}
-                // blurDataURL="data:..." automatically provided
-                // placeholder="blur" // Optional blur-up while loading
-              /></div>
-              </div>/////*/}
-
-          <div className={styles.table}>
-            <DataGrid
-              rows={rows}
-              columns={columns}
-              pageSize={4}
-              rowsPerPageOptions={[4]}
-              rowHeight={149.8}
-            />
-          </div>
+              <div className={styles.table}>
+                <DataGrid
+                  rows={rows}
+                  columns={columns}
+                  pageSize={4}
+                  rowsPerPageOptions={[4]}
+                  rowHeight={149.8}
+                />
+              </div>
           </div>
         </div>
-         {/*<CursosFichaInfo />*/}
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+        <Box className={styles.modalBox}>
+          <Typography id="modal-modal-title" variant="subtitle2" component="h2" fontSize={26}>
+            Matricular en curso
+          </Typography>
+          <div className={styles.allTextFields}>
+            <div>
+              <div className={styles.textFieldModal}>
+                <text>Nombre</text>
+                <TextField
+                  id="outlined-basic"
+                  label=""
+                  variant="outlined"
+                  value={nombre}
+                  onChange={handleChangeNombre}
+                />
+              </div>
+              <div className={styles.textFieldModal}>
+                <text>Apellidos</text>
+                <TextField
+                  id="outlined-basic"
+                  label=""
+                  variant="outlined"
+                  value={apellidos}
+                  onChange={handleChangeApellidos}
+                />
+              </div>
+              <div className={styles.textFieldModal}>
+                <text>Email</text>
+                <TextField
+                  id="outlined-basic"
+                  label=""
+                  variant="outlined"
+                  value={email}
+                  onChange={handleChangeEmail}
+                />
+              </div>
+            </div>
+            <div>
+              <div className={styles.textFieldModal}>
+                <text>NIF</text>
+                <TextField
+                  id="outlined-basic"
+                  label=""
+                  variant="outlined"
+                  type="id"
+                  value={id}
+                  onChange={handleChangeID}
+                />
+              </div>
+              <div className={styles.textFieldModal}>
+                <text>Tipo de Usuario</text>
+                <FormControl fullWidth>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={userType}
+                    label="UserType"
+                    onChange={handleChangeUserType}
+                  >
+                    <MenuItem value={10}>Tipo usuario 1</MenuItem>
+                    <MenuItem value={20}>Tipo usuario 2</MenuItem>
+                    <MenuItem value={30}>Tipo usuario 3</MenuItem>
+                  </Select>
+                </FormControl>
+              </div>
+            </div>
+          </div>
+          <div className={styles.modalButtonsCont}>
+            <Button variant='contained' className={styles.modalButton}>Cancelar</Button>
+            <Button variant='contained' className={styles.modalButton}>Aceptar</Button>
+          </div>
+        </Box>
+      </Modal>
+         {/*<CursosFichaDiploma />*/}
       </main>
     </>
   );

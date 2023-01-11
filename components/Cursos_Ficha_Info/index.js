@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Head from 'next/head';
 import { Button, Link } from '@mui/material';
 import styles from './CoursesInfo.module.css';
+import Breadcrumbs from '@mui/material/Breadcrumbs';
+import Typography from '@mui/material/Typography';
 
 export default class CursosFichaInfo extends Component {
   render() {
@@ -20,11 +22,15 @@ export default class CursosFichaInfo extends Component {
             <main className={styles.main}>
             <div>
                 <div className={styles.coursesRoute}>
-                    <Link className={styles.typeXSmall}>Cursos</Link>
-                    <text className={styles.typeXSmall}>{" > "}</text>
-                    <Link className={styles.typeXSmall}>Curso 01</Link>
-                    <text className={styles.typeXSmall}>{" > "}</text>
-                    <Link className={styles.typeXSmall}>Información</Link>
+                  <Breadcrumbs aria-label="breadcrumb">
+                    <Link underline="hover" color="inherit" href="/">
+                      Cursos
+                    </Link>
+                    <Link underline="hover" color="inherit" href="/">
+                      Curso 01
+                    </Link>
+                    <Typography color="text.primary">Información</Typography>
+                  </Breadcrumbs>
                 </div>
                 <div className={styles.coursesInfoTop}>
                     <text className={styles.typeXLarge}>Curso 01</text>

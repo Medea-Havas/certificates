@@ -12,6 +12,7 @@ import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
+import Breadcrumbs from '@mui/material/Breadcrumbs';
 
 const columns = [
   { field: 'nombreCurso', headerName: 'Nombre de curso', width: 110, headerAlign: 'center', align: 'center' },
@@ -74,10 +75,25 @@ export default function AlumnosMatB2 () {
       const handleOpen = () => setOpen(true);
       const handleClose = () => setOpen(false);
 
-      const [age, setAge] = React.useState('');
+      const [course, setCourse] = React.useState('');
       const handleChange = (event) => {
-        setAge(event.target.value);
+        setCourse(event.target.value);
       };
+
+      const [ciudad, setCiudad] = React.useState(' ');
+      const handleChangeCiudad = (event) => {
+        setCiudad(event.target.value);
+      }
+
+      const [fFin, setFFin] = React.useState(' ');
+      const handleChangeFFin = (event) => {
+        setFFin(event.target.value);
+      }
+
+      const [fCel, setFCel] = React.useState(' ');
+      const handleChangeFCel = (event) => {
+        setFCel(event.target.value);
+      }
 
       //const { children } = this.props
       return (
@@ -94,11 +110,15 @@ export default function AlumnosMatB2 () {
               <main className={styles.main}>
               <div>
                   <div className={styles.alumnoRoute}>
-                      <Link className={styles.typeXSmall} href="/">Estudiantes</Link>
-                      <text className={styles.typeXSmall}>{" > "}</text>
-                      <Link className={styles.typeXSmall}>John Doe Márquez</Link>
-                      <text className={styles.typeXSmall}>{" > "}</text>
-                      <Link className={styles.typeXSmall}>Cursos Matriculado</Link>
+                  <Breadcrumbs aria-label="breadcrumb">
+                    <Link underline="hover" color="inherit" href="/">
+                      Estudiantes
+                    </Link>
+                    <Link underline="hover" color="inherit" href="/">
+                      John Doe Márquez
+                    </Link>
+                    <Typography color="text.primary">Cursos matriculado</Typography>
+                  </Breadcrumbs>
                   </div>
                   <div className={styles.alumnoInfoTop}>
                       <text className={styles.typeXLarge}>John Doe Márquez</text>
@@ -138,30 +158,50 @@ export default function AlumnosMatB2 () {
                             <Select
                               labelId="demo-simple-select-label"
                               id="demo-simple-select"
-                              value={age}
-                              label="Age"
+                              value={course}
+                              label="Course"
                               onChange={handleChange}
                               styles = {styles.controlLabel}
                             >
-                              <MenuItem value={10}>Ten</MenuItem>
-                              <MenuItem value={20}>Twenty</MenuItem>
-                              <MenuItem value={30}>Thirty</MenuItem>
+                              <MenuItem value={10}>Course 01</MenuItem>
+                              <MenuItem value={20}>Course 02</MenuItem>
+                              <MenuItem value={30}>Course 03</MenuItem>
                             </Select>
                           </FormControl>
                         </div>
                         <div className={styles.textFieldModal}>
                           <text>Ciudad</text>
-                          <TextField id="outlined-basic" label="" variant="outlined"/>
+                          <TextField
+                            id="outlined-basic"
+                            label=""
+                            variant="outlined"
+                            value={ciudad}
+                            onChange={handleChangeCiudad}
+                          />
                         </div>
                       </div>
                       <div>
                         <div className={styles.textFieldModal}>
                           <text>Fecha fin de examen</text>
-                          <TextField id="outlined-basic" label="" variant="outlined"/>
+                          <TextField
+                            id="outlined-basic"
+                            label=""
+                            variant="outlined"
+                            type="date"
+                            value={fFin}
+                            onChange={handleChangeFFin}
+                          />
                         </div>
                         <div className={styles.textFieldModal}>
                           <text>Fecha de celebración</text>
-                          <TextField id="outlined-basic" label="" variant="outlined"/>
+                          <TextField
+                            id="outlined-basic"
+                            label=""
+                            variant="outlined"
+                            type="date"
+                            value={fCel}
+                            onChange={handleChangeFCel}
+                          />
                         </div>
                       </div>
                     </div>

@@ -4,6 +4,8 @@ import { DataGrid } from '@mui/x-data-grid';
 import Image from 'next/Image';
 import { Button, Link } from '@mui/material';
 import styles from './CoursesAlumno.module.css';
+import Breadcrumbs from '@mui/material/Breadcrumbs';
+import Typography from '@mui/material/Typography';
 
 const columns = [
     { field: 'nombre', headerName: 'Nombre', width: 110, headerAlign: 'center', align: 'center' },
@@ -70,11 +72,15 @@ export default class CursosFichaAlumno extends Component {
             <main className={styles.main}>
             <div>
                 <div className={styles.coursesRoute}>
-                    <Link className={styles.typeXSmall} href="/">Cursos</Link>
-                    <text className={styles.typeXSmall}>{" > "}</text>
-                    <Link className={styles.typeXSmall}>Curso 01</Link>
-                    <text className={styles.typeXSmall}>{" > "}</text>
-                    <Link className={styles.typeXSmall}>Alumnos matriculados</Link>
+                  <Breadcrumbs aria-label="breadcrumb">
+                    <Link underline="hover" color="inherit" href="/">
+                      Cursos
+                    </Link>
+                    <Link underline="hover" color="inherit" href="/">
+                      Curso 01
+                    </Link>
+                    <Typography color="text.primary">Alumnos matriculados</Typography>
+                  </Breadcrumbs>
                 </div>
                 <div className={styles.coursesInfoTop}>
                     <text className={styles.typeXLarge}>Curso 01</text>

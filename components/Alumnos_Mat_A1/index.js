@@ -4,6 +4,8 @@ import { DataGrid } from '@mui/x-data-grid';
 import Image from 'next/Image';
 import { Button, Link } from '@mui/material';
 import styles from './Alumnos_Mat_A1.module.css';
+import Breadcrumbs from '@mui/material/Breadcrumbs';
+import Typography from '@mui/material/Typography';
 
 export default class AlumnosMatA1 extends Component {
     render() {
@@ -22,11 +24,15 @@ export default class AlumnosMatA1 extends Component {
               <main className={styles.main}>
               <div>
                   <div className={styles.alumnoRoute}>
-                      <Link className={styles.typeXSmall} href="/">Estudiantes</Link>
-                      <text className={styles.typeXSmall}>{" > "}</text>
-                      <Link className={styles.typeXSmall}>John Doe Márquez</Link>
-                      <text className={styles.typeXSmall}>{" > "}</text>
-                      <Link className={styles.typeXSmall}>Cursos Matriculado</Link>
+                    <Breadcrumbs aria-label="breadcrumb">
+                      <Link underline="hover" color="inherit" href="/">
+                        Estudiantes
+                      </Link>
+                      <Link underline="hover" color="inherit" href="/">
+                        John Doe Márquez
+                      </Link>
+                      <Typography color="text.primary">Información</Typography>
+                    </Breadcrumbs>
                   </div>
                   <div className={styles.alumnoInfoTop}>
                       <text className={styles.typeXLarge}>John Doe Márquez</text>
