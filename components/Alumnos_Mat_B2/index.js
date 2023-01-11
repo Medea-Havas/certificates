@@ -1,9 +1,17 @@
-import React, { Component } from 'react';
+//import * as React from 'react';
+import React, {Component, useState} from 'react';
 import Head from 'next/head';
 import { DataGrid } from '@mui/x-data-grid';
 import Image from 'next/Image';
-import { Button, Link } from '@mui/material';
+import { Button, Link, TextField } from '@mui/material';
 import styles from './Alumnos_Mat_B2.module.css';
+import Modal from '@mui/material/Modal';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 
 const columns = [
   { field: 'nombreCurso', headerName: 'Nombre de curso', width: 110, headerAlign: 'center', align: 'center' },
@@ -54,10 +62,24 @@ const rows = [
   {nombreCurso: "Juan", id: "27856433A", f_fin: "31/10/22",  ciudad:"A Coruña", f_celebracion: "31/10/22"},
 ];
 
+/*function HandleOpen() {
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+}*/
 
-export default class AlumnosMatB2 extends Component {
-    render() {
-      const { children } = this.props;
+
+export default function AlumnosMatB2 () {
+      const [open, setOpen] = useState(false);
+      const handleOpen = () => setOpen(true);
+      const handleClose = () => setOpen(false);
+
+      const [age, setAge] = React.useState('');
+      const handleChange = (event) => {
+        setAge(event.target.value);
+      };
+
+      //const { children } = this.props
       return (
         <>
           <Head>
@@ -87,6 +109,7 @@ export default class AlumnosMatB2 extends Component {
                   </div>
                   <div className={styles.alumnoInfoContainer}>
                     <text className={styles.typeLarge}> Cursos Matriculado</text>
+                    <Button variant='contained' onClick={handleOpen}>Cursos matriculado</Button>
                   </div>
                   <div className={styles.table}>
                     <DataGrid
@@ -97,9 +120,59 @@ export default class AlumnosMatB2 extends Component {
                       rowHeight={52}
                     />
                   </div>
+                  <Modal
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                  >
+                  <Box className={styles.modalBox}>
+                    <Typography id="modal-modal-title" variant="subtitle2" component="h2" fontSize={26}>
+                      Matricular en curso
+                    </Typography>
+                    <div className={styles.allTextFields}>
+                      <div>
+                        <div className={styles.textFieldModal}>
+                          <text>Seleccione un curso</text>
+                          <FormControl fullWidth>
+                            <Select
+                              labelId="demo-simple-select-label"
+                              id="demo-simple-select"
+                              value={age}
+                              label="Age"
+                              onChange={handleChange}
+                              styles = {styles.controlLabel}
+                            >
+                              <MenuItem value={10}>Ten</MenuItem>
+                              <MenuItem value={20}>Twenty</MenuItem>
+                              <MenuItem value={30}>Thirty</MenuItem>
+                            </Select>
+                          </FormControl>
+                        </div>
+                        <div className={styles.textFieldModal}>
+                          <text>Ciudad</text>
+                          <TextField id="outlined-basic" label="" variant="outlined"/>
+                        </div>
+                      </div>
+                      <div>
+                        <div className={styles.textFieldModal}>
+                          <text>Fecha fin de examen</text>
+                          <TextField id="outlined-basic" label="" variant="outlined"/>
+                        </div>
+                        <div className={styles.textFieldModal}>
+                          <text>Fecha de celebración</text>
+                          <TextField id="outlined-basic" label="" variant="outlined"/>
+                        </div>
+                      </div>
+                    </div>
+                    <div className={styles.modalButtonsCont}>
+                      <Button variant='contained' className={styles.modalButton}>Cancelar</Button>
+                      <Button variant='contained' className={styles.modalButton}>Aceptar</Button>
+                    </div>
+                  </Box>
+                </Modal>
               </div>
               </main>
         </>
       );
     }
-  }
