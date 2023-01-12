@@ -2,30 +2,19 @@ import styles from './Aside.module.css';
 import Link from 'next/link';
 
 import * as React from 'react';
-import { styled, useTheme } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
-import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
 
 const drawerWidth = 240;
-
-
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open"
@@ -68,19 +57,6 @@ export default function Aside() {
 
 
   return (
-    /*<nav className={styles.aside}>
-      <ul>
-        <li className={styles.li}>
-          <Link href='/'>Home</Link>
-        </li>
-        <li className={styles.li}>
-          <Link href='/cursos'>Cursos</Link>
-        </li>
-        <li className={styles.li}>
-          <Link href='/usuarios'>Usuarios</Link>
-        </li>
-      </ul>
-    </nav>*/
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
       <AppBar position="fixed" open={open}>
@@ -105,7 +81,8 @@ export default function Aside() {
           flexShrink: 0,
           "& .MuiDrawer-paper": {
             width: drawerWidth,
-            boxSizing: "border-box"
+            boxSizing: "border-box",
+            backgroundColor: "#7CB1DE",
           }
         }}
         variant="persistent"

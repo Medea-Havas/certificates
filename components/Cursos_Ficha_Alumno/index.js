@@ -72,11 +72,11 @@ export default class CursosFichaAlumno extends Component {
             <main className={styles.main}>
             <div>
                 <div className={styles.coursesRoute}>
-                  <Breadcrumbs aria-label="breadcrumb">
-                    <Link underline="hover" color="inherit" href="/">
+                  <Breadcrumbs aria-label="breadcrumb" color="text.primary">
+                    <Link underline="hover" color="text.primary" href="/">
                       Cursos
                     </Link>
-                    <Link underline="hover" color="inherit" href="/">
+                    <Link underline="hover" color="text.primary" href="/">
                       Curso 01
                     </Link>
                     <Typography color="text.primary">Alumnos matriculados</Typography>

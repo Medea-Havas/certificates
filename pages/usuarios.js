@@ -120,23 +120,23 @@ export default function Users() {
                 <div className={styles.allSearchers}>
                   <div className={styles.searcherField}>
                     <text className={styles.typeXSmall}>Nombre</text>
-                    <TextField id="outlined-basic" label="" variant="outlined" InputLabelProps={{className: styles.input}} InputProps={{className: styles.label}} />
+                    <TextField id="outlined-basic" label="" variant="outlined"/>
                   </div>
                   <div className={styles.searcherField}>
                     <text className={styles.typeXSmall}>Apellidos</text>
-                    <TextField id="outlined-basic" label="" variant="outlined" InputLabelProps={{className: styles.input}} InputProps={{className: styles.label}} />
+                    <TextField id="outlined-basic" label="" variant="outlined"/>
                   </div>
                   <div className={styles.searcherField}>
                     <text className={styles.typeXSmall}>Email</text>
-                    <TextField id="outlined-basic" label="" variant="outlined" InputLabelProps={{className: styles.input}} InputProps={{className: styles.label}} />
+                    <TextField id="outlined-basic" label="" variant="outlined"/>
                   </div>
                   <div className={styles.searcherField}>
                     <text className={styles.typeXSmall}>NIF</text>
-                    <TextField id="outlined-basic" label="" variant="outlined" InputLabelProps={{className: styles.input}} InputProps={{className: styles.label}} />
+                    <TextField id="outlined-basic" label="" variant="outlined"/>
                   </div>
                   <div className={styles.searcherField}>
                     <text className={styles.typeXSmall}>Tipo de Uusario</text>
-                    <TextField id="outlined-basic" label="" variant="outlined" InputLabelProps={{className: styles.input}} InputProps={{className: styles.label}} />
+                    <TextField id="outlined-basic" label="" variant="outlined"/>
                   </div>
                 </div>
                 <div className={styles.table}>
@@ -260,7 +260,7 @@ export default function Users() {
               </div>
             </Box>
           </Modal>
-            {/*<Alumnos_Mat_B2 />*/}
+            {/*<Alumnos_Mat_A1 />*/}
             </main>
           </>
   );

@@ -1,7 +1,6 @@
 
 .typeXLarge{
     font-size: x-large;
-    color: black;
 }
 
 .typeLarge{
@@ -12,18 +11,15 @@
 
 .typeMedium{
     font-size: medium;
-    color: black;
 }
 
 .typeMediumBold{
     font-size: medium;
     font-weight: bold;
-    color: black;
 }
 
 .typeXSmall{
     font-size: x-small;
-    color: black;
 }
 
 .alumnoInfoContainer{

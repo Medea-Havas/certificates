@@ -1,6 +1,5 @@
 .typeXLarge{
     font-size: x-large;
-    color: black;
 }
 
 .typeMedium{
@@ -16,7 +15,6 @@
 
 .typeXSmall{
     font-size: x-small;
-    color: black;
 }
 
 .typeBold{
@@ -65,13 +63,14 @@
     margin-top: 30px;
 }
 
+.divInfoCont{
+    width: 35vw;
+}
+
 .divInfoCol{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     height: 10vh;
-}
-
-.fechaSep{
-    padding-right: 470px;
+    width: 35vw;
 }

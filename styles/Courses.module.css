@@ -34,20 +34,6 @@
     height: 70vh;
     padding: 10px 40px;
 }
-
-.input {
-    color: white;
-}
-
-.label {
-    margin-top: 10px;
-    border: 1px solid white;
-    color: white;
-    font-size: x-small;
-    width: 120px;
-    height: 20px;
-}
-
 .searcherField{
     display: flex;
     flex-direction: column;
@@ -55,7 +41,7 @@
 
 .allSearchers{
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
 }
 
 .fieldsTitle{
@@ -72,12 +58,8 @@
 .buttonAtions {
     display: flex;
     flex-direction: column;
-}
-
-.buttonStyle {
-    text-transform: capitalize;
-    border: 0.5px solid black;
-    margin-bottom: 5px;
+    height: 100%;
+    justify-content: space-evenly;
 }
 
 .modalBox
@@ -93,13 +75,15 @@
   padding: 30px 70px;
 }
 
-.modalButton{
-    margin-left: 20px;
-}
-
 .modalButtonsCont{
     display: flex;
     justify-content: flex-end;
+}
+
+.modalButtons{
+    display: flex;
+    justify-content: space-between;
+    width: 200px;
 }
 
 .allTextFields{
@@ -113,4 +97,8 @@
     flex-direction: column;
     height: 8vh;
     justify-content: space-around;
+}
+
+.marginTop{
+    margin-top: 10px;
 }

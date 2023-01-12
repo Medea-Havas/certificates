@@ -78,7 +78,7 @@ const columns = [
     renderCell: (params) => {
       const onClick = (e) => {
       };
-      return <div className={styles.buttonAtions}><Button onClick={onClick} className={styles.buttonStyle}>Ver</Button><Button onClick={onClick} className={styles.buttonStyle}>Editar</Button><Button onClick={onClick} className={styles.buttonStyle}>Borrar</Button></div>;
+      return <div className={styles.buttonAtions}><Button onClick={onClick}>Ver</Button><Button onClick={onClick}>Editar</Button><Button onClick={onClick}>Borrar</Button></div>;
     }
   }
 
@@ -149,31 +149,31 @@ export default function Courses() {
               <div className={styles.allSearchers}>
                 <div className={styles.searcherField}>
                   <text className={styles.typeXSmall}>Nombre de curso</text>
-                  <TextField id="outlined-basic" label="" variant="outlined" InputLabelProps={{className: styles.input}} InputProps={{className: styles.label}} />
+                  <TextField id="outlined-basic" label="" variant="outlined" className={styles.marginTop}/>
                 </div>
                 <div className={styles.searcherField}>
                   <text className={styles.typeXSmall}>Fecha de inicio</text>
-                  <TextField id="outlined-basic" label="" variant="outlined" InputLabelProps={{className: styles.input}} InputProps={{className: styles.label}} />
+                  <TextField id="outlined-basic" label="" variant="outlined" className={styles.marginTop}/>
                 </div>
                 <div className={styles.searcherField}>
                   <text className={styles.typeXSmall}>Fecha de finalización</text>
-                  <TextField id="outlined-basic" label="" variant="outlined" InputLabelProps={{className: styles.input}} InputProps={{className: styles.label}} />
+                  <TextField id="outlined-basic" label="" variant="outlined" className={styles.marginTop}/>
                 </div>
                 <div className={styles.searcherField}>
                   <text className={styles.typeXSmall}>Tutores</text>
-                  <TextField id="outlined-basic" label="" variant="outlined" InputLabelProps={{className: styles.input}} InputProps={{className: styles.label}} />
+                  <TextField id="outlined-basic" label="" variant="outlined" className={styles.marginTop}/>
                 </div>
                 <div className={styles.searcherField}>
                   <text className={styles.typeXSmall}>Ciudad</text>
-                  <TextField id="outlined-basic" label="" variant="outlined" InputLabelProps={{className: styles.input}} InputProps={{className: styles.label}} />
+                  <TextField id="outlined-basic" label="" variant="outlined" className={styles.marginTop}/>
                 </div>
                 <div className={styles.searcherField}>
                   <text className={styles.typeXSmall}>Nº créditos</text>
-                  <TextField id="outlined-basic" label="" variant="outlined" InputLabelProps={{className: styles.input}} InputProps={{className: styles.label}} />
+                  <TextField id="outlined-basic" label="" variant="outlined" className={styles.marginTop}/>
                 </div>
                 <div className={styles.searcherField}>
                   <text className={styles.typeXSmall}>Nº expediente</text>
-                  <TextField id="outlined-basic" label="" variant="outlined" InputLabelProps={{className: styles.input}} InputProps={{className: styles.label}} />
+                  <TextField id="outlined-basic" label="" variant="outlined" className={styles.marginTop}/>
                 </div>
               </div>
               <div className={styles.table}>
@@ -261,12 +261,14 @@ export default function Courses() {
             </div>
           </div>
           <div className={styles.modalButtonsCont}>
-            <Button variant='contained' className={styles.modalButton}>Cancelar</Button>
-            <Button variant='contained' className={styles.modalButton}>Aceptar</Button>
+            <div className={styles.modalButtons}>
+              <Button variant='contained'>Cancelar</Button>
+              <Button variant='contained'>Aceptar</Button>
+            </div>
           </div>
         </Box>
       </Modal>
-         {/*<CursosFichaDiploma />*/}
+         {/*<CursosFichaInfo />*/}
       </main>
     </>
   );

@@ -1,7 +1,6 @@
 
 .typeXLarge{
     font-size: x-large;
-    color: black;
 }
 
 .typeLarge{
@@ -10,18 +9,15 @@
 
 .typeMedium{
     font-size: medium;
-    color: black;
 }
 
 .typeMediumBold{
     font-size: medium;
     font-weight: bold;
-    color: black;
 }
 
 .typeXSmall{
     font-size: x-small;
-    color: black;
 }
 
 .alumnoInfoContainer{
@@ -84,8 +80,9 @@
 .textFieldModal{
     display: flex;
     flex-direction: column;
+    justify-content: space-evenly;
     align-items: flex-start;
-    height: 7vh;
+    height: 9vh;
 }
 
 .modalButtonsCont

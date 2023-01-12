@@ -22,11 +22,11 @@ export default class CursosFichaInfo extends Component {
             <main className={styles.main}>
             <div>
                 <div className={styles.coursesRoute}>
-                  <Breadcrumbs aria-label="breadcrumb">
-                    <Link underline="hover" color="inherit" href="/">
+                  <Breadcrumbs aria-label="breadcrumb" color="text.primary">
+                    <Link underline="hover" color="text.primary" href="/">
                       Cursos
                     </Link>
-                    <Link underline="hover" color="inherit" href="/">
+                    <Link underline="hover" color="text.primary" href="/">
                       Curso 01
                     </Link>
                     <Typography color="text.primary">Información</Typography>
@@ -68,8 +68,8 @@ export default class CursosFichaInfo extends Component {
                       </text>
                     </div>
                     <div className={styles.divInfoColCont}>
-                      <div><text className={styles.typeMedium}><span className={styles.typeBold}>Fecha de creación:</span> 15/11/2020</text></div>
-                      <div className={styles.fechaSep}><text className={styles.typeMedium}><span className={styles.typeBold}>Fecha de actualización:</span> 17/07/2022</text></div>
+                      <div className={styles.divInfoCont}><text className={styles.typeMedium}><span className={styles.typeBold}>Fecha de creación:</span> 15/11/2020</text></div>
+                      <div className={styles.divInfoCont}><text className={styles.typeMedium}><span className={styles.typeBold}>Fecha de actualización:</span> 17/07/2022</text></div>
                     </div>
                 </div>
             </div>
