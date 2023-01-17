@@ -1,0 +1,8 @@
+.MuiPaper-root .MuiButton-root {
+  justify-content: start;
+  width: 100%;
+}
+.MuiPaper-root .MuiButton-root:hover {
+  background: #463777;
+  color: #fff;
+}

@@ -1,5 +1,19 @@
 .footer {
   background-color: var(--babypink);
+  bottom: 0;
   color: var(--steelbluelowlight);
   padding: 0.5rem 0;
+  position: absolute;
+  width: 100%;
+  z-index: 9999;
+}
+.footerWrap {
+  margin: 0 auto;
+  max-width: 1600px;
+  padding: 0 1rem;
+}
+@media (min-width: 1700px) {
+  .footerWrap {
+    padding: 0;
+  }
 }

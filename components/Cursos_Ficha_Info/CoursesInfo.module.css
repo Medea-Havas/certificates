@@ -1,76 +1,44 @@
-.typeXLarge{
-    font-size: x-large;
+.button {
+  margin-left: 30px;
+  padding: 10px 10px;
+  font-size: medium;
+  width: 250px;
 }
-
-.typeMedium{
-    font-size: medium;
-}
-
-.typeMediumBold{
-    display: block;
-    font-size: medium;
-    font-weight: bold;
-    margin-bottom: 20px;
-}
-
-.typeXSmall{
-    font-size: x-small;
-}
-
-.typeBold{
-    font-weight: bold;
-}
-
-.coursesInfoTop{
-    padding: 30px 40px;
-    width: 80vw;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.coursesInfo{
-    margin-left: 50px;
-    width:70vw;
-}
-
-.coursesRoute{
-    margin-top: 30px;
-    margin-left: 20px;
-}
-
-.coursesInfoTitle{
-    padding-top: 40px;
-    padding-bottom: 20px;
-}
-
 .buttonTop {
-    margin-right: 10px;
+  margin-right: 10px;
 }
-
-.button{
-    margin-left: 30px;
-    padding: 10px 10px;
-    font-size: medium;
-    width: 250px;
+.coursesInfo {
+  margin-left: 50px;
+  width: 70vw;
 }
-
-.divInfoColCont
-{
-    display: flex;
-    justify-content: space-between;
-    height: 12vh;
-    margin-top: 30px;
+.coursesInfoTitle {
+  padding-top: 40px;
+  padding-bottom: 20px;
 }
-
-.divInfoCont{
-    width: 35vw;
+.coursesInfoTop {
+  padding: 30px 40px;
+  width: 80vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
-
-.divInfoCol{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 10vh;
-    width: 35vw;
+.coursesRoute {
+  margin-top: 30px;
+  margin-left: 20px;
+}
+.divInfoCol {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 10vh;
+  width: 35vw;
+}
+.divInfoCont {
+  width: 35vw;
+}
+.divInfoColCont {
+  display: flex;
+  justify-content: space-between;
+  height: 12vh;
+  margin-top: 30px;
 }

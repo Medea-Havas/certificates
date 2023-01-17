@@ -1,110 +1,72 @@
-.typeXLarge{
-    font-size: x-large;
+.allSearchers {
+  display: flex;
+  justify-content: space-between;
 }
-
-.typeLarge{
-    font-size: large;
-    margin-bottom: 20px;
-    display: block;
+.allTextFields {
+  display: flex;
+  height: 28vh;
+  justify-content: space-between;
 }
-
-.typeMedium{
-    font-size: medium;
-    margin-top: 60px;
-    display: block;
-}
-
-.typeSmall{
-    font-size: small;
-}
-
-.typeXSmall{
-    font-size: x-small;
-}
-
-.coursesTop{
-    padding: 30px 40px;
-    width: 80vw;
-    display: flex;
-    justify-content: space-between;
-}
-
-.searcherContainer{
-    width: 80vw;
-    height: 80vh;
-    padding: 10px 40px;
-}
-.searcherField{
-    display: flex;
-    flex-direction: column;
-}
-
-.allSearchers{
-    display: flex;
-    justify-content: space-between;
-}
-
-.fieldsTitle{
-    display: flex;
-    justify-content: space-between;
-}
-
-.table {
-    height: 64vh;
-    width: 100%;
-    margin-top:40px;
-}
-
 .buttonAtions {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    justify-content: space-evenly;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-evenly;
 }
-
-.modalBox
-{
-  position: absolute;
-  top: 25%;
-  left: 20%;
-  width: 700px;
+.coursesTop {
+  display: flex;
+  justify-content: space-between;
+  padding: 30px 40px;
+  width: 80vw;
+}
+.fieldsTitle {
+  display: flex;
+  justify-content: space-between;
+}
+.gridTool {
+  border: 1px solid white;
+  padding: 10px;
+}
+.marginTop {
+  margin-top: 10px;
+}
+.modalBox {
   background-color: var(--steelbluelowlight);
   border: 2px solid var(--blue);
-  color: var(--bluehighlight);
   box-shadow: 24;
+  color: var(--bluehighlight);
+  left: 20%;
   padding: 30px 70px;
+  position: absolute;
+  top: 25%;
+  width: 700px;
 }
-
-.modalButtonsCont{
-    display: flex;
-    justify-content: flex-end;
+.modalButtons {
+  display: flex;
+  justify-content: space-between;
+  width: 200px;
 }
-
-.modalButtons{
-    display: flex;
-    justify-content: space-between;
-    width: 200px;
+.modalButtonsCont {
+  display: flex;
+  justify-content: flex-end;
 }
-
-.allTextFields{
-    display: flex;
-    height:28vh;
-    justify-content: space-between;
+.searcherContainer {
+  height: 80vh;
+  padding: 10px 40px;
+  width: 80vw;
 }
-
-.textFieldModal{
-    display: flex;
-    flex-direction: column;
-    height: 8vh;
-    justify-content: space-around;
+.searcherField {
+  display: flex;
+  flex-direction: column;
 }
-
-.marginTop{
-    margin-top: 10px;
+.table {
+  margin-top: 40px;
+  height: 64vh;
+  width: 100%;
 }
-
-.gridTool
-{
-    padding: 10px;
-    border: 1px solid white;
+.textFieldModal {
+  display: flex;
+  flex-direction: column;
+  height: 8vh;
+  justify-content: space-around;
 }

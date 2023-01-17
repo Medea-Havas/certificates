@@ -1,16 +1,14 @@
 .aside {
+  border-right: 1px solid var(--steelbluelowlight);
+  height: 100vh;
   background-color: var(--skybluehighlight);
   color: var(--steelbluelowlight);
   width: 20vw;
-  height: 100vh;
-  border-right: 1px solid var(--steelbluelowlight);
 }
-
-.button
-{
+.button {
   align-items: start;
   align-self: flex-start;
+  color: #2e2940;
   padding: 20px 10%;
-  color: #2E2940;
   text-transform: capitalize;
 }

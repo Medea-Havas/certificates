@@ -18,47 +18,24 @@ export const theme = {
       dark: '#c34186'
     },
     background: {
-      default: '#2E2940'
+      // default: '#2E2940'
+      default: '#fff'
     },
     text: {
-      primary: '#fff'
+      // primary: '#fff'
+      primary: '#2e2940'
     }
   },
   typography: {
-    fontFamily: '"Inter", sans-serif',
-    h1: {
-      fontSize: '4.5rem',
-      fontFamily: 'Inter'
-    },
-    fontSize: '1rem',
-    h2: {
-      fontFamily: 'Inter',
-      fontSize: '1rem'
-    },
-    h3: {
-      fontFamily: 'Inter',
-      fontSize: '1rem'
-    },
-    h4: {
-      fontFamily: 'Inter',
-      fontSize: '1rem'
-    },
-    h5: {
-      fontFamily: 'Inter',
-      fontSize: '1rem'
-    },
-    h6: {
-      fontFamily: 'Inter',
-      fontSize: '1rem'
-    }
+    fontFamily: '"Inter", sans-serif'
   },
   components: {
     MuiCssBaseline: {
       styleOverrides: `
           @font-face {
+            font-display: swap;
             font-family: 'Inter';
             font-style: normal;
-            font-display: swap;
             font-weight: 400;
           }
         `
@@ -66,12 +43,12 @@ export const theme = {
     MuiOutlinedInput: {
       styleOverrides: {
         input: {
-          color: 'white',
-          border: '1px solid white', // use your color
-          width: '100%',
-          height: '5px',
+          border: '1px solid #2e2940', // use your color
           borderRadius: '4px',
-          fontSize: 'small'
+          color: '#2e2940',
+          fontSize: 'small',
+          height: '5px',
+          width: '100%'
         }
       }
     },
@@ -95,7 +72,7 @@ export const theme = {
     MuiInputBase: {
       styleOverrides: {
         root: {
-          color: 'white'
+          color: '#2e2940'
         }
       }
     }

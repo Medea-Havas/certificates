@@ -4,7 +4,6 @@
    v2.0 | 20110126
    License: none (public domain)
 */
-
 html,
 body,
 div,
@@ -129,27 +128,22 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
-
 html,
 body {
   font-family: 'Inter';
   max-width: 100vw;
   overflow-x: hidden;
 }
-
 html {
   font-size: 100%;
 }
-
 body {
   font-size: var(--reg);
 }
-
 a {
   color: inherit;
   text-decoration: none;
 }
-
 :root {
   /* Colors */
   --steelbluelowlight: #2e2940;
@@ -180,20 +174,23 @@ a {
   --sm: 0.833rem;
   --xs: 0.694rem;
 }
-
 * {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
 }
-
-h2 {
-  font-size: var(--xxxl);
-  padding: 1rem 0;
-}
-
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
   }
+}
+h1 {
+  font-size: var(--xl);
+  margin-top: 1.5rem;
+}
+h2 {
+  display: block;
+  font-size: var(--lg);
+  padding: 1rem 0;
+  margin-bottom: 20px;
 }

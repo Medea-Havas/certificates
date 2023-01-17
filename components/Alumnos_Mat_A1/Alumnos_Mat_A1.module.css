@@ -1,66 +1,36 @@
-
-.typeXLarge{
-    font-size: x-large;
+.alumnoInfo {
+  display: flex;
+  flex-direction: column;
+  height: 10vh;
+  justify-content: space-around;
 }
-
-.typeLarge{
-    font-size: large;
-    margin-bottom: 30px;
-    display: block;
+.alumnoInfoContainer {
+  margin-left: 30px;
 }
-
-.typeMedium{
-    font-size: medium;
+.alumnoInfoTop {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  height: 15vh;
+  justify-content: space-between;
+  padding: 30px 30px;
+  width: 80vw;
 }
-
-.typeMediumBold{
-    font-size: medium;
-    font-weight: bold;
+.alumnoRoute {
+  margin-left: 30px;
+  margin-top: 30px;
 }
-
-.typeXSmall{
-    font-size: x-small;
-}
-
-.alumnoInfoContainer{
-    margin-left: 30px;
-}
-
-
-.buttonTop {
-    margin-right: 30px;
-    font-size: medium;
-    height: 50px;
-    width: 250px;
-}
-
 .button {
-    margin-top: 40px;
-    margin-bottom: 30px;
-    margin-right: 20px;
-    font-size: x-small;
-    height: 30px;
-    width: 150px;
+  font-size: x-small;
+  height: 30px;
+  width: 150px;
+  margin-bottom: 30px;
+  margin-right: 20px;
+  margin-top: 40px;
 }
-
-.alumnoInfoTop{
-    padding: 30px 30px;
-    width: 80vw;
-    height: 15vh;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: space-between;
-}
-
-.alumnoInfo{
-    display: flex;
-    flex-direction: column;
-    height: 10vh;
-    justify-content: space-around;
-}
-
-.alumnoRoute{
-    margin-top: 30px;
-    margin-left: 30px;
+.buttonTop {
+  font-size: medium;
+  height: 50px;
+  margin-right: 30px;
+  width: 250px;
 }

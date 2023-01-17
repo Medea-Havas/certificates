@@ -1,125 +1,84 @@
-.typeXLarge{
-    font-size: x-large;
+.allSearchers {
+  display: flex;
+  justify-content: left;
 }
-
-.typeLarge{
-    font-size: large;
-    margin-bottom: 20px;
-    display: block;
+.allTextFields {
+  display: flex;
+  height: 35vh;
+  justify-content: space-between;
 }
-
-.typeMedium{
-    font-size: medium;
-    margin-top: 60px;
-    display: block;
-}
-
-.typeSmall{
-    font-size: small;
-}
-
-.typeXSmall{
-    font-size: x-small;
-}
-
-.studentsTop{
-    padding: 30px 40px;
-    width: 80vw;
-    display: flex;
-    justify-content: space-between;
-}
-
-.searcherContainer{
-    width: 80vw;
-    height: 85vh;
-    padding: 10px 40px;
-}
-
-.input {
-    color: black;
-}
-
-.label {
-    margin-top: 10px;
-    border: 1px solid white;
-    color: black;
-    font-size: x-small;
-    width: 120px;
-    height: 20px;
-}
-
-.searcherField{
-    display: flex;
-    flex-direction: column;
-    padding-right: 50px;
-    height:5vh;
-    justify-content: space-between;
-}
-
-.allSearchers{
-    display: flex;
-    justify-content: left;
-}
-
-.fieldsTitle{
-    display: flex;
-    justify-content: space-between;
-}
-
-.table {
-    height: 67vh;
-    width: 100%;
-    margin-top:40px;
-}
-
 .buttonAtions {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
-
 .buttonStyle {
-    text-transform: capitalize;
-    border: 0.5px solid black;
-    margin-right: 5px;
+  border: 0.5px solid black;
+  margin-right: 5px;
+  text-transform: capitalize;
 }
-
-.modalBox
-{
-  position: absolute;
-  top: 25%;
-  left: 20%;
-  width: 800px;
+.fieldsTitle {
+  display: flex;
+  justify-content: space-between;
+}
+.gridTool {
+  border: 1px solid white;
+  padding: 10px;
+}
+.input {
+  color: black;
+}
+.label {
+  border: 1px solid white;
+  color: black;
+  font-size: x-small;
+  height: 20px;
+  margin-top: 10px;
+  width: 120px;
+}
+.modalBox {
   background-color: var(--steelbluelowlight);
   border: 2px solid var(--blue);
-  color: var(--bluehighlight);
   box-shadow: 24;
+  color: var(--bluehighlight);
+  left: 20%;
   padding: 30px 70px;
+  position: absolute;
+  top: 25%;
+  width: 800px;
 }
-
-.modalButton{
-    margin-left: 20px;
+.modalButton {
+  margin-left: 20px;
 }
-
-.modalButtonsCont{
-    display: flex;
-    justify-content: flex-end;
+.modalButtonsCont {
+  display: flex;
+  justify-content: flex-end;
 }
-
-.allTextFields{
-    display: flex;
-    height:35vh;
-    justify-content: space-between;
+.studentsTop {
+  display: flex;
+  justify-content: space-between;
+  padding: 30px 40px;
+  width: 80vw;
 }
-
-.textFieldModal{
-    display: flex;
-    flex-direction: column;
-    height: 8vh;
-    justify-content: space-around;
+.searcherContainer {
+  height: 85vh;
+  padding: 10px 40px;
+  width: 80vw;
 }
-
-.gridTool
-{
-    padding: 10px;
-    border: 1px solid white;
+.searcherField {
+  display: flex;
+  flex-direction: column;
+  height: 5vh;
+  justify-content: space-between;
+  padding-right: 50px;
+}
+.table {
+  height: 67vh;
+  margin-top: 40px;
+  width: 100%;
+}
+.textFieldModal {
+  display: flex;
+  flex-direction: column;
+  height: 8vh;
+  justify-content: space-around;
 }

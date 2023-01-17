@@ -23,17 +23,23 @@ export default function Home() {
             <div>
               <text className={styles.typeMedium}>Últimos Cursos</text>
               <div>
-                <text className={styles.typeXXSmall}>Curso 01 Lorem ipsum dolor si amet</text>
+                <text className={styles.typeXXSmall}>
+                  Curso 01 Lorem ipsum dolor si amet
+                </text>
                 <text className={styles.typeXXSmall}>18/07/2021</text>
                 <text className={styles.typeXXSmall}>14:03:21</text>
               </div>
               <div>
-                <text className={styles.typeXXSmall}>Curso 01 Lorem ipsum dolor si amet</text>
+                <text className={styles.typeXXSmall}>
+                  Curso 01 Lorem ipsum dolor si amet
+                </text>
                 <text className={styles.typeXXSmall}>18/07/2021</text>
                 <text className={styles.typeXXSmall}>14:03:21</text>
               </div>
               <div>
-                <text className={styles.typeXXSmall}>Curso 01 Lorem ipsum dolor si amet</text>
+                <text className={styles.typeXXSmall}>
+                  Curso 01 Lorem ipsum dolor si amet
+                </text>
                 <text className={styles.typeXXSmall}>18/07/2021</text>
                 <text className={styles.typeXXSmall}>14:03:21</text>
               </div>
@@ -47,17 +53,23 @@ export default function Home() {
             <div>
               <text className={styles.typeMedium}>Últimos Estudiantes</text>
               <div>
-                <text className={styles.typeXXSmall}>Curso 01 Lorem ipsum dolor si amet</text>
+                <text className={styles.typeXXSmall}>
+                  Curso 01 Lorem ipsum dolor si amet
+                </text>
                 <text className={styles.typeXXSmall}>18/07/2021</text>
                 <text className={styles.typeXXSmall}>14:03:21</text>
               </div>
               <div>
-                <text className={styles.typeXXSmall}>Curso 01 Lorem ipsum dolor si amet</text>
+                <text className={styles.typeXXSmall}>
+                  Curso 01 Lorem ipsum dolor si amet
+                </text>
                 <text className={styles.typeXXSmall}>18/07/2021</text>
                 <text className={styles.typeXXSmall}>14:03:21</text>
               </div>
               <div>
-                <text className={styles.typeXXSmall}>Curso 01 Lorem ipsum dolor si amet</text>
+                <text className={styles.typeXXSmall}>
+                  Curso 01 Lorem ipsum dolor si amet
+                </text>
                 <text className={styles.typeXXSmall}>18/07/2021</text>
                 <text className={styles.typeXXSmall}>14:03:21</text>
               </div>
