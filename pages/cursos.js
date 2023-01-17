@@ -1,13 +1,11 @@
 import React , {useState} from 'react';
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GridToolbarQuickFilter, GridLinkOperator } from '@mui/x-data-grid';
 import { Button } from '@mui/material';
 import { TextField } from '@mui/material';
-import next from 'next';
 import Head from 'next/head';
 import Image from 'next/Image';
 import {moment} from 'moment'
 import styles from '../styles/Courses.module.css';
-import { Margin } from '@mui/icons-material';
 import CursosFichaInfo from '../components/Cursos_Ficha_Info/index';
 import CursosFichaDiploma from '../components/Cursos_Ficha_Diploma/index';
 import CursosFichaAlumno from '../components/Cursos_Ficha_Alumno/index';
@@ -18,6 +16,27 @@ import Typography from '@mui/material/Typography';
 import FormControl from '@mui/material/FormControl';
 import MenuItem from '@mui/material/MenuItem';
 
+
+function QuickSearchToolbar() {
+  return (
+    <Box
+      sx={{
+        p: 2,
+      }}
+    >
+      <GridToolbarQuickFilter
+        className={styles.gridTool}
+        placeholder='Buscar...'
+        quickFilterParser={(searchInput) =>
+          searchInput
+            .split(',')
+            .map((value) => value.trim())
+            .filter((value) => value !== '')
+        }
+      />
+    </Box>
+  );
+}
 
 const columns = [
   { field: 'curso', headerName: 'Curso', width: 110, headerAlign: 'center', align: 'center' },
@@ -146,7 +165,7 @@ export default function Courses() {
           </div>
           <div className={styles.searcherContainer}>
             <text className={styles.typeLarge}> Buscador</text>
-              <div className={styles.allSearchers}>
+              {/*<div className={styles.allSearchers}>
                 <div className={styles.searcherField}>
                   <text className={styles.typeXSmall}>Nombre de curso</text>
                   <TextField id="outlined-basic" label="" variant="outlined" className={styles.marginTop}/>
@@ -175,7 +194,7 @@ export default function Courses() {
                   <text className={styles.typeXSmall}>Nº expediente</text>
                   <TextField id="outlined-basic" label="" variant="outlined" className={styles.marginTop}/>
                 </div>
-              </div>
+              </div>*/}
               <div className={styles.table}>
                 <DataGrid
                   rows={rows}
@@ -183,6 +202,15 @@ export default function Courses() {
                   pageSize={4}
                   rowsPerPageOptions={[4]}
                   rowHeight={149.8}
+                  initialState={{
+                    filter: {
+                      filterModel: {
+                        items: [],
+                        quickFilterLogicOperator: GridLinkOperator.Or,
+                      },
+                    },
+                  }}
+                  components={{ Toolbar: QuickSearchToolbar }}
                 />
               </div>
           </div>

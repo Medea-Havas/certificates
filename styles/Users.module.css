@@ -67,7 +67,7 @@
 }
 
 .table {
-    height: 72vh;
+    height: 67vh;
     width: 100%;
     margin-top:40px;
 }
@@ -116,4 +116,10 @@
     flex-direction: column;
     height: 8vh;
     justify-content: space-around;
+}
+
+.gridTool
+{
+    padding: 10px;
+    border: 1px solid white;
 }

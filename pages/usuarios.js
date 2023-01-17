@@ -9,7 +9,7 @@ import Head from 'next/head';
 import styles from '../styles/Users.module.css';
 
 import React, {useState} from 'react';
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GridToolbarQuickFilter, GridLinkOperator } from '@mui/x-data-grid';
 import { Button } from '@mui/material';
 import { TextField } from '@mui/material';
 import Modal from '@mui/material/Modal';
@@ -21,11 +21,33 @@ import MenuItem from '@mui/material/MenuItem';
 import Alumnos_Mat_A1 from '../components/Alumnos_Mat_A1/index';
 import Alumnos_Mat_B2 from '../components/Alumnos_Mat_B2/index';
 
+/*Filtrar por busqueda en la tabla*/
+function QuickSearchToolbar() {
+  return (
+    <Box
+      sx={{
+        p: 2,
+      }}
+    >
+      <GridToolbarQuickFilter
+        className={styles.gridTool}
+        placeholder='Buscar...'
+        quickFilterParser={(searchInput) =>
+          searchInput
+            .split(',')
+            .map((value) => value.trim())
+            .filter((value) => value !== '')
+        }
+      />
+    </Box>
+  );
+}
+
 const columns = [
   { field: 'nombre', headerName: 'Nombre', width: 110, headerAlign: 'center', align: 'center' },
   {field: 'apellidos', headerName: 'Apellidos', flex: 1, headerAlign: 'center', align: 'center',},
   { field: 'email', headerName: 'Email',flex: 1, headerAlign: 'center', align: 'center' },
-  { field: 'id', headerName: 'NIF',flex: 1, headerAlign: 'center', align: 'center' },
+  { field: 'id', headerName: 'NIF',flex: 1, headerAlign: 'center', align: 'center', data: 'idTable'},
   { field: 'tipo_usuario', headerName: 'Tipo de Usuario', width: 250, headerAlign: 'center', align: 'center' },
   {
     field: "buttonAtions",
@@ -98,6 +120,8 @@ export default function Users() {
   const handleChangeNExp = (event) => {
     setNExp(event.target.value);
   }
+
+
   return (
     <>
       <Head>
@@ -117,7 +141,7 @@ export default function Users() {
             </div>
             <div className={styles.searcherContainer}>
               <text className={styles.typeLarge}> Buscador</text>
-                <div className={styles.allSearchers}>
+                {/*<div className={styles.allSearchers}>
                   <div className={styles.searcherField}>
                     <text className={styles.typeXSmall}>Nombre</text>
                     <TextField id="outlined-basic" label="" variant="outlined"/>
@@ -132,20 +156,34 @@ export default function Users() {
                   </div>
                   <div className={styles.searcherField}>
                     <text className={styles.typeXSmall}>NIF</text>
-                    <TextField id="outlined-basic" label="" variant="outlined"/>
+                    <TextField
+                      id="outlined-basic"
+                      label=""
+                      variant="outlined"
+                      type="number"
+                    />
                   </div>
                   <div className={styles.searcherField}>
                     <text className={styles.typeXSmall}>Tipo de Uusario</text>
                     <TextField id="outlined-basic" label="" variant="outlined"/>
                   </div>
-                </div>
+                </div>*/}
                 <div className={styles.table}>
                   <DataGrid
                     rows={rows}
                     columns={columns}
-                    pageSize={11}
-                    rowsPerPageOptions={[11]}
+                    pageSize={9}
+                    rowsPerPageOptions={[9]}
                     rowHeight={71}
+                    initialState={{
+                      filter: {
+                        filterModel: {
+                          items: [],
+                          quickFilterLogicOperator: GridLinkOperator.Or,
+                        },
+                      },
+                    }}
+                    components={{ Toolbar: QuickSearchToolbar }}
                   />
                 </div>
                 </div>

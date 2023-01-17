@@ -31,7 +31,7 @@
 
 .searcherContainer{
     width: 80vw;
-    height: 70vh;
+    height: 80vh;
     padding: 10px 40px;
 }
 .searcherField{
@@ -50,7 +50,7 @@
 }
 
 .table {
-    height: 57vh;
+    height: 64vh;
     width: 100%;
     margin-top:40px;
 }
@@ -101,4 +101,10 @@
 
 .marginTop{
     margin-top: 10px;
+}
+
+.gridTool
+{
+    padding: 10px;
+    border: 1px solid white;
 }
