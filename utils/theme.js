@@ -2,15 +2,10 @@
 export const theme = {
   palette: {
     type: 'light',
-    /*primary: {
-      main: '#3e65ac',
-      light: '#7cb1de',
-      dark: '#463777'
-    },*/
     primary: {
-      main: '#7CB1DE',
-      light: '#7cb1de',
-      dark: '#463777'
+      main: '#597891',
+      light: '#7dbed3',
+      dark: '#2e2940'
     },
     secondary: {
       main: '#ea5c99',

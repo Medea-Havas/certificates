@@ -1,3 +1,11 @@
+.MuiDrawer-docked {
+  transition: all 195ms cubic-bezier(0.4, 0, 0.6, 1) 0ms;
+  width: 0;
+}
+.MuiDrawer-docked.open {
+  transition: all 225ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+  width: 240px;
+}
 .MuiPaper-root .MuiButton-root {
   justify-content: start;
   width: 100%;

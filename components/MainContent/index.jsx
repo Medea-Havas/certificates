@@ -1,6 +1,4 @@
-import styles from './Aside.module.css';
-import Link from 'next/link';
-
+import styles from './MainContent.module.css';
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
@@ -43,7 +41,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   justifyContent: 'flex-end'
 }));
 
-export default function Aside({ children }) {
+export default function MainContent({ children, theme }) {
   const [open, setOpen] = React.useState(true);
 
   const handleDrawerOpen = () => {
@@ -58,7 +56,11 @@ export default function Aside({ children }) {
     <>
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
-        <AppBar position='fixed' open={open}>
+        <AppBar
+          position='fixed'
+          open={open}
+          sx={{ backgroundColor: '#2e2940' }}
+        >
           <Toolbar>
             <IconButton
               color='inherit'
@@ -70,7 +72,7 @@ export default function Aside({ children }) {
               <MenuIcon />
             </IconButton>
             <Typography variant='h6' noWrap component='div'>
-              Medspace
+              Certificados Medea
             </Typography>
           </Toolbar>
         </AppBar>
@@ -87,6 +89,7 @@ export default function Aside({ children }) {
           variant='persistent'
           anchor='left'
           open={open}
+          className={open ? 'open' : ''}
         >
           <DrawerHeader>
             <IconButton onClick={handleDrawerClose}>
@@ -107,10 +110,7 @@ export default function Aside({ children }) {
           </Button>
           <Divider />
         </Drawer>
-        <Box
-          component='main'
-          sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }}
-        >
+        <Box sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }}>
           {children}
         </Box>
         <Footer />

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Aside from '../Aside/index';
+import MainContent from '../MainContent/index';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import styles from './Layout.module.css';
 import { theme } from '../../utils/theme';
@@ -13,7 +13,7 @@ export default class Layout extends Component {
       <ThemeProvider theme={themeCreated}>
         <div className='layout'>
           <div className={styles.body}>
-            <Aside children={children} />
+            <MainContent children={children} />
           </div>
         </div>
       </ThemeProvider>
