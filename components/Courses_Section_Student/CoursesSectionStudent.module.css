@@ -1,32 +1,28 @@
-.alumnosContent {
-  margin-left: 30px;
-}
 .alumnoTitle {
   margin-top: 20px;
-  padding: 30px 0;
 }
 .button {
-  margin-left: 30px;
+  margin-right: 20px;
   padding: 10px 10px;
-  font-size: medium;
-  width: 250px;
+  font-size: var(--sm);
+  width: 12rem;
 }
 .buttonTop {
+  font-size: var(--sm);
   margin-right: 10px;
 }
 .coursesInfoTop {
-  padding: 30px 40px;
-  width: 80vw;
+  padding: 30px 0;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 .coursesRoute {
   margin-top: 30px;
-  margin-left: 20px;
 }
 .table {
-  height: 65vh;
+  height: 55rem;
   width: 100%;
   margin-top: 20px;
   margin-bottom: 20px;

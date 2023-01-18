@@ -22,7 +22,8 @@ export const theme = {
     }
   },
   typography: {
-    fontFamily: '"Inter", sans-serif'
+    fontFamily: '"Inter", sans-serif',
+    fontSize: 14
   },
   components: {
     MuiCssBaseline: {
@@ -41,7 +42,7 @@ export const theme = {
           border: '1px solid #2e2940', // use your color
           borderRadius: '4px',
           color: '#2e2940',
-          fontSize: 'small',
+          fontSize: 1,
           height: '5px',
           width: '100%'
         }

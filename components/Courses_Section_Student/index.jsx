@@ -1,9 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Head from 'next/head';
 import { DataGrid } from '@mui/x-data-grid';
-import Image from 'next/Image';
 import { Button, Link } from '@mui/material';
-import styles from './CoursesAlumno.module.css';
+import styles from './CoursesSectionStudent.module.css';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Typography from '@mui/material/Typography';
 
@@ -168,74 +167,56 @@ const rows = [
   }
 ];
 
-export default class CursosFichaAlumno extends Component {
-  render() {
-    const { children } = this.props;
-    return (
-      <>
-        <Head>
-          <title>Certificados Medea - Usuarios</title>
-          <meta
-            name='description'
-            content='Gestor de certificados de los cursos de Medea'
+export default function CoursesSectionStudent() {
+  return (
+    <div className={styles.main}>
+      <div className={styles.coursesRoute}>
+        <Breadcrumbs aria-label='breadcrumb' color='text.primary'>
+          <Link underline='hover' color='text.primary' href='/'>
+            Cursos
+          </Link>
+          <Link underline='hover' color='text.primary' href='/'>
+            Curso 01
+          </Link>
+          <Typography color='text.primary'>Alumnos matriculados</Typography>
+        </Breadcrumbs>
+      </div>
+      <div className={styles.coursesInfoTop}>
+        <h1>Curso 01</h1>
+        <div>
+          <Button variant='contained' className={styles.buttonTop}>
+            Cargar alumnos
+          </Button>
+          <Button variant='contained' className={styles.buttonTop}>
+            Descargar alumnos
+          </Button>
+        </div>
+      </div>
+      <div>
+        <Button variant='contained' className={styles.button}>
+          Información
+        </Button>
+        <Button variant='contained' className={styles.button}>
+          Diploma
+        </Button>
+        <Button variant='contained' className={styles.button}>
+          Alumnos matriculados
+        </Button>
+      </div>
+      <div className={styles.alumnosContent}>
+        <div className={styles.alumnoTitle}>
+          <h2>Alumnos matriculados</h2>
+        </div>
+        <div className={styles.table}>
+          <DataGrid
+            rows={rows}
+            columns={columns}
+            pageSize={13}
+            rowsPerPageOptions={[13]}
+            rowHeight={53}
           />
-          <meta name='viewport' content='width=device-width, initial-scale=1' />
-          <link rel='icon' href='/favicon.ico' />
-        </Head>
-        <main className={styles.main}>
-          <div>
-            <div className={styles.coursesRoute}>
-              <Breadcrumbs aria-label='breadcrumb' color='text.primary'>
-                <Link underline='hover' color='text.primary' href='/'>
-                  Cursos
-                </Link>
-                <Link underline='hover' color='text.primary' href='/'>
-                  Curso 01
-                </Link>
-                <Typography color='text.primary'>
-                  Alumnos matriculados
-                </Typography>
-              </Breadcrumbs>
-            </div>
-            <div className={styles.coursesInfoTop}>
-              <text className={typeXLarge}>Curso 01</text>
-              <div>
-                <Button variant='contained' className={styles.buttonTop}>
-                  Cargar alumnos
-                </Button>
-                <Button variant='contained' className={styles.buttonTop}>
-                  Descargar alumnos
-                </Button>
-              </div>
-            </div>
-            <div>
-              <Button variant='contained' className={styles.button}>
-                Información
-              </Button>
-              <Button variant='contained' className={styles.button}>
-                Diploma
-              </Button>
-              <Button variant='contained' className={styles.button}>
-                Alumnos matriculados
-              </Button>
-            </div>
-            <div className={styles.alumnosContent}>
-              <div className={styles.alumnoTitle}>
-                <text className={typeMedium}>Alumnos matriculados</text>
-              </div>
-              <div className={styles.table}>
-                <DataGrid
-                  rows={rows}
-                  columns={columns}
-                  pageSize={13}
-                  rowsPerPageOptions={[13]}
-                  rowHeight={53}
-                />
-              </div>
-            </div>
-          </div>
-        </main>
-      </>
-    );
-  }
+        </div>
+      </div>
+    </div>
+  );
 }

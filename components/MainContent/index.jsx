@@ -12,6 +12,8 @@ import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Footer from '../Footer';
+import { Link } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 
 const drawerWidth = 240;
 
@@ -53,68 +55,72 @@ export default function MainContent({ children, theme }) {
   };
 
   return (
-    <>
-      <Box sx={{ display: 'flex' }}>
-        <CssBaseline />
-        <AppBar
-          position='fixed'
-          open={open}
-          sx={{ backgroundColor: '#2e2940' }}
-        >
-          <Toolbar>
-            <IconButton
-              color='inherit'
-              aria-label='open drawer'
-              onClick={handleDrawerOpen}
-              edge='start'
-              sx={{ mr: 2, ...(open && { display: 'none' }) }}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography variant='h6' noWrap component='div'>
-              Certificados Medea
-            </Typography>
-          </Toolbar>
-        </AppBar>
-        <Drawer
-          sx={{
+    <Box sx={{ display: 'flex' }}>
+      <CssBaseline />
+      <AppBar position='fixed' open={open} sx={{ backgroundColor: '#2e2940' }}>
+        <Toolbar>
+          <IconButton
+            color='inherit'
+            aria-label='open drawer'
+            onClick={handleDrawerOpen}
+            edge='start'
+            sx={{ mr: 2, ...(open && { display: 'none' }) }}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Link
+            color='#fff'
+            href='/'
+            sx={{
+              fontSize: 19
+            }}
+            underline='none'
+          >
+            Certificados Medea
+          </Link>
+        </Toolbar>
+      </AppBar>
+      <Drawer
+        sx={{
+          width: drawerWidth,
+          flexShrink: 0,
+          '& .MuiDrawer-paper': {
             width: drawerWidth,
-            flexShrink: 0,
-            '& .MuiDrawer-paper': {
-              width: drawerWidth,
-              boxSizing: 'border-box',
-              backgroundColor: '#7CB1DE'
-            }
-          }}
-          variant='persistent'
-          anchor='left'
-          open={open}
-          className={open ? 'open' : ''}
-        >
-          <DrawerHeader>
-            <IconButton onClick={handleDrawerClose}>
-              <text>X</text>
-            </IconButton>
-          </DrawerHeader>
-          <Divider />
-          <Button href='/' className={styles.button}>
-            Home
-          </Button>
-          <Divider />
-          <Button href='/cursos' className={styles.button}>
-            Cursos
-          </Button>
-          <Divider />
-          <Button href='/usuarios' className={styles.button}>
-            Usuarios
-          </Button>
-          <Divider />
-        </Drawer>
-        <Box sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }}>
-          {children}
-        </Box>
-        <Footer />
+            boxSizing: 'border-box',
+            backgroundColor: '#7CB1DE'
+          }
+        }}
+        variant='persistent'
+        anchor='left'
+        open={open}
+        className={open ? 'open' : ''}
+      >
+        <DrawerHeader>
+          <IconButton onClick={handleDrawerClose} className='iconButton'>
+            <CloseIcon />
+          </IconButton>
+        </DrawerHeader>
+        <Divider />
+        <Button href='/' className={styles.button}>
+          Home
+        </Button>
+        <Divider />
+        <Button href='/cursos' className={styles.button}>
+          Cursos
+        </Button>
+        <Divider />
+        <Button href='/alumnos' className={styles.button}>
+          Alumnos
+        </Button>
+        <Divider />
+      </Drawer>
+      <Box
+        sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }}
+        className={open ? 'open' : 'closed'}
+      >
+        {children}
       </Box>
-    </>
+      <Footer />
+    </Box>
   );
 }

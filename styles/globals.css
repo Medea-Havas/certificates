@@ -177,17 +177,30 @@ body {
   font-size: var(--reg);
 }
 main {
-  margin-top: 4rem;
+  margin: 4rem auto;
+  max-width: 1600px;
+  width: 100%;
+}
+main + div {
+  padding: 0 2rem;
+}
+@media (min-width: 1700px) {
+  main + div {
+    padding: 0;
+  }
 }
 h1 {
   font-size: var(--xl);
-  margin-top: 1.5rem;
 }
 h2 {
   display: block;
   font-size: var(--lg);
   padding: 1rem 0;
   margin-bottom: 20px;
+}
+p {
+  font-size: var(--reg);
+  line-height: 1.2;
 }
 a {
   color: inherit;

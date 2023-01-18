@@ -13,7 +13,7 @@ export default function Home() {
         <meta name='viewport' content='width=device-width, initial-scale=1' />
         <link rel='icon' href='/favicon.ico' />
       </Head>
-      <main className={styles.main}>
+      <main className={`page ${styles.main}`}>
         <container className={styles.homeContainer}>
           <div className={styles.coursesDiv}>
             <div className={styles.totalDiv}>
@@ -47,11 +47,11 @@ export default function Home() {
           </div>
           <div className={styles.studentsDiv}>
             <div className={styles.totalDiv}>
-              <text className={styles.typeLarge}>Total Estudiantes</text>
+              <text className={styles.typeLarge}>Total Alumnos</text>
               <text className={styles.typeXLarge}>316</text>
             </div>
             <div>
-              <text className={styles.typeMedium}>Últimos Estudiantes</text>
+              <text className={styles.typeMedium}>Últimos Alumnos</text>
               <div>
                 <text className={styles.typeXXSmall}>
                   Curso 01 Lorem ipsum dolor si amet

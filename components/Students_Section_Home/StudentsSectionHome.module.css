@@ -1,0 +1,80 @@
+.allSearchers {
+  display: flex;
+  justify-content: left;
+}
+.allTextFields {
+  display: flex;
+  height: 35vh;
+  justify-content: space-between;
+}
+.buttonAtions {
+  display: flex;
+  flex-direction: column;
+}
+.buttonStyle {
+  border: 0.5px solid black;
+  margin-right: 5px;
+  text-transform: capitalize;
+}
+.fieldsTitle {
+  display: flex;
+  justify-content: space-between;
+}
+.gridTool {
+  border: 1px solid white;
+  padding: 10px;
+}
+.input {
+  color: black;
+}
+.label {
+  border: 1px solid white;
+  color: black;
+  font-size: x-small;
+  height: 20px;
+  margin-top: 10px;
+  width: 120px;
+}
+.modalBox {
+  background-color: var(--steelbluelowlight);
+  border: 2px solid var(--blue);
+  box-shadow: 24;
+  color: var(--bluehighlight);
+  left: 20%;
+  padding: 30px 70px;
+  position: absolute;
+  top: 25%;
+  width: 800px;
+}
+.modalButton {
+  margin-left: 20px;
+}
+.modalButtonsCont {
+  display: flex;
+  justify-content: flex-end;
+}
+.studentsTop {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  padding: 30px 0;
+  width: 100%;
+}
+.searcherField {
+  display: flex;
+  flex-direction: column;
+  height: 5vh;
+  justify-content: space-between;
+  padding-right: 50px;
+}
+.table {
+  height: 55rem;
+  margin-top: 40px;
+  width: 100%;
+}
+.textFieldModal {
+  display: flex;
+  flex-direction: column;
+  height: 8vh;
+  justify-content: space-around;
+}

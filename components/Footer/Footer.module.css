@@ -2,8 +2,9 @@
   background-color: var(--babypink);
   bottom: 0;
   color: var(--steelbluelowlight);
+  font-size: var(--sm);
   padding: 0.5rem 0;
-  position: absolute;
+  position: fixed;
   width: 100%;
   z-index: 9999;
 }

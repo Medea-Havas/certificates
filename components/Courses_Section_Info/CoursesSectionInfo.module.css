@@ -1,30 +1,29 @@
 .button {
-  margin-left: 30px;
+  margin-right: 20px;
   padding: 10px 10px;
-  font-size: medium;
-  width: 250px;
+  font-size: var(--sm);
+  width: 12rem;
 }
 .buttonTop {
+  font-size: var(--sm);
   margin-right: 10px;
 }
 .coursesInfo {
-  margin-left: 50px;
-  width: 70vw;
+  width: 100%;
 }
 .coursesInfoTitle {
   padding-top: 40px;
   padding-bottom: 20px;
 }
 .coursesInfoTop {
-  padding: 30px 40px;
-  width: 80vw;
-  display: flex;
   align-items: center;
+  display: flex;
   justify-content: space-between;
+  padding: 30px 0;
+  width: 100%;
 }
 .coursesRoute {
   margin-top: 30px;
-  margin-left: 20px;
 }
 .divInfoCol {
   display: flex;
@@ -41,4 +40,7 @@
   justify-content: space-between;
   height: 12vh;
   margin-top: 30px;
+}
+.typeBold {
+  font-weight: bold;
 }

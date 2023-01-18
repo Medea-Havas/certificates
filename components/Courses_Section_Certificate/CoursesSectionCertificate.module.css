@@ -1,8 +1,8 @@
 .button {
-  font-size: medium;
-  margin-left: 30px;
+  font-size: var(--sm);
+  margin-right: 1rem;
   padding: 10px 10px;
-  width: 250px;
+  width: 12rem;
 }
 .buttonImage {
   margin-bottom: 20px;
@@ -10,21 +10,18 @@
   width: 150px;
 }
 .buttonTop {
+  font-size: var(--sm);
   margin-right: 10px;
 }
 .coursesInfoTop {
   align-items: center;
   display: flex;
   justify-content: space-between;
-  padding: 30px 40px;
-  width: 80vw;
+  padding: 30px 0;
+  width: 100%;
 }
 .coursesRoute {
-  margin-left: 20px;
   margin-top: 30px;
-}
-.diplomaContent {
-  margin-left: 30px;
 }
 .diplomaDiv {
   display: flex;
@@ -33,9 +30,11 @@
 }
 .diplomaTitle {
   margin-top: 20px;
-  padding: 30px 0;
 }
 .imageDiploma {
   margin-bottom: 20px;
   margin-top: 30px;
+}
+.xsmall {
+  font-size: var(--xs);
 }

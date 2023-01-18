@@ -9,7 +9,7 @@
 .homeContainer {
   display: flex;
   height: 100vh;
-  width: 80vw;
+  width: 100%;
 }
 .studentsDiv {
   display: flex;
