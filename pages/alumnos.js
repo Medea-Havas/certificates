@@ -1,11 +1,9 @@
+import React from 'react';
 import Head from 'next/head';
-import styles from '../styles/Students.module.css';
-
-import React, { useState } from 'react';
-
+import StudentsSectionHome from '../components/Students_Section_Home';
 import StudentsSectionInfo from '../components/Students_Section_Info/index';
 import StudentsSectionCourses from '../components/Students_Section_Courses/index';
-import StudentsSectionHome from '../components/Students_Section_Home';
+import styles from '../styles/Students.module.css';
 
 export default function Students() {
   return (
