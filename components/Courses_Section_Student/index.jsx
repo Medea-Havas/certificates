@@ -1,10 +1,10 @@
-import React from 'react';
-import Head from 'next/head';
-import { DataGrid } from '@mui/x-data-grid';
-import { Button, Link } from '@mui/material';
-import styles from './CoursesSectionStudent.module.css';
-import Breadcrumbs from '@mui/material/Breadcrumbs';
-import Typography from '@mui/material/Typography';
+import React from 'react'
+import Head from 'next/head'
+import { DataGrid, esES } from '@mui/x-data-grid'
+import { Button, Link } from '@mui/material'
+import styles from './CoursesSectionStudent.module.css'
+import Breadcrumbs from '@mui/material/Breadcrumbs'
+import Typography from '@mui/material/Typography'
 
 const columns = [
   {
@@ -35,7 +35,7 @@ const columns = [
     headerAlign: 'center',
     align: 'center',
     Cell: props => {
-      moment(props.value).format('dd/MM/yyyy');
+      moment(props.value).format('dd/MM/yyyy')
     }
   },
   {
@@ -46,15 +46,15 @@ const columns = [
     headerAlign: 'center',
     align: 'center',
     renderCell: params => {
-      const onClick = e => {};
+      const onClick = e => {}
       return (
         <Button onClick={onClick} className={styles.buttonStyle}>
           Ver alumno
         </Button>
-      );
+      )
     }
   }
-];
+]
 
 const rows = [
   {
@@ -165,7 +165,7 @@ const rows = [
     id: '27876438A',
     f_fin: '14/03/2021'
   }
-];
+]
 
 export default function CoursesSectionStudent() {
   return (
@@ -214,9 +214,10 @@ export default function CoursesSectionStudent() {
             pageSize={13}
             rowsPerPageOptions={[13]}
             rowHeight={53}
+            localeText={esES.components.MuiDataGrid.defaultProps.localeText}
           />
         </div>
       </div>
     </div>
-  );
+  )
 }

@@ -1,46 +1,13 @@
-import React from 'react';
-import Head from 'next/head';
-import { Button, Link } from '@mui/material';
-import styles from './CoursesSectionInfo.module.css';
-import Breadcrumbs from '@mui/material/Breadcrumbs';
-import Typography from '@mui/material/Typography';
+import React from 'react'
+import Head from 'next/head'
+import { Button, Link } from '@mui/material'
+import styles from './CoursesSectionInfo.module.css'
+import Breadcrumbs from '@mui/material/Breadcrumbs'
+import Typography from '@mui/material/Typography'
 
 export default function CoursesSectionInfo() {
   return (
-    <div className={styles.main}>
-      <div className={styles.coursesRoute}>
-        <Breadcrumbs aria-label='breadcrumb' color='text.primary'>
-          <Link underline='hover' color='text.primary' href='/'>
-            Cursos
-          </Link>
-          <Link underline='hover' color='text.primary' href='/'>
-            Curso 01
-          </Link>
-          <Typography color='text.primary'>Información</Typography>
-        </Breadcrumbs>
-      </div>
-      <div className={styles.coursesInfoTop}>
-        <h1>Curso 01</h1>
-        <div>
-          <Button variant='contained' className={styles.buttonTop}>
-            Cargar alumnos
-          </Button>
-          <Button variant='contained' className={styles.buttonTop}>
-            Descargar alumnos
-          </Button>
-        </div>
-      </div>
-      <div>
-        <Button variant='contained' className={styles.button}>
-          Información
-        </Button>
-        <Button variant='contained' className={styles.button}>
-          Diploma
-        </Button>
-        <Button variant='contained' className={styles.button}>
-          Alumnos matriculados
-        </Button>
-      </div>
+    <div>
       <div className={styles.coursesInfo}>
         <div className={styles.coursesInfoTitle}>
           <h2>Información del curso</h2>
@@ -119,5 +86,5 @@ export default function CoursesSectionInfo() {
         </div>
       </div>
     </div>
-  );
+  )
 }

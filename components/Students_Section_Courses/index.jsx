@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
-import Head from 'next/head';
-import { DataGrid } from '@mui/x-data-grid';
-import { Button, Link, TextField } from '@mui/material';
-import styles from './StudentsSectionCourses.module.css';
-import Modal from '@mui/material/Modal';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import Breadcrumbs from '@mui/material/Breadcrumbs';
+import React, { useState } from 'react'
+import Head from 'next/head'
+import { DataGrid, esES } from '@mui/x-data-grid'
+import { Button, Link, TextField } from '@mui/material'
+import styles from './StudentsSectionCourses.module.css'
+import Modal from '@mui/material/Modal'
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
+import FormControl from '@mui/material/FormControl'
+import Select from '@mui/material/Select'
+import MenuItem from '@mui/material/MenuItem'
+import Breadcrumbs from '@mui/material/Breadcrumbs'
 
 const columns = [
   {
@@ -33,7 +33,7 @@ const columns = [
     headerAlign: 'center',
     align: 'center',
     Cell: props => {
-      moment(new Date(props.value)).format('dd/MM/yyyy');
+      moment(new Date(props.value)).format('dd/MM/yyyy')
     }
   },
   {
@@ -50,7 +50,7 @@ const columns = [
     headerAlign: 'center',
     align: 'center',
     Cell: props => {
-      moment(props.value).format('dd/MM/yyyy');
+      moment(props.value).format('dd/MM/yyyy')
     }
   },
   {
@@ -61,17 +61,17 @@ const columns = [
     headerAlign: 'center',
     align: 'center',
     renderCell: params => {
-      const onClick = e => {};
+      const onClick = e => {}
       return (
         <div className={styles.buttonAtions}>
           <Button onClick={onClick}>Ver</Button>
           <Button onClick={onClick}>Editar</Button>
           <Button onClick={onClick}>Borrar</Button>
         </div>
-      );
+      )
     }
   }
-];
+]
 const rows = [
   {
     id: 1,
@@ -145,7 +145,7 @@ const rows = [
     city: 'Lugo',
     course_date: '05/05/22'
   }
-];
+]
 /*function HandleOpen() {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -153,29 +153,29 @@ const rows = [
 }*/
 
 export default function StudentsSectionCourses() {
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const [open, setOpen] = useState(false)
+  const handleOpen = () => setOpen(true)
+  const handleClose = () => setOpen(false)
 
-  const [course, setCourse] = React.useState('');
+  const [course, setCourse] = React.useState('')
   const handleChange = event => {
-    setCourse(event.target.value);
-  };
+    setCourse(event.target.value)
+  }
 
-  const [ciudad, setCiudad] = React.useState(' ');
+  const [ciudad, setCiudad] = React.useState(' ')
   const handleChangeCiudad = event => {
-    setCiudad(event.target.value);
-  };
+    setCiudad(event.target.value)
+  }
 
-  const [fFin, setFFin] = React.useState(null);
+  const [fFin, setFFin] = React.useState(null)
   const handleChangeFFin = event => {
-    setFFin(event.target.value);
-  };
+    setFFin(event.target.value)
+  }
 
-  const [fCel, setFCel] = React.useState(null);
+  const [fCel, setFCel] = React.useState(null)
   const handleChangeFCel = event => {
-    setFCel(event.target.value);
-  };
+    setFCel(event.target.value)
+  }
 
   return (
     <div>
@@ -214,6 +214,7 @@ export default function StudentsSectionCourses() {
           pageSize={5}
           rowsPerPageOptions={[5]}
           rowHeight={52}
+          localeText={esES.components.MuiDataGrid.defaultProps.localeText}
         />
       </div>
       <Modal
@@ -234,7 +235,7 @@ export default function StudentsSectionCourses() {
           <div className={styles.allTextFields}>
             <div>
               <div className={styles.textFieldModal}>
-                <text>Seleccione un curso</text>
+                <p>Seleccione un curso</p>
                 <FormControl fullWidth>
                   <Select
                     labelId='demo-simple-select-label'
@@ -251,7 +252,7 @@ export default function StudentsSectionCourses() {
                 </FormControl>
               </div>
               <div className={styles.textFieldModal}>
-                <text>Ciudad</text>
+                <p>Ciudad</p>
                 <TextField
                   id='outlined-basic'
                   label=''
@@ -263,7 +264,7 @@ export default function StudentsSectionCourses() {
             </div>
             <div>
               <div className={styles.textFieldModal}>
-                <text>Fecha fin de examen</text>
+                <p>Fecha fin de examen</p>
                 <TextField
                   id='outlined-basic'
                   label=''
@@ -274,7 +275,7 @@ export default function StudentsSectionCourses() {
                 />
               </div>
               <div className={styles.textFieldModal}>
-                <text>Fecha de celebración</text>
+                <p>Fecha de celebración</p>
                 <TextField
                   id='outlined-basic'
                   label=''
@@ -297,5 +298,5 @@ export default function StudentsSectionCourses() {
         </Box>
       </Modal>
     </div>
-  );
+  )
 }

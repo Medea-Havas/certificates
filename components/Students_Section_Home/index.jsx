@@ -1,19 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 import {
   DataGrid,
   GridToolbarQuickFilter,
-  GridLinkOperator
-} from '@mui/x-data-grid';
-import { Button } from '@mui/material';
-import { TextField } from '@mui/material';
-import Modal from '@mui/material/Modal';
-import Box from '@mui/material/Box';
-import Select from '@mui/material/Select';
-import Typography from '@mui/material/Typography';
-import MenuItem from '@mui/material/MenuItem';
-import AddIcon from '@mui/icons-material/Add';
-import { FormControl } from '@mui/material';
-import styles from './StudentsSectionHome.module.css';
+  GridLinkOperator,
+  esES
+} from '@mui/x-data-grid'
+import { Button } from '@mui/material'
+import { TextField } from '@mui/material'
+import Modal from '@mui/material/Modal'
+import Box from '@mui/material/Box'
+import Select from '@mui/material/Select'
+import Typography from '@mui/material/Typography'
+import MenuItem from '@mui/material/MenuItem'
+import AddIcon from '@mui/icons-material/Add'
+import { FormControl } from '@mui/material'
+import styles from './StudentsSectionHome.module.css'
 
 /*Filtrar por busqueda en la tabla*/
 function QuickSearchToolbar() {
@@ -34,7 +35,7 @@ function QuickSearchToolbar() {
         }
       />
     </Box>
-  );
+  )
 }
 
 const columns = [
@@ -82,7 +83,7 @@ const columns = [
     headerAlign: 'center',
     align: 'center',
     renderCell: params => {
-      const onClick = e => {};
+      const onClick = e => {}
       return (
         <div>
           <Button onClick={onClick} className={styles.buttonStyle}>
@@ -95,10 +96,10 @@ const columns = [
             Borrar
           </Button>
         </div>
-      );
+      )
     }
   }
-];
+]
 
 const rows = [
   {
@@ -178,47 +179,47 @@ const rows = [
     id: '27856433A',
     tipo_usuario: 'Alumno'
   }
-];
+]
 
 export default function StudentsSectionHome() {
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const [open, setOpen] = useState(false)
+  const handleOpen = () => setOpen(true)
+  const handleClose = () => setOpen(false)
 
-  const [course, setCourse] = useState('');
+  const [course, setCourse] = useState('')
   const handleChangeCourse = event => {
-    setCourse(event.target.value);
-  };
+    setCourse(event.target.value)
+  }
 
-  const [tutor, setTutor] = useState('');
+  const [tutor, setTutor] = useState('')
   const handleChangeTutor = event => {
-    setTutor(event.target.value);
-  };
+    setTutor(event.target.value)
+  }
 
-  const [ciudad, setCiudad] = useState(' ');
+  const [ciudad, setCiudad] = useState(' ')
   const handleChangeCiudad = event => {
-    setCiudad(event.target.value);
-  };
+    setCiudad(event.target.value)
+  }
 
-  const [fFin, setFFin] = useState(' ');
+  const [fFin, setFFin] = useState(' ')
   const handleChangeFFin = event => {
-    setFFin(event.target.value);
-  };
+    setFFin(event.target.value)
+  }
 
-  const [fInicio, setFInicio] = useState(' ');
+  const [fInicio, setFInicio] = useState(' ')
   const handleChangeFInicio = event => {
-    setFInicio(event.target.value);
-  };
+    setFInicio(event.target.value)
+  }
 
-  const [nCreditos, setNCred] = useState(' ');
+  const [nCreditos, setNCred] = useState(' ')
   const handleChangeNCred = event => {
-    setNCred(event.target.value);
-  };
+    setNCred(event.target.value)
+  }
 
-  const [nExpediente, setNExp] = useState(' ');
+  const [nExpediente, setNExp] = useState(' ')
   const handleChangeNExp = event => {
-    setNExp(event.target.value);
-  };
+    setNExp(event.target.value)
+  }
 
   return (
     <>
@@ -246,6 +247,7 @@ export default function StudentsSectionHome() {
               }
             }}
             components={{ Toolbar: QuickSearchToolbar }}
+            localeText={esES.components.MuiDataGrid.defaultProps.localeText}
           />
         </div>
       </div>
@@ -267,7 +269,7 @@ export default function StudentsSectionHome() {
           <div className={styles.allTextFields}>
             <div>
               <div className={styles.textFieldModal}>
-                <text>Seleccione un curso</text>
+                <p>Seleccione un curso</p>
                 <FormControl fullWidth>
                   <Select
                     labelId='demo-simple-select-label'
@@ -283,7 +285,7 @@ export default function StudentsSectionHome() {
                 </FormControl>
               </div>
               <div className={styles.textFieldModal}>
-                <text>Tutor</text>
+                <p>Tutor</p>
                 <FormControl fullWidth>
                   <Select
                     labelId='demo-simple-select-label'
@@ -299,7 +301,7 @@ export default function StudentsSectionHome() {
                 </FormControl>
               </div>
               <div className={styles.textFieldModal}>
-                <text>Ciudad</text>
+                <p>Ciudad</p>
                 <TextField
                   id='outlined-basic'
                   label=''
@@ -314,7 +316,7 @@ export default function StudentsSectionHome() {
             </div>
             <div>
               <div className={styles.textFieldModal}>
-                <text>Fecha de inicio</text>
+                <p>Fecha de inicio</p>
                 <TextField
                   id='outlined-basic'
                   label=''
@@ -325,7 +327,7 @@ export default function StudentsSectionHome() {
                 />
               </div>
               <div className={styles.textFieldModal}>
-                <text>Fecha de fin</text>
+                <p>Fecha de fin</p>
                 <TextField
                   id='outlined-basic'
                   label=''
@@ -336,7 +338,7 @@ export default function StudentsSectionHome() {
                 />
               </div>
               <div className={styles.textFieldModal}>
-                <text>Nº de créditos</text>
+                <p>Nº de créditos</p>
                 <TextField
                   id='outlined-basic'
                   label=''
@@ -347,7 +349,7 @@ export default function StudentsSectionHome() {
                 />
               </div>
               <div className={styles.textFieldModal}>
-                <text>Nº de expediente</text>
+                <p>Nº de expediente</p>
                 <TextField
                   id='outlined-basic'
                   label=''
@@ -369,5 +371,5 @@ export default function StudentsSectionHome() {
         </Box>
       </Modal>
     </>
-  );
+  )
 }

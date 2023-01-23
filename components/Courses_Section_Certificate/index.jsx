@@ -1,10 +1,10 @@
-import React from 'react';
-import Head from 'next/head';
-import Image from 'next/Image';
-import { Button, Link } from '@mui/material';
-import styles from './CoursesSectionCertificate.module.css';
-import Breadcrumbs from '@mui/material/Breadcrumbs';
-import Typography from '@mui/material/Typography';
+import React from 'react'
+import Head from 'next/head'
+import Image from 'next/Image'
+import { Button, Link } from '@mui/material'
+import styles from './CoursesSectionCertificate.module.css'
+import Breadcrumbs from '@mui/material/Breadcrumbs'
+import Typography from '@mui/material/Typography'
 
 export default function CoursesSectionCertificate() {
   return (
@@ -49,7 +49,7 @@ export default function CoursesSectionCertificate() {
         </div>
         <div className={styles.diplomaDiv}>
           <div className={styles.imageDiploma}>
-            <text className={styles.xsmall}>Imagen diploma miniatura:</text>
+            <p className={styles.xsmall}>Imagen diploma miniatura:</p>
           </div>
           <Image
             src={'/pexels.jpeg'}
@@ -102,5 +102,5 @@ export default function CoursesSectionCertificate() {
         </div>
       </div>
     </div>
-  );
+  )
 }

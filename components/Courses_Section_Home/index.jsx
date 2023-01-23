@@ -2,20 +2,22 @@ import {
   Box,
   Button,
   FormControl,
+  Link,
   MenuItem,
   Modal,
   Select,
   TextField,
   Typography
-} from '@mui/material';
+} from '@mui/material'
 import {
   DataGrid,
   GridLinkOperator,
-  GridToolbarQuickFilter
-} from '@mui/x-data-grid';
-import Image from 'next/Image';
-import { useState } from 'react';
-import styles from './CoursesSectionHome.module.css';
+  GridToolbarQuickFilter,
+  esES
+} from '@mui/x-data-grid'
+import Image from 'next/Image'
+import { useState } from 'react'
+import styles from './CoursesSectionHome.module.css'
 
 function QuickSearchToolbar() {
   return (
@@ -35,7 +37,7 @@ function QuickSearchToolbar() {
         }
       />
     </Box>
-  );
+  )
 }
 
 const columns = [
@@ -53,7 +55,7 @@ const columns = [
     headerAlign: 'center',
     align: 'center',
     Cell: props => {
-      moment(props.value).format('dd/MM/yyyy');
+      moment(props.value).format('dd/MM/yyyy')
     }
   },
   {
@@ -63,7 +65,7 @@ const columns = [
     headerAlign: 'center',
     align: 'center',
     Cell: props => {
-      moment(props.value).format('dd/MM/yyyy');
+      moment(props.value).format('dd/MM/yyyy')
     }
   },
   {
@@ -103,7 +105,7 @@ const columns = [
     headerAlign: 'center',
     align: 'center',
     renderCell: params => {
-      const onClick = e => {};
+      const onClick = e => {}
       return (
         <Image
           src={'/pexels.jpeg'}
@@ -113,7 +115,7 @@ const columns = [
           // blurDataURL="data:..." automatically provided
           // placeholder="blur" // Optional blur-up while loading
         />
-      );
+      )
     }
   },
   {
@@ -124,17 +126,17 @@ const columns = [
     headerAlign: 'center',
     align: 'center',
     renderCell: params => {
-      const onClick = e => {};
+      const onClick = e => {}
       return (
         <div className={styles.buttonAtions}>
-          <Button onClick={onClick}>Ver</Button>
+          <Link href='/curso'>Ver</Link>
           <Button onClick={onClick}>Editar</Button>
           <Button onClick={onClick}>Borrar</Button>
         </div>
-      );
+      )
     }
   }
-];
+]
 
 const rows = [
   {
@@ -209,36 +211,36 @@ const rows = [
     n_creditos: 13,
     id: '05-AFOC-03874.3/2020'
   }
-];
+]
 export default function CoursesSectionHome() {
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const [open, setOpen] = useState(false)
+  const handleOpen = () => setOpen(true)
+  const handleClose = () => setOpen(false)
 
-  const [nombre, setNombre] = useState('');
+  const [nombre, setNombre] = useState('')
   const handleChangeNombre = event => {
-    setNombre(event.target.value);
-  };
+    setNombre(event.target.value)
+  }
 
-  const [apellidos, setApellidos] = useState('');
+  const [apellidos, setApellidos] = useState('')
   const handleChangeApellidos = event => {
-    setApellidos(event.target.value);
-  };
+    setApellidos(event.target.value)
+  }
 
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState('')
   const handleChangeEmail = event => {
-    setEmail(event.target.value);
-  };
+    setEmail(event.target.value)
+  }
 
-  const [id, setID] = useState('');
+  const [id, setID] = useState('')
   const handleChangeID = event => {
-    setID(event.target.value);
-  };
+    setID(event.target.value)
+  }
 
-  const [userType, setUserType] = useState('');
+  const [userType, setUserType] = useState('')
   const handleChangeUserType = event => {
-    setUserType(event.target.value);
-  };
+    setUserType(event.target.value)
+  }
 
   return (
     <>
@@ -262,6 +264,7 @@ export default function CoursesSectionHome() {
                   }
                 }
               }}
+              localeText={esES.components.MuiDataGrid.defaultProps.localeText}
               pageSize={4}
               rows={rows}
               rowHeight={149.8}
@@ -288,7 +291,7 @@ export default function CoursesSectionHome() {
           <div className={styles.allTextFields}>
             <div>
               <div className={styles.textFieldModal}>
-                <text>Nombre</text>
+                <p>Nombre</p>
                 <TextField
                   id='outlined-basic'
                   label=''
@@ -298,7 +301,7 @@ export default function CoursesSectionHome() {
                 />
               </div>
               <div className={styles.textFieldModal}>
-                <text>Apellidos</text>
+                <p>Apellidos</p>
                 <TextField
                   id='outlined-basic'
                   label=''
@@ -308,7 +311,7 @@ export default function CoursesSectionHome() {
                 />
               </div>
               <div className={styles.textFieldModal}>
-                <text>Email</text>
+                <p>Email</p>
                 <TextField
                   id='outlined-basic'
                   label=''
@@ -320,7 +323,7 @@ export default function CoursesSectionHome() {
             </div>
             <div>
               <div className={styles.textFieldModal}>
-                <text>NIF</text>
+                <p>NIF</p>
                 <TextField
                   id='outlined-basic'
                   label=''
@@ -331,7 +334,7 @@ export default function CoursesSectionHome() {
                 />
               </div>
               <div className={styles.textFieldModal}>
-                <text>Tipo de Usuario</text>
+                <p>Tipo de Usuario</p>
                 <FormControl fullWidth>
                   <Select
                     id='demo-simple-select'
@@ -357,5 +360,5 @@ export default function CoursesSectionHome() {
         </Box>
       </Modal>
     </>
-  );
+  )
 }

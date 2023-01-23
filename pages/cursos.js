@@ -1,10 +1,7 @@
-import React from 'react';
-import Head from 'next/head';
-import CoursesSectionHome from '../components/Courses_Section_Home';
-import CoursesSectionInfo from '../components/Courses_Section_Info';
-import CoursesSectionCertificate from '../components/Courses_Section_Certificate';
-import CoursesSectionStudent from '../components/Courses_Section_Student';
-import styles from '../styles/Courses.module.css';
+import React from 'react'
+import Head from 'next/head'
+import CoursesSectionHome from '../components/Courses_Section_Home'
+import styles from '../styles/Courses.module.css'
 
 export default function Courses() {
   return (
@@ -20,10 +17,7 @@ export default function Courses() {
       </Head>
       <main className={`page ${styles.main}`}>
         <CoursesSectionHome />
-        {/* <CoursesSectionInfo /> */}
-        {/* <CoursesSectionCertificate /> */}
-        {/* <CoursesSectionStudent /> */}
       </main>
     </>
-  );
+  )
 }

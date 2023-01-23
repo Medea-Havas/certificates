@@ -1,0 +1,42 @@
+.button {
+  margin-right: 0.5rem;
+}
+.coursesInfo {
+  width: 100%;
+}
+.coursesInfoTitle {
+  padding-top: 40px;
+  padding-bottom: 20px;
+}
+.coursesInfoTop {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  padding: 30px 0;
+  width: 100%;
+}
+.coursesInfoTop button {
+  margin-left: 0.5rem;
+}
+.coursesRoute {
+  margin-top: 30px;
+}
+.divInfoCol {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 10vh;
+  width: 35vw;
+}
+.divInfoCont {
+  width: 35vw;
+}
+.divInfoColCont {
+  display: flex;
+  justify-content: space-between;
+  height: 12vh;
+  margin-top: 30px;
+}
+.typeBold {
+  font-weight: bold;
+}
