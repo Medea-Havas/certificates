@@ -9,6 +9,7 @@ export default function CoursesSectionInfo() {
   const [loading, setLoading] = useState(true);
   const [courses, setCourses] = useState([]);
   const [selectedCourse, setSelectedCourse] = useState({});
+  const [duration, setDuration] = useState(0);
   const { query, isReady } = useRouter();
 
   useEffect(() => {
@@ -30,10 +31,7 @@ export default function CoursesSectionInfo() {
           .then(adaptedCourses => {
             setCourses(adaptedCourses);
             localStorage.setItem('courses', JSON.stringify(adaptedCourses));
-            var selCourse = adaptedCourses.filter(
-              course => course.id == query.id
-            )[0];
-            selectCourse(selCourse);
+            selectCourse(adaptedCourses);
             setLoading(false);
           });
       } else {
@@ -49,6 +47,11 @@ export default function CoursesSectionInfo() {
     let selCourse = tempCourses.filter(course => course.id == query.id)[0];
     setSelectedCourse(selCourse);
     localStorage.setItem('course', JSON.stringify(selCourse));
+    // Duration in months
+    var iDate = moment(selCourse.initDate);
+    var eDate = moment(selCourse.endDate);
+    var difference = eDate.diff(iDate, 'months');
+    setDuration(difference);
   };
 
   return (
@@ -65,8 +68,9 @@ export default function CoursesSectionInfo() {
                   <span>Título:</span> {selectedCourse.name}
                 </p>
                 <p>
-                  <span>Duración:</span> {selectedCourse.initDate.split(' ')[0]}{' '}
-                  - {selectedCourse.endDate.split(' ')[0]}
+                  <span>Duración del curso:</span>{' '}
+                  {selectedCourse.initDate.split(' ')[0]} –{' '}
+                  {selectedCourse.endDate.split(' ')[0]} ({duration} meses)
                 </p>
                 <p>
                   <span>Nº créditos:</span> {selectedCourse.credits}
