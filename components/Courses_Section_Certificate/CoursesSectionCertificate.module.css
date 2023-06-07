@@ -1,40 +1,51 @@
 .button {
   font-size: var(--sm);
   margin-right: 1rem;
-  padding: 10px 10px;
+  padding: 0.625rem 0.625rem;
   width: 12rem;
 }
 .buttonImage {
-  margin-bottom: 20px;
-  margin-top: 10px;
-  width: 150px;
+  margin-bottom: 1.25rem;
+  margin-top: 0.625rem;
+  width: 9.375rem;
 }
 .buttonTop {
   font-size: var(--sm);
-  margin-right: 10px;
+  margin-right: 0.625rem;
 }
 .coursesInfoTop {
   align-items: center;
   display: flex;
   justify-content: space-between;
-  padding: 30px 0;
+  padding: 2rem 0;
   width: 100%;
 }
 .coursesRoute {
-  margin-top: 30px;
+  margin-top: 2rem;
+}
+.diplomaContainer {
+  margin: 3.125rem 0;
+}
+.diplomaContainer h2 {
+  margin: 0;
+  margin-bottom: 1.5rem;
+  padding: 0;
 }
 .diplomaDiv {
   display: flex;
   flex-direction: column;
-  width: 30vw;
+  max-width: 32rem;
 }
 .diplomaTitle {
-  margin-top: 20px;
+  margin-top: 1.25rem;
 }
 .imageDiploma {
-  margin-bottom: 20px;
-  margin-top: 30px;
+  margin-bottom: 0.5rem;
+  margin-top: 2rem;
+}
+.thumb {
+  width: 16rem;
 }
 .xsmall {
-  font-size: var(--xs);
+  font-size: var(--sm);
 }

@@ -1,64 +1,54 @@
-import { Breadcrumbs, Button, Link, Typography } from '@mui/material'
-import styles from './CoursesHeader.module.css'
+import { Breadcrumbs, Button, Link, Typography } from '@mui/material';
+import styles from './CoursesHeader.module.css';
 
-function selectCertificate(e) {
-  console.log('Certificate')
-}
-function selectInfo(e) {
-  console.log('Info')
-}
-function selectStudents(e) {
-  console.log('Students')
-}
-
-export default function CoursesHeader({ selected }) {
+export default function CoursesHeader({ handleIndex, index, paramId }) {
   return (
     <div className={styles.main}>
       <div className={styles.coursesRoute}>
         <Breadcrumbs aria-label='breadcrumb' color='text.primary'>
-          <Link underline='hover' color='text.primary' href='/'>
+          <Link underline='hover' color='text.primary' href='/cursos'>
             Cursos
           </Link>
-          <Link underline='hover' color='text.primary' href='/'>
-            Curso 01
+          <Link
+            underline='hover'
+            color='text.primary'
+            href={'/curso/' + paramId}
+          >
+            Curso {paramId < 10 ? '0' + paramId : paramId}
           </Link>
-          <Typography color='text.primary'>Información</Typography>
+          <Typography color='text.primary'>
+            {index == 0 ? 'Información' : ''}
+            {index == 1 ? 'Diploma' : ''}
+            {index == 2 ? 'Alumnos matriculados' : ''}
+          </Typography>
         </Breadcrumbs>
       </div>
       <div className={styles.coursesInfoTop}>
-        <h1>Curso 01</h1>
-        <div>
-          <Button variant='contained' className={styles.buttonTop}>
-            Cargar alumnos
-          </Button>
-          <Button variant='contained' className={styles.buttonTop}>
-            Descargar alumnos
-          </Button>
-        </div>
+        <h1>Curso {paramId < 10 ? '0' + paramId : paramId}</h1>
       </div>
       <div className='buttons'>
         <Button
           variant='contained'
-          className={`${styles.button} ${selected == 'info' ? 'selected' : ''}`}
-          onClick={selectInfo}
+          className={`${styles.button} ${index == 0 ? 'selected' : ''}`}
+          onClick={() => handleIndex(0)}
         >
           Información
         </Button>
         <Button
           variant='contained'
-          className={styles.button}
-          onClick={selectCertificate}
+          className={`${styles.button} ${index == 1 ? 'selected' : ''}`}
+          onClick={() => handleIndex(1)}
         >
           Diploma
         </Button>
         <Button
           variant='contained'
-          className={styles.button}
-          onClick={selectStudents}
+          className={`${styles.button} ${index == 2 ? 'selected' : ''}`}
+          onClick={() => handleIndex(2)}
         >
           Alumnos matriculados
         </Button>
       </div>
     </div>
-  )
+  );
 }

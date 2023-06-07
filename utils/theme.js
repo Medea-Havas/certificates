@@ -51,8 +51,12 @@ export const theme = {
     MuiButton: {
       styleOverrides: {
         root: {
-          backgroundColor: '#7CB1DE',
-          color: '#2E2940',
+          '&:hover': {
+            backgroundColor: '#2e2940'
+          },
+          backgroundColor: '#c34186',
+          color: 'white',
+          fontWeight: 600,
           textTransform: 'capitalize'
         }
       }

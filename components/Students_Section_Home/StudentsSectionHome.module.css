@@ -1,28 +1,37 @@
 .allSearchers {
   display: flex;
-  justify-content: left;
+  justify-content: space-between;
 }
 .allTextFields {
   display: flex;
-  height: 35vh;
+  gap: 1.5rem;
   justify-content: space-between;
 }
 .buttonAtions {
   display: flex;
-  flex-direction: column;
+  justify-content: space-evenly;
 }
 .buttonStyle {
   border: 0.5px solid black;
-  margin-right: 5px;
+  margin-right: 0.3125rem;
   text-transform: capitalize;
+}
+.container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem 1.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
 }
 .fieldsTitle {
   display: flex;
   justify-content: space-between;
 }
 .gridTool {
-  border: 1px solid white;
-  padding: 10px;
+  padding: 0.675rem;
+}
+.imageButton {
+  width: 100%;
 }
 .input {
   color: black;
@@ -31,49 +40,68 @@
   border: 1px solid white;
   color: black;
   font-size: x-small;
-  height: 20px;
-  margin-top: 10px;
-  width: 120px;
+  margin-top: 0.675rem;
+  width: 7.5rem;
 }
 .modalBox {
-  background-color: var(--steelbluelowlight);
-  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
-  color: var(--bluehighlight);
-  left: 20%;
-  padding: 30px 70px;
+  background-color: var(--white);
+  border-radius: 10px;
+  color: var(--blue);
+  left: 50%;
+  padding: 2rem;
   position: absolute;
-  top: 25%;
-  width: 800px;
+  top: 50%;
+  width: 43.75rem;
+  transform: translate(-50%, -50%);
 }
-.modalButton {
-  margin-left: 20px;
+.modalButtons {
+  display: flex;
+  justify-content: space-between;
+  width: 12rem;
 }
 .modalButtonsCont {
   display: flex;
   justify-content: flex-end;
 }
+.modalButtonsCont button {
+  margin-left: 1rem;
+}
 .studentsTop {
   align-items: center;
   display: flex;
   justify-content: space-between;
-  padding: 30px 0;
+  padding: 2rem 0;
   width: 100%;
 }
 .searcherField {
   display: flex;
   flex-direction: column;
-  height: 5vh;
   justify-content: space-between;
-  padding-right: 50px;
+  padding-right: 3.125rem;
 }
 .table {
-  height: 55rem;
-  margin-top: 40px;
+  height: 60rem;
+  margin-top: 2.5rem;
   width: 100%;
 }
 .textFieldModal {
   display: flex;
   flex-direction: column;
-  height: 8vh;
   justify-content: space-around;
+}
+.textFieldModal button {
+  height: 3rem;
+  position: relative;
+  top: 0.7rem;
+}
+.textFieldModal p {
+  color: var(--steelbluelowlight);
+  font-size: var(--xs);
+  margin-bottom: 0.25rem;
+  text-transform: uppercase;
+}
+.title {
+  color: var(--steelbluelowlight);
+  font-size: var(--lg);
+  margin-bottom: 2rem;
 }

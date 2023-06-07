@@ -128,6 +128,9 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
+textarea {
+  border: none;
+}
 
 :root {
   /* Colors */
@@ -147,8 +150,9 @@ table {
   --pinkhighlight: #dca4ca;
   --babypinkhighlight: #fae0e5;
   --black: #000000;
+  --lightgray: #f0f0f0;
   --white: #ffffff;
-  /* Font sizes */
+  /* Font sizes - Minor third */
   --xxxxl: 2.986rem;
   --xxxl: 2.488rem;
   --xxl: 2.074rem;
@@ -167,8 +171,8 @@ table {
 html,
 body {
   font-family: 'Inter';
-  max-width: 100vw;
   overflow-x: hidden;
+  padding-right: 0 !important;
 }
 html {
   font-size: 70%;
@@ -180,19 +184,23 @@ html {
 }
 @media (min-width: 900px) and (max-width: 1599px) {
   html {
-    font-size: 85%;
+    font-size: 90%;
+  }
+}
+@media (max-width: 899px) {
+  html {
+    font-size: 80%;
   }
 }
 body {
   font-size: var(--reg);
 }
 main {
-  margin: 4rem auto;
   max-width: 1600px;
   width: 100%;
 }
-main + div {
-  padding: 0 2rem;
+main > div {
+  padding: 6rem 0;
 }
 @media (min-width: 1700px) {
   main + div {
@@ -205,8 +213,7 @@ h1 {
 h2 {
   display: block;
   font-size: var(--lg);
-  padding: 1rem 0;
-  margin-bottom: 20px;
+  margin: 3rem 0 1.5rem;
 }
 p {
   font-size: var(--reg);
@@ -215,6 +222,75 @@ p {
 a {
   color: inherit;
   text-decoration: none;
+}
+.mb0 {
+  margin-bottom: 0;
+}
+.mb1-2 {
+  margin-bottom: 0.5rem;
+}
+.mb1 {
+  margin-bottom: 1rem;
+}
+.mb2 {
+  margin-bottom: 2rem;
+}
+.mb3 {
+  margin-bottom: 3rem;
+}
+.mb4 {
+  margin-bottom: 4rem;
+}
+.mt0 {
+  margin-top: 0;
+}
+.mt1-2 {
+  margin-top: 0.5rem;
+}
+.mt1 {
+  margin-top: 1rem;
+}
+.mt2 {
+  margin-top: 2rem;
+}
+.mt3 {
+  margin-top: 3rem;
+}
+.mt4 {
+  margin-top: 4rem;
+}
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  padding: 2rem 0;
+  width: 100%;
+}
+.typeXXXXL {
+  font-size: var(--xxxxl);
+}
+.typeXXXL {
+  font-size: var(--xxxl);
+}
+.typeXXL {
+  font-size: var(--xxl);
+}
+.typeXL {
+  font-size: var(--xl);
+}
+.typeL {
+  font-size: var(--lg);
+}
+.typeM {
+  font-size: var(--med);
+}
+.type {
+  font-size: var(--reg);
+}
+.typeS {
+  font-size: var(--sm);
+}
+.typeXS {
+  font-size: var(--xs);
 }
 .selected {
   background-color: var(--steelbluelowlight);

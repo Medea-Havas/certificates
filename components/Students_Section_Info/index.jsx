@@ -1,46 +1,59 @@
-import React from 'react';
-import Head from 'next/head';
-import { Button, Link } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Button } from '@mui/material';
 import styles from './StudentsSectionInfo.module.css';
-import Breadcrumbs from '@mui/material/Breadcrumbs';
-import Typography from '@mui/material/Typography';
+import { useRouter } from 'next/router';
 
 export default function StudentsSectionInfo() {
+  const [loading, setLoading] = useState(true);
+  const [users, setUsers] = useState([]);
+  const [selectedUser, setSelectedUser] = useState({});
+  const { query, isReady } = useRouter();
+
+  useEffect(() => {
+    if (isReady) {
+      if (!localStorage.getItem('users')) {
+        fetch('http://localhost:8080/users')
+          .then(usersList => usersList.json())
+          .then(users =>
+            users.map(user => {
+              return {
+                ...user,
+                initDate: user.date_init,
+                endDate: user.date_end,
+                fileNumber: user.file_number
+              };
+            })
+          )
+          .then(adaptedUsers => {
+            setUsers(adaptedUsers);
+            localStorage.setItem('users', JSON.stringify(adaptedUsers));
+            var selUser = adaptedUsers.filter(user => user.id == query.id)[0];
+            setSelectedUser(selUser);
+            setLoading(false);
+          });
+      } else {
+        let tempUsers = JSON.parse(localStorage.getItem('users'));
+        setUsers(tempUsers);
+        let selUser = tempUsers.filter(user => user.id == query.id)[0];
+        setSelectedUser(selUser);
+        setLoading(false);
+      }
+    }
+  }, [isReady]);
+
   return (
     <div className={styles.main}>
-      <div className={styles.alumnoRoute}>
-        <Breadcrumbs aria-label='breadcrumb' color='text.primary'>
-          <Link underline='hover' color='text.primary' href='/'>
-            Alumnos
-          </Link>
-          <Link underline='hover' color='text.primary' href='/'>
-            John Doe Márquez
-          </Link>
-          <Typography color='text.primary'>Información</Typography>
-        </Breadcrumbs>
-      </div>
-      <div className={styles.alumnoInfoTop}>
-        <h1>John Doe Márquez</h1>
-        <div>
-          <Button variant='contained' className={styles.buttonTop}>
-            Información
-          </Button>
-          <Button variant='contained' className={styles.buttonTop}>
-            Cursos matriculado
-          </Button>
-        </div>
-      </div>
       <div className={styles.alumnoInfoContainer}>
         <h2>Información</h2>
         <div className={styles.alumnoInfo}>
           <p>
-            <span>Nombre:</span> John
+            <span>Nombre:</span> {selectedUser.name}
           </p>
           <p>
-            <span>Apellidos:</span> Doe Márquez
+            <span>Apellidos:</span> {selectedUser.last_name}
           </p>
           <p>
-            <span>NIF:</span> 123456789P
+            <span>NIF:</span> {selectedUser.nif}
           </p>
         </div>
         <div>

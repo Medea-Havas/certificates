@@ -1,6 +1,53 @@
+body .MuiButtonBase-root.MuiButton-outlined {
+  background-color: white;
+  border: 1px solid var(--bluelowlight);
+  color: var(--bluelowlight);
+  transition: all 0.25s ease-out;
+}
+body .MuiButtonBase-root.MuiButton-outlined:hover {
+  border: 1px solid var(--pinklowlight);
+  color: var(--pinklowlight);
+  transition: all 0.25s ease-in;
+}
+body .MuiList-root.MuiMenu-list {
+  background-color: var(--white);
+}
+body .MuiButtonBase-root.MuiButton-root.alt {
+  background-color: var(--lightgray);
+  color: var(--steelbluelowlight);
+}
+main.page .MuiDataGrid-cell:focus-within {
+  outline: none;
+}
+#modal .MuiInputBase-input {
+  font-size: var(--reg);
+  padding: 0.15rem 0.5rem;
+}
+#modal .MuiOutlinedInput-root input {
+  font-size: var(--reg);
+  padding: 0.15rem 0.5rem;
+}
+#modal .MuiOutlinedInput-root input[type='date'] {
+  padding: 0.15rem 0.5rem;
+}
+#modal .MuiInputBase-input.MuiOutlinedInput-input {
+  align-items: center;
+  display: flex;
+  height: auto;
+}
 .css-alftel-MuiDataGrid-root .MuiDataGrid-columnHeader:focus-within,
 .css-alftel-MuiDataGrid-root .MuiDataGrid-cell:focus-within {
   outline: none;
+}
+.layout .MuiDrawer-paper {
+  background: #f6f6f6;
+  color: var(--steelbluelowlight);
+}
+.MuiBox-root {
+  width: 100%;
+}
+.MuiBox-root.open {
+  padding: 0 1.5rem;
 }
 .MuiBreadcrumbs-li a,
 .MuiBreadcrumbs-li p {
@@ -11,21 +58,28 @@
   position: relative;
   top: 1px;
 }
+.MuiButtonBase-root {
+  font-size: var(--xs);
+  text-transform: uppercase;
+}
+.MuiButton-containedPrimary:hover {
+  background: var(--steelbluelowlight);
+  color: var(--white);
+}
+.MuiCircularProgress-root {
+  position: absolute;
+}
 .MuiDataGrid-panelFooter {
   gap: 1rem;
 }
 .MuiDataGrid-panelWrapper .MuiDataGrid-panelFooter .MuiButton-root {
   background: var(--steelblue);
-  color: white;
+  color: var(--white);
   display: flex;
   justify-content: center;
 }
 .MuiDataGrid-cell .MuiButtonBase-root {
   margin-right: 0.25rem;
-}
-.MuiDataGrid-cell .MuiButtonBase-root:hover {
-  background-color: var(--steelbluelowlight);
-  color: #fff;
 }
 .MuiDrawer-paper .MuiButtonBase-root {
   border-radius: 0;
@@ -33,27 +87,42 @@
 .MuiDrawer-paper .MuiButtonBase-root.iconButton {
   border-radius: 100%;
 }
-.MuiButton-sizeMedium {
-  font-size: var(--sm);
-}
-.MuiBox-root {
-  width: 100%;
-}
-.MuiButton-containedPrimary:hover {
-  background: var(--steelbluelowlight);
-  color: #fff;
-}
 .MuiDrawer-docked {
   transition: all 195ms cubic-bezier(0.4, 0, 0.6, 1) 0ms;
   width: 0;
 }
 .MuiDrawer-docked.open {
   transition: all 225ms cubic-bezier(0, 0, 0.2, 1) 0ms;
-  width: 240px;
+  width: 18.75rem;
+}
+.MuiDrawer-docked.open .MuiPaper-root {
+  position: static;
+}
+.MuiInputBase-input.MuiOutlinedInput-input {
+  display: flex;
+}
+.MuiFormLabel-root {
+  transform: translate(14px, 4px) scale(1);
+}
+.MuiFormLabel-root.Mui-focused {
+  transform: translate(14px, -20px) scale(0.75);
 }
 .MuiPaper-root .MuiButton-root {
   justify-content: start;
   width: 100%;
+}
+.MuiOutlinedInput-input {
+  border: none;
+  font-size: var(--reg);
+}
+.MuiOutlinedInput-notchedOutline {
+  border-color: var(--steelbluelowlight);
+}
+.MuiOutlinedInput-input.MuiInputBase-inputMultiline {
+  border: none;
+}
+body .MuiOutlinedInput-input {
+  height: auto;
 }
 .MuiPaper-root .MuiButton-root:hover {
   background: var(--steelbluelowlight);
@@ -61,4 +130,17 @@
 }
 .MuiPaper-elevation .MuiDataGrid-menuList {
   background: white;
+}
+.MuiDataGrid-virtualScrollerRenderZone {
+  width: 100%;
+}
+.MuiDataGrid-cell[data-field='buttonActions'] {
+  min-width: unset !important;
+  min-height: unset !important;
+  max-width: unset !important;
+  max-height: unset !important;
+  width: 220px !important;
+}
+.MuiLink-underlineAlways {
+  text-decoration: none !important;
 }

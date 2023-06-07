@@ -1,106 +1,121 @@
-import React from 'react'
-import Head from 'next/head'
-import Image from 'next/Image'
-import { Button, Link } from '@mui/material'
-import styles from './CoursesSectionCertificate.module.css'
-import Breadcrumbs from '@mui/material/Breadcrumbs'
-import Typography from '@mui/material/Typography'
+import React, { useEffect, useState } from 'react';
+import { Button, CircularProgress } from '@mui/material';
+import styles from './CoursesSectionCertificate.module.css';
+import { useRouter } from 'next/router';
+import moment from 'moment';
+import localization from 'moment/locale/es';
 
 export default function CoursesSectionCertificate() {
+  const [loading, setLoading] = useState(true);
+  const [courses, setCourses] = useState([]);
+  const [selectedCourse, setSelectedCourse] = useState({});
+  const { query, isReady } = useRouter();
+
+  useEffect(() => {
+    if (isReady) {
+      if (!localStorage.getItem('courses')) {
+        fetch('http://localhost:8080/courses')
+          .then(coursesList => coursesList.json())
+          .then(courses =>
+            courses.map(course => {
+              return {
+                ...course,
+                name: course.title,
+                initDate: course.date_init,
+                endDate: course.date_end,
+                fileNumber: course.file_number
+              };
+            })
+          )
+          .then(adaptedCourses => {
+            setCourses(adaptedCourses);
+            localStorage.setItem('courses', JSON.stringify(adaptedCourses));
+            var selCourse = tempCourses.filter(
+              course => course.id == query.id
+            )[0];
+            selectCourse(selCourse);
+            setLoading(false);
+          });
+      } else {
+        let tempCourses = JSON.parse(localStorage.getItem('courses'));
+        setCourses(tempCourses);
+        selectCourse(tempCourses);
+        setLoading(false);
+      }
+      moment.updateLocale('es', localization);
+    }
+  }, []);
+
+  let selectCourse = tempCourses => {
+    let selCourse = tempCourses.filter(course => course.id == query.id)[0];
+    setSelectedCourse(selCourse);
+    localStorage.setItem('course', JSON.stringify(selCourse));
+  };
+
   return (
     <div className={styles.main}>
-      <div className={styles.coursesRoute}>
-        <Breadcrumbs aria-label='breadcrumb' color='text.primary'>
-          <Link underline='hover' color='text.primary' href='/'>
-            Cursos
-          </Link>
-          <Link underline='hover' color='text.primary' href='/'>
-            Curso 01
-          </Link>
-          <Typography color='text.primary'>Diploma</Typography>
-        </Breadcrumbs>
-      </div>
-      <div className={styles.coursesInfoTop}>
-        <h1>Curso 01</h1>
-        <div>
-          <Button variant='contained' className={styles.buttonTop}>
-            Cargar alumnos
-          </Button>
-          <Button variant='contained' className={styles.buttonTop}>
-            Descargar alumnos
-          </Button>
-        </div>
-      </div>
-      <div>
-        <Button variant='contained' className={styles.button}>
-          Información
-        </Button>
-        <Button variant='contained' className={styles.button}>
-          Diploma
-        </Button>
-        <Button variant='contained' className={styles.button}>
-          Alumnos matriculados
-        </Button>
-      </div>
-
-      <div className={styles.diplomaContent}>
-        <div className={styles.diplomaTitle}>
-          <h2>Diploma</h2>
-        </div>
-        <div className={styles.diplomaDiv}>
-          <div className={styles.imageDiploma}>
-            <p className={styles.xsmall}>Imagen diploma miniatura:</p>
-          </div>
-          <Image
-            src={'/pexels.jpeg'}
-            alt='Picture of the author'
-            width={300}
-            height={200}
-            // blurDataURL="data:..." automatically provided
-            // placeholder="blur" // Optional blur-up while loading
-          />
-        </div>
-        <div className={styles.diplomaDiv}>
-          <div className={styles.imageDiploma}>
-            <text className={styles.xsmall}>Imagen diploma 1:</text>
-          </div>
-          <Image
-            src={'/pexels.jpeg'}
-            alt='Picture of the author'
-            width={550}
-            height={400}
-            // blurDataURL="data:..." automatically provided
-            // placeholder="blur" // Optional blur-up while loading
-          />
-          <Button variant='contained' className={styles.buttonImage}>
-            Sustituir
-          </Button>
-        </div>
-        <div className={styles.diplomaDiv}>
-          <div className={styles.imageDiploma}>
-            <text className={styles.xsmall}>Imagen diploma 2:</text>
-          </div>
-          <Image
-            src={'/pexels.jpeg'}
-            alt='Picture of the author'
-            width={550}
-            height={550}
-            // blurDataURL="data:..." automatically provided
-            // placeholder="blur" // Optional blur-up while loading
-          />
-          <Button variant='contained' className={styles.buttonImage}>
-            Sustituir
-          </Button>
-        </div>
-        <div className={styles.diplomaDiv}>
-          <div className={styles.imageDiploma}>
-            <text className={styles.xsmall}>Imagen diploma 2:</text>
-          </div>
-          <Button variant='contained' className={styles.buttonImage}>
-            Seleccionar
-          </Button>
-        </div>
+      <div className={styles.diplomaContainer}>
+        <h2>Diploma</h2>
+        {loading ? (
+          <CircularProgress />
+        ) : (
+          <>
+            <div className={styles.diplomaDiv}>
+              <div className={styles.imageDiploma}>
+                <p className={styles.xsmall}>Miniatura:</p>
+              </div>
+              {selectedCourse.certificate_thumbnail ? (
+                <img
+                  src={selectedCourse.certificate_thumbnail}
+                  className={styles.thumb}
+                  alt='Thumbnail'
+                />
+              ) : (
+                <img src='/noimage.png' alt='No image' />
+              )}
+              <Button variant='outlined' className={styles.buttonImage}>
+                {selectedCourse.certificate_thumbnail
+                  ? 'Sustituir'
+                  : 'Seleccionar'}
+              </Button>
+            </div>
+            <div className={styles.diplomaDiv}>
+              <div className={styles.imageDiploma}>
+                <p className={styles.xsmall}>Imagen 1:</p>
+              </div>
+              {selectedCourse.certificate_image ? (
+                <img
+                  src={selectedCourse.certificate_image}
+                  alt='Certificate image 01'
+                />
+              ) : (
+                <img src='/noimage.png' alt='No image' />
+              )}
+              <Button variant='outlined' className={styles.buttonImage}>
+                {selectedCourse.certificate_image ? 'Sustituir' : 'Seleccionar'}
+              </Button>
+            </div>
+            <div className={styles.diplomaDiv}>
+              <div className={styles.imageDiploma}>
+                <p className={styles.xsmall}>Imagen 2:</p>
+              </div>
+              {selectedCourse.certificate_image2 ? (
+                <img
+                  src={selectedCourse.certificate_image2}
+                  alt='Certificate image 02'
+                />
+              ) : (
+                <img src='/noimage.png' alt='No image' />
+              )}
+              <Button variant='outlined' className={styles.buttonImage}>
+                {selectedCourse.certificate_image2
+                  ? 'Sustituir'
+                  : 'Seleccionar'}
+              </Button>
+            </div>
+          </>
+        )}
       </div>
     </div>
-  )
+  );
 }
