@@ -76,11 +76,9 @@ export default function StudentsSectionHome() {
   }, []);
 
   const processRowUpdate = newRow => {
-    // const updatedRow = { ...newRow, isNew: false };
-    // console.log(newRow);
-    console.log(updatedRow);
-    // return updatedRow;
-    return newRow;
+    const updatedRow = { ...newRow, isNew: false };
+    console.log(newRow);
+    return updatedRow;
   };
 
   return (
@@ -100,6 +98,7 @@ export default function StudentsSectionHome() {
             rowHeight={120}
             editMode='row'
             processRowUpdate={processRowUpdate}
+            experimentalFeatures={{ newEditingApi: true }}
             initialState={{
               filter: {
                 filterModel: {
