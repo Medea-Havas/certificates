@@ -151,6 +151,8 @@ textarea {
   --babypinkhighlight: #fae0e5;
   --black: #000000;
   --lightgray: #f0f0f0;
+  --warn: #fb4040;
+  --warn2: #663c00;
   --white: #ffffff;
   /* Font sizes - Minor third */
   --xxxxl: 2.986rem;

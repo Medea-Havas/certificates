@@ -2,12 +2,20 @@ body .MuiButtonBase-root.MuiButton-outlined {
   background-color: white;
   border: 1px solid var(--bluelowlight);
   color: var(--bluelowlight);
-  transition: all 0.25s ease-out;
+  transition: all 0.5s ease-out;
 }
 body .MuiButtonBase-root.MuiButton-outlined:hover {
   border: 1px solid var(--pinklowlight);
   color: var(--pinklowlight);
   transition: all 0.25s ease-in;
+}
+body .MuiButtonBase-root.MuiButton-outlined.warn {
+  border-color: var(--warn);
+  color: var(--warn);
+}
+body .MuiButtonBase-root.MuiButton-outlined.warn:hover {
+  border-color: red;
+  color: red;
 }
 body .MuiList-root.MuiMenu-list {
   background-color: var(--white);
@@ -15,6 +23,15 @@ body .MuiList-root.MuiMenu-list {
 body .MuiButtonBase-root.MuiButton-root.alt {
   background-color: var(--lightgray);
   color: var(--steelbluelowlight);
+}
+body .MuiAlert-root .MuiButtonBase-root.MuiButton-outlined {
+  background-color: transparent;
+  border: 1px solid var(--warn2);
+  color: var(--warn2);
+  display: inline-block;
+  margin: 0.25rem 0;
+  text-align: center;
+  transition: all 0.25s ease-out;
 }
 main.page .MuiDataGrid-cell:focus-within {
   outline: none;
@@ -127,6 +144,17 @@ body .MuiOutlinedInput-input {
 .MuiPaper-root .MuiButton-root:hover {
   background: var(--steelbluelowlight);
   color: #fff;
+}
+.MuiPaper-root.MuiAlert-root {
+  left: 50%;
+  position: fixed;
+  top: -100%;
+  transition: all 0.25s ease-out;
+}
+.MuiPaper-root.MuiAlert-root.active {
+  transition: all 0.25s ease-in;
+  top: 5%;
+  z-index: 9999;
 }
 .MuiPaper-elevation .MuiDataGrid-menuList {
   background: white;

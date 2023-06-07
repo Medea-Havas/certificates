@@ -16,6 +16,17 @@
   margin-right: 0.3125rem;
   text-transform: capitalize;
 }
+.changesList {
+  background: rgba(0, 0, 0, 0.05);
+  max-height: 120px;
+  overflow-y: scroll;
+  padding: 0.25rem;
+}
+.changesList li {
+  display: block;
+  padding-bottom: 0.5rem;
+  margin: 0 0 0.25rem 0.75rem;
+}
 .container {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -79,10 +90,20 @@
   justify-content: space-between;
   padding-right: 3.125rem;
 }
+.small {
+  display: block;
+  font-size: var(--sm);
+  margin-bottom: 0.75rem;
+}
 .table {
   height: 60rem;
   margin-top: 2.5rem;
   width: 100%;
+}
+.tableHeader {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
 }
 .textFieldModal {
   display: flex;
