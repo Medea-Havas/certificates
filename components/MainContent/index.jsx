@@ -10,7 +10,7 @@ import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Footer from '../Footer';
-import { Button, Link } from '@mui/material';
+import { Button, Link, SwipeableDrawer } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 
 const drawerWidth = 18.75;
@@ -84,8 +84,47 @@ export default function MainContent({ children, theme }) {
           </Toolbar>
         </AppBar>
         <div className={styles.drawerContainer}>
+          <SwipeableDrawer
+            sx={{
+              display: { xs: 'block', sm: 'none' },
+              width: `${drawerWidth}rem`,
+              flexShrink: 0,
+              height: '100%',
+              position: 'fixed',
+              zIndex: 9,
+              '& .MuiDrawer-paper': {
+                width: `${drawerWidth}rem`,
+                boxSizing: 'border-box',
+                backgroundColor: '#7CB1DE'
+              }
+            }}
+            variant='persistent'
+            anchor='left'
+            open={open}
+            className={open ? 'open' : ''}
+          >
+            <DrawerHeader>
+              <IconButton onClick={handleDrawerClose} className='iconButton'>
+                <CloseIcon />
+              </IconButton>
+            </DrawerHeader>
+            <Divider />
+            <Link href='/'>
+              <Button className={styles.menuButton}>Home</Button>
+            </Link>
+            <Divider />
+            <Link href='/cursos'>
+              <Button className={styles.menuButton}>Cursos</Button>
+            </Link>
+            <Divider />
+            <Link href='/alumnos'>
+              <Button className={styles.menuButton}>Alumnos</Button>
+            </Link>
+            <Divider />
+          </SwipeableDrawer>
           <Drawer
             sx={{
+              display: { xs: 'none', sm: 'block' },
               width: `${drawerWidth}rem`,
               flexShrink: 0,
               '& .MuiDrawer-paper': {

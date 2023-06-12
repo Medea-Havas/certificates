@@ -7,7 +7,7 @@ import Router, { useRouter } from 'next/router';
 import moment from 'moment';
 import localization from 'moment/locale/es';
 
-export default function CoursesSectionInfoEdit() {
+export default function CoursesSectionInfoEdit({ setShowEditForm }) {
   const [loading, setLoading] = useState(true);
   const [courses, setCourses] = useState([]);
   const [selectedCourse, setSelectedCourse] = useState({});
@@ -60,6 +60,7 @@ export default function CoursesSectionInfoEdit() {
     });
   };
   const handleSubmit = async () => {
+    setShowEditForm(false);
     await fetch('http://localhost:8080/courses/' + Router.query.id, {
       method: 'PATCH',
       headers: {
@@ -85,22 +86,28 @@ export default function CoursesSectionInfoEdit() {
   };
 
   return (
-    <div>
+    <div class='editCourseForm'>
       <div className={styles.coursesInfo}>
-        <div className={styles.coursesInfoTitle}>
-          <h2>Editar curso {query.id < 10 ? '0' + query.id : query.id}</h2>
-        </div>
         {loading ? (
           <CircularProgress />
         ) : (
           <div className={styles.container}>
             <div className={styles.textFieldModal}>
-              <p>Nombre</p>
+              <p>Título</p>
               <TextField
                 label=''
                 variant='outlined'
                 value={selectedCourse.title}
                 onChange={handleField('title')}
+              />
+            </div>
+            <div className={styles.textFieldModal}>
+              <p>Tutor</p>
+              <TextField
+                label=''
+                variant='outlined'
+                value={selectedCourse.tutors}
+                onChange={handleField('tutors')}
               />
             </div>
             <div className={styles.textFieldModal}>
@@ -123,34 +130,6 @@ export default function CoursesSectionInfoEdit() {
               </div>
             </div>
             <div className={styles.textFieldModal}>
-              <p>Número de créditos</p>
-              <TextField
-                label=''
-                variant='outlined'
-                type='number'
-                value={selectedCourse.credits}
-                onChange={handleField('credits')}
-              />
-            </div>
-            <div className={styles.textFieldModal}>
-              <p>Entidad acreditadora</p>
-              <TextField
-                label=''
-                variant='outlined'
-                value={selectedCourse.accrediting_entity}
-                onChange={handleField('accrediting_entity')}
-              />
-            </div>
-            <div className={styles.textFieldModal}>
-              <p>Tutor</p>
-              <TextField
-                label=''
-                variant='outlined'
-                value={selectedCourse.tutors}
-                onChange={handleField('tutors')}
-              />
-            </div>
-            <div className={styles.textFieldModal}>
               <p>Horas</p>
               <TextField
                 label=''
@@ -158,6 +137,16 @@ export default function CoursesSectionInfoEdit() {
                 type='number'
                 value={selectedCourse.hours}
                 onChange={handleField('hours')}
+              />
+            </div>
+            <div className={styles.textFieldModal}>
+              <p>Número de créditos</p>
+              <TextField
+                label=''
+                variant='outlined'
+                type='number'
+                value={selectedCourse.credits}
+                onChange={handleField('credits')}
               />
             </div>
             <div className={styles.textFieldModal}>
@@ -170,12 +159,41 @@ export default function CoursesSectionInfoEdit() {
               />
             </div>
             <div className={styles.textFieldModal}>
+              <p>Entidad acreditadora</p>
+              <TextField
+                label=''
+                variant='outlined'
+                value={selectedCourse.accrediting_entity}
+                onChange={handleField('accrediting_entity')}
+              />
+            </div>
+            <div className={styles.textFieldModal}>
               <p>Acreditado por</p>
               <TextField
                 label=''
                 variant='outlined'
                 value={selectedCourse.accredited_by}
                 onChange={handleField('accredited_by')}
+              />
+            </div>
+            <div className={styles.textFieldModal}>
+              <p>Fecha de creación</p>
+              <TextField
+                disabled
+                label=''
+                variant='outlined'
+                type='datetime'
+                value={moment(selectedCourse.date_created).format('L LT')}
+              />
+            </div>
+            <div className={styles.textFieldModal}>
+              <p>Fecha de actualización</p>
+              <TextField
+                disabled
+                label=''
+                variant='outlined'
+                type='datetime'
+                value={moment(selectedCourse.date_modified).format('L LT')}
               />
             </div>
             <div className={styles.textFieldModal}>
@@ -199,28 +217,12 @@ export default function CoursesSectionInfoEdit() {
                 className={styles.textarea}
               />
             </div>
-            <div className={styles.textFieldModal}>
-              <p>Fecha de creación</p>
-              <TextField
-                disabled
-                label=''
-                variant='outlined'
-                type='datetime'
-                value={moment(selectedCourse.date_created).format('L LT')}
-              />
-            </div>
-            <div className={styles.textFieldModal}>
-              <p>Fecha de actualización</p>
-              <TextField
-                disabled
-                label=''
-                variant='outlined'
-                type='datetime'
-                value={moment(selectedCourse.date_modified).format('L LT')}
-              />
-            </div>
             <div className={styles.twocols}>
-              <Button className='button' onClick={handleSubmit}>
+              <Button
+                className='button'
+                variant='outlined'
+                onClick={handleSubmit}
+              >
                 Actualizar
               </Button>
             </div>

@@ -38,9 +38,6 @@
   display: flex;
   justify-content: space-between;
 }
-.gridTool {
-  padding: 0.675rem;
-}
 .imageButton {
   width: 100%;
 }
@@ -99,11 +96,6 @@
   height: 60rem;
   margin-top: 2.5rem;
   width: 100%;
-}
-.tableHeader {
-  align-items: center;
-  display: flex;
-  justify-content: space-between;
 }
 .textFieldModal {
   display: flex;

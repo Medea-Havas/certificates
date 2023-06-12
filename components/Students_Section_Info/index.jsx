@@ -56,14 +56,6 @@ export default function StudentsSectionInfo() {
             <span>NIF:</span> {selectedUser.nif}
           </p>
         </div>
-        <div>
-          <Button variant='contained' className={styles.button}>
-            Editar
-          </Button>
-          <Button variant='contained' className={styles.button}>
-            Borrar
-          </Button>
-        </div>
       </div>
     </div>
   );

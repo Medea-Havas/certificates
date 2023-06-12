@@ -9,13 +9,9 @@ body .MuiButtonBase-root.MuiButton-outlined:hover {
   color: var(--pinklowlight);
   transition: all 0.25s ease-in;
 }
-body .MuiButtonBase-root.MuiButton-outlined.warn {
+body .MuiButtonBase-root.MuiButton-outlined.warn:hover {
   border-color: var(--warn);
   color: var(--warn);
-}
-body .MuiButtonBase-root.MuiButton-outlined.warn:hover {
-  border-color: red;
-  color: red;
 }
 body .MuiList-root.MuiMenu-list {
   background-color: var(--white);
@@ -140,6 +136,9 @@ main.page .MuiDataGrid-cell:focus-within {
 }
 body .MuiOutlinedInput-input {
   height: auto;
+}
+.editCourseForm .MuiOutlinedInput-input {
+  height: 0;
 }
 .MuiPaper-root .MuiButton-root:hover {
   background: var(--steelbluelowlight);

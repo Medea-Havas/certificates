@@ -1,10 +1,11 @@
 import { Box } from '@mui/material';
 import {
+  GridCsvExportOptions,
   GridCsvExportMenuItem,
   GridToolbarExportContainer,
   GridToolbarQuickFilter
 } from '@mui/x-data-grid';
-import styles from './StudentsSectionHome.module.css';
+import styles from './Searchbar.module.css';
 
 export default function QuickSearchToolbar() {
   return (
@@ -24,7 +25,14 @@ export default function QuickSearchToolbar() {
             .filter(value => value !== '')
         }
       />
-      <GridToolbarExport variant='outlined' />
+      <GridToolbarExport
+        variant='outlined'
+        csvOptions={{
+          fileName: 'certificados-medea',
+          delimiter: ',',
+          utf8WithBom: true
+        }}
+      />
     </Box>
   );
 }

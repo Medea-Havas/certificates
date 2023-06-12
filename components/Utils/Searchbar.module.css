@@ -1,0 +1,8 @@
+.gridTool {
+  padding: 0.675rem;
+}
+.tableHeader {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}

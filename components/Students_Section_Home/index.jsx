@@ -11,7 +11,7 @@ import moment from 'moment';
 import localization from 'moment/locale/es';
 import StudentsModal from './modal';
 import styles from './StudentsSectionHome.module.css';
-import QuickSearchToolbar from './searchbar';
+import QuickSearchToolbar from '../Utils/searchbar';
 
 export default function StudentsSectionHome() {
   const [open, setOpen] = useState(false);
@@ -22,70 +22,6 @@ export default function StudentsSectionHome() {
   const [userToRemove, setUserToRemove] = useState(null);
   const [usersToUpdate, setUsersToUpdate] = useState([]);
   const [resetUsers, setResetUsers] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-  const showError = e => {
-    setUserToRemove(e.target.dataset.id);
-    setError(true);
-  };
-  const hideError = () => setError(false);
-  const showWarning = e => {
-    setUserToRemove(e.target.dataset.id);
-    setWarning(true);
-  };
-  const hideWarning = () => setWarning(false);
-  const hideWarningAndReset = () => {
-    setWarning(false);
-    setResetUsers(!resetUsers);
-    setUsersToUpdate([]);
-  };
-  const handleRemoveUser = () => {
-    //TODO Remove user
-    console.log('Remove user');
-  };
-
-  useEffect(() => {
-    moment.updateLocale('es', localization);
-    if (!localStorage.getItem('users')) {
-      fetch('http://localhost:8080/users')
-        .then(usersList => usersList.json())
-        .then(users => {
-          setUsers(users);
-          localStorage.setItem('users', JSON.stringify(users));
-          setLoading(false);
-        });
-    } else {
-      let tempUsers = localStorage.getItem('users');
-      let finalUsers = JSON.parse(tempUsers).map(usr => {
-        return {
-          ...usr
-        };
-      });
-      setUsers(finalUsers);
-      setLoading(false);
-    }
-  }, [resetUsers]);
-
-  const updateUser = newRow => {
-    //TODO Update user
-    const updatedRow = { ...newRow, isNew: false };
-    var index = -1;
-    for (var i = 0; i < usersToUpdate.length; i++) {
-      if (usersToUpdate[i].id == newRow.id) {
-        index = i;
-      }
-    }
-    if (index == -1) {
-      setUsersToUpdate([...usersToUpdate, newRow]);
-    } else {
-      const newArray = [...usersToUpdate];
-      newArray.splice(index, 1, newRow);
-      setUsersToUpdate(newArray);
-    }
-    setWarning(true);
-    return updatedRow;
-  };
-
   const columns = [
     {
       headerName: 'Nombre',
@@ -151,6 +87,72 @@ export default function StudentsSectionHome() {
       }
     }
   ];
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const showError = e => {
+    setUserToRemove(e.target.dataset.id);
+    setError(true);
+  };
+  const hideError = () => setError(false);
+  const showWarning = e => {
+    setUserToRemove(e.target.dataset.id);
+    setWarning(true);
+  };
+  const hideWarning = () => setWarning(false);
+  const hideWarningAndReset = () => {
+    setWarning(false);
+    setResetUsers(!resetUsers);
+    setUsersToUpdate([]);
+  };
+  const handleRemoveUser = () => {
+    //TODO Remove user
+    console.log('Remove user');
+  };
+  const updateUser = newRow => {
+    //TODO Update user
+    const updatedRow = { ...newRow, isNew: false };
+    var index = -1;
+    for (var i = 0; i < usersToUpdate.length; i++) {
+      if (usersToUpdate[i].id == newRow.id) {
+        index = i;
+      }
+    }
+    if (index == -1) {
+      setUsersToUpdate([...usersToUpdate, newRow]);
+    } else {
+      const newArray = [...usersToUpdate];
+      newArray.splice(index, 1, newRow);
+      setUsersToUpdate(newArray);
+    }
+    setWarning(true);
+    return updatedRow;
+  };
+  const removeAccents = str => {
+    return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  };
+
+  useEffect(() => {
+    moment.updateLocale('es', localization);
+    if (!localStorage.getItem('users')) {
+      fetch('http://localhost:8080/users')
+        .then(usersList => usersList.json())
+        .then(users => {
+          setUsers(users);
+          localStorage.setItem('users', JSON.stringify(users));
+          setLoading(false);
+        });
+    } else {
+      let tempUsers = localStorage.getItem('users');
+      let finalUsers = JSON.parse(tempUsers).map(usr => {
+        return {
+          ...usr
+        };
+      });
+      setUsers(finalUsers);
+      setLoading(false);
+    }
+  }, [resetUsers]);
 
   return (
     <>
