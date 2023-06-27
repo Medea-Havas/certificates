@@ -63,19 +63,32 @@ export default function CoursesSectionStudent() {
         const onClick = e => {
           console.log(params.row.id);
         };
+        const courseId = JSON.parse(sessionStorage.getItem('course')).id;
+        console.log(courseId);
         return (
-          <Link href={'/alumno/' + params.row.id}>
-            <Button className={styles.buttonStyle} variant='outlined'>
-              Ver alumno
-            </Button>
-          </Link>
+          <>
+            <Link href={'/alumno/' + params.row.id}>
+              <Button className={styles.buttonStyle} variant='outlined'>
+                Ver alumno
+              </Button>
+            </Link>
+            <Link
+              href={
+                '/certificado?userId=' + params.row.id + '&courseId=' + courseId
+              }
+            >
+              <Button className={styles.buttonStyle} variant='outlined'>
+                Certificado
+              </Button>
+            </Link>
+          </>
         );
       }
     }
   ];
 
   useEffect(() => {
-    fetch('http://localhost:8080/usersfromcourse/' + router.query.id)
+    fetch(`${process.env.API_HOST}/usersfromcourse/${router.query.id}`)
       .then(studentsList => studentsList.json())
       .then(adaptedCourses => {
         setStudents(adaptedCourses);

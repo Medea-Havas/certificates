@@ -6,25 +6,41 @@ import styles from './HomeSectionStats.module.css';
 export default function HomeSectionStats() {
   const [stats, setStats] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
   const { isReady } = useRouter();
 
   useEffect(() => {
     if (isReady) {
-      if (!localStorage.getItem('stats')) {
-        fetch('http://localhost:8080/stats')
-          .then(statsList => statsList.json())
+      if (!sessionStorage.getItem('stats')) {
+        fetch(`${process.env.API_HOST}/stats`)
+          .then(statsList => {
+            if (statsList.ok) {
+              return statsList.json();
+            }
+          })
           .then(res => {
+            if (!res) {
+              setError(true);
+              return;
+            }
             setStats(res);
-            localStorage.setItem('stats', JSON.stringify(res));
+            sessionStorage.setItem('stats', JSON.stringify(res));
             setLoading(false);
           });
       } else {
-        let tempStats = JSON.parse(localStorage.getItem('stats'));
+        let tempStats = JSON.parse(sessionStorage.getItem('stats'));
         setStats(tempStats);
         setLoading(false);
       }
     }
   }, [isReady]);
+
+  if (error)
+    return (
+      <div className={styles.homeContainer}>
+        <p>Error de conexión</p>
+      </div>
+    );
 
   return (
     <div className={styles.homeContainer}>

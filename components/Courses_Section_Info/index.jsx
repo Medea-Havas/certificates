@@ -18,28 +18,17 @@ export default function CoursesSectionInfo() {
 
   useEffect(() => {
     if (isReady) {
-      if (!localStorage.getItem('courses')) {
-        fetch('http://localhost:8080/courses')
+      if (!sessionStorage.getItem('courses')) {
+        fetch(`${process.env.API_HOST}/courses`)
           .then(coursesList => coursesList.json())
-          .then(courses =>
-            courses.map(course => {
-              return {
-                ...course,
-                name: course.title,
-                initDate: course.date_init,
-                endDate: course.date_end,
-                fileNumber: course.file_number
-              };
-            })
-          )
           .then(adaptedCourses => {
             setCourses(adaptedCourses);
-            localStorage.setItem('courses', JSON.stringify(adaptedCourses));
+            sessionStorage.setItem('courses', JSON.stringify(adaptedCourses));
             selectCourse(adaptedCourses);
             setLoading(false);
           });
       } else {
-        let tempCourses = JSON.parse(localStorage.getItem('courses'));
+        let tempCourses = JSON.parse(sessionStorage.getItem('courses'));
         setCourses(tempCourses);
         selectCourse(tempCourses);
         setLoading(false);
@@ -47,14 +36,14 @@ export default function CoursesSectionInfo() {
     }
   }, [isReady]);
 
-  let selectCourse = tempCourses => {
+  const selectCourse = tempCourses => {
     let selCourse = tempCourses.filter(course => course.id == query.id)[0];
     setSelectedCourse(selCourse);
-    localStorage.setItem('course', JSON.stringify(selCourse));
+    sessionStorage.setItem('course', JSON.stringify(selCourse));
     // Duration in months
-    var iDate = moment(selCourse.initDate);
-    var eDate = moment(selCourse.endDate);
-    var difference = eDate.diff(iDate, 'months');
+    var iDate = moment(selCourse.date_init);
+    var eDate = moment(selCourse.date_end);
+    var difference = eDate.diff(iDate, 'days');
     setDuration(difference);
   };
 
@@ -72,12 +61,13 @@ export default function CoursesSectionInfo() {
               <div className={styles.coursesInfoCols}>
                 <div className={styles.courseInfo}>
                   <p>
-                    <span>Título:</span> {selectedCourse.name}
+                    <span>Título:</span> {selectedCourse.title}
                   </p>
                   <p>
-                    <span>Duración:</span>{' '}
-                    {selectedCourse.initDate.split(' ')[0]} –{' '}
-                    {selectedCourse.endDate.split(' ')[0]} ({duration} meses)
+                    <span>Duración: </span>{' '}
+                    {moment(selectedCourse.date_init).format('L')} –{' '}
+                    {moment(selectedCourse.date_end).format('L')} ({duration}{' '}
+                    días)
                   </p>
                   <p>
                     <span>Nº créditos:</span> {selectedCourse.credits}

@@ -134,16 +134,16 @@ export default function StudentsSectionHome() {
 
   useEffect(() => {
     moment.updateLocale('es', localization);
-    if (!localStorage.getItem('users')) {
-      fetch('http://localhost:8080/users')
+    if (!sessionStorage.getItem('users')) {
+      fetch(`${process.env.API_HOST}/users`)
         .then(usersList => usersList.json())
         .then(users => {
           setUsers(users);
-          localStorage.setItem('users', JSON.stringify(users));
+          sessionStorage.setItem('users', JSON.stringify(users));
           setLoading(false);
         });
     } else {
-      let tempUsers = localStorage.getItem('users');
+      let tempUsers = sessionStorage.getItem('users');
       let finalUsers = JSON.parse(tempUsers).map(usr => {
         return {
           ...usr

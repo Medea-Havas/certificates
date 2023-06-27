@@ -21,9 +21,9 @@ export default function Course() {
           >
             Curso {paramId < 10 ? '0' + paramId : paramId}
           </Link>
-          <Typography color='text.primary'>
+          <Link color='text.primary'>
             Editar curso {paramId < 10 ? '0' + paramId : paramId}
-          </Typography>
+          </Link>
         </Breadcrumbs>
       </div>
       <CoursesSectionInfoEdit />

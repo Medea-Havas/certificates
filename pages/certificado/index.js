@@ -1,12 +1,246 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import {
+  Page,
+  Text,
+  View,
+  Document,
+  StyleSheet,
+  PDFViewer,
+  Image,
+  Font,
+  PDFDownloadLink,
+  usePDF
+} from '@react-pdf/renderer';
+import moment from 'moment';
+import localization from 'moment/locale/es';
+import styles from './Certificate.module.css';
+import { CircularProgress } from '@mui/material';
 
 export default function Certificate() {
   const [loading, setLoading] = useState(true);
-  const router = useRouter();
-  const userId = router.query.userId;
-  const courseId = router.query.courseId;
+  const [studentCourse, setStudentCourse] = useState({});
+  const [coords, setCoords] = useState([]);
+  const [pdfHeight, setPdfHeight] = useState(0);
+  const [cvs, setCVS] = useState('');
+  const { query, isReady } = useRouter();
+  const ref = useRef(null);
+  const [src, setSrc] = useState('');
+  const API_HOST = process.env.API_HOST;
+  const HOST = process.env.HOST;
+
+  const CryptoJS = require('crypto-js');
+  const userId = query.userId;
+  const courseId = query.courseId;
+  const encryptWithAES = text => {
+    const passphrase = 'integracion';
+    const encrypted = CryptoJS.AES.encrypt(text, passphrase).toString();
+    return encrypted.replaceAll('+', '-');
+  };
+
+  Font.register({
+    family: 'Helvetica',
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    src: 'https://fonts.googleapis.com/css2?family=Inter:wght@300&display=swap'
+  });
+
+  const MyDocument = () => (
+    <Document>
+      <Page size='A4' style={PdfStyles.page} orientation='landscape'>
+        <Image
+          src={`${API_HOST}/assets/certificates/${studentCourse.certificate_image}`}
+          style={PdfStyles.bg}
+        />
+        <View>
+          <Image
+            src={src}
+            className={PdfStyles.qr}
+            style={{ width: '90px', left: '190px' }}
+          />
+        </View>
+        <View style={PdfStyles.name}>
+          <Text>
+            {studentCourse.name} {studentCourse.last_name}{' '}
+          </Text>
+        </View>
+        <View style={PdfStyles.file_number}>
+          <Text>{studentCourse.file_number}</Text>
+        </View>
+        <View style={PdfStyles.credits}>
+          <Text>{studentCourse.credits}</Text>
+        </View>
+        <View style={PdfStyles.date}>
+          <Text>{moment(studentCourse.date_completed).format('L')}</Text>
+        </View>
+      </Page>
+      {studentCourse.certificate_image2 ? (
+        <Page size='A4' style={PdfStyles.page} orientation='portrait'>
+          <Image
+            src={studentCourse.certificate_image2}
+            style={styles.bg}
+          ></Image>
+          <View style={PdfStyles.qr}>
+            <Text>
+              {studentCourse.name} {studentCourse.last_name}
+            </Text>
+          </View>
+          <View style={PdfStyles.sec_name}>
+            <Text>
+              {studentCourse.name} {studentCourse.last_name}
+            </Text>
+          </View>
+          <View style={PdfStyles.sec_nif}>
+            <Text>{studentCourse.nif}</Text>
+          </View>
+          <View style={PdfStyles.sec_file_number}>
+            <Text>{studentCourse.file_number}</Text>
+          </View>
+          <View style={PdfStyles.sec_credits}>
+            <Text>{studentCourse.credits}</Text>
+          </View>
+          <View style={PdfStyles.sec_hours}>
+            <Text>{studentCourse.hours}</Text>
+          </View>
+        </Page>
+      ) : (
+        ''
+      )}
+    </Document>
+  );
+
+  const PDF = () => (
+    <PDFViewer height={pdfHeight} width='100%'>
+      <MyDocument width='100%' />
+    </PDFViewer>
+  );
+
+  const PdfStyles = StyleSheet.create({
+    bg: {
+      position: 'absolute',
+      width: '100%',
+      zIndex: 1
+    },
+    page: {
+      background: studentCourse.certificate_image,
+      flexDirection: 'row',
+      width: '100%'
+    },
+    pdfContent: {
+      position: 'absolute',
+      fontFamily: 'Helvetica',
+      left: 0,
+      top: 0,
+      width: '100%'
+    },
+    qr: {
+      position: 'absolute',
+      top: 10,
+      left: 10,
+      zIndex: 4
+    },
+    name: {
+      position: 'absolute',
+      top: coords[0] ? coords[0][0] - 5 : 0,
+      left: coords[0] ? coords[0][1] : 0,
+      width: coords[0] ? coords[0][2] : 0,
+      fontSize: coords[0] ? coords[0][3] : 0
+    },
+    file_number: {
+      position: 'absolute',
+      top: coords[1] ? coords[1][0] - 5 : 0,
+      left: coords[1] ? coords[1][1] : 0,
+      width: coords[1] ? coords[1][2] : 0,
+      fontSize: coords[1] ? coords[1][3] : 0
+    },
+    date: {
+      position: 'absolute',
+      top: coords[2] ? coords[2][0] - 5 : 0,
+      left: coords[2] ? coords[2][1] : 0,
+      width: coords[2] ? coords[2][2] : 0,
+      fontSize: coords[2] ? coords[2][3] : 0
+    },
+    credits: {
+      position: 'absolute',
+      top: coords[3] ? coords[3][0] - 5 : 0,
+      left: coords[3] ? coords[3][1] : 0,
+      width: coords[3] ? coords[3][2] : 0,
+      fontSize: coords[3] ? coords[3][3] : 0
+    },
+    sec_name: {
+      position: 'absolute',
+      top: coords[4] ? coords[4][0] : 0,
+      left: coords[4] ? coords[4][1] : 0,
+      width: coords[4] ? coords[4][2] : 0,
+      fontSize: coords[4] ? coords[4][3] : 0
+    },
+    sec_nif: {
+      position: 'absolute',
+      top: coords[5] ? coords[5][0] : 0,
+      left: coords[5] ? coords[5][1] : 0,
+      width: coords[5] ? coords[5][2] : 0,
+      fontSize: coords[5] ? coords[5][3] : 0
+    },
+    sec_file_number: {
+      position: 'absolute',
+      top: coords[6] ? coords[6][0] : 0,
+      left: coords[6] ? coords[6][1] : 0,
+      width: coords[6] ? coords[6][2] : 0,
+      fontSize: coords[6] ? coords[6][3] : 0
+    },
+    sec_credits: {
+      position: 'absolute',
+      top: coords[7] ? coords[7][0] : 0,
+      left: coords[7] ? coords[7][1] : 0,
+      width: coords[7] ? coords[7][2] : 0,
+      fontSize: coords[7] ? coords[7][3] : 0
+    },
+    sec_hours: {
+      position: 'absolute',
+      top: coords[8] ? coords[8][0] : 0,
+      left: coords[8] ? coords[8][1] : 0,
+      width: coords[8] ? coords[8][2] : 0,
+      fontSize: coords[8] ? coords[8][3] : 0
+    }
+  });
+
+  useEffect(() => {
+    if (isReady) {
+      if (!pdfHeight) setPdfHeight(ref.current.offsetWidth * 0.8);
+      if (ref.current) {
+        fetch(`${API_HOST}/usercourse/${userId}/${courseId}`)
+          .then(coursesList => coursesList.json())
+          .then(studentCourseRes => {
+            setStudentCourse(studentCourseRes);
+            console.log(studentCourseRes.coords.split('*'));
+
+            let tempCoords = studentCourseRes.coords.split('*');
+            console.log(tempCoords);
+
+            var arCoords = [];
+            arCoords[0] = tempCoords[0].split(',');
+            arCoords[1] = tempCoords[1].split(',');
+            arCoords[2] = tempCoords[2].split(',');
+            arCoords[3] = tempCoords[3].split(',');
+            arCoords[4] = tempCoords[4].split(',');
+            arCoords[5] = tempCoords[5].split(',');
+            arCoords[6] = tempCoords[6].split(',');
+            arCoords[7] = tempCoords[7].split(',');
+            arCoords[8] = tempCoords[8].split(',');
+            setCoords(arCoords);
+            console.log(arCoords);
+
+            setCVS(encryptWithAES(userId + '-' + courseId));
+            setLoading(false);
+            setSrc(
+              `https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=${HOST}/informe?cvs=${cvs}&choe=UTF-8`
+            );
+          });
+      }
+    }
+    moment.updateLocale('es', localization);
+  }, [isReady]);
 
   return (
     <>
@@ -21,19 +255,20 @@ export default function Certificate() {
       </Head>
       <main className='main'>
         <div>
-          <div className='sectionHeader'>
+          <div className='sectionHeader' ref={ref}>
             <h1>Certificado</h1>
           </div>
           {loading ? (
-            userId & courseId ? (
-              <p>
-                User id: {userId}, Course id: {courseId}
-              </p>
-            ) : (
-              'No existe certificado'
-            )
+            <CircularProgress />
+          ) : src ? (
+            <>
+              <img
+                src={`${API_HOST}/assets/certificates/${studentCourse.certificate_image}`}
+              />
+              <PDF className={styles.pdf} />
+            </>
           ) : (
-            ''
+            { src }
           )}
         </div>
       </main>

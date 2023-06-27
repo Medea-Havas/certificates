@@ -12,6 +12,8 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Footer from '../Footer';
 import { Button, Link, SwipeableDrawer } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import { useState } from 'react';
+import { useRouter } from 'next/router';
 
 const drawerWidth = 18.75;
 
@@ -41,8 +43,9 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   justifyContent: 'flex-end'
 }));
 
-export default function MainContent({ children, theme }) {
-  const [open, setOpen] = React.useState(true);
+export default function MainContent({ children }) {
+  const [open, setOpen] = useState(true);
+  const router = useRouter();
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -52,6 +55,7 @@ export default function MainContent({ children, theme }) {
     setOpen(false);
   };
 
+  if (router.pathname == '/informe') return <Box>{children}</Box>;
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -101,6 +105,8 @@ export default function MainContent({ children, theme }) {
             variant='persistent'
             anchor='left'
             open={open}
+            onClose={handleDrawerClose}
+            onOpen={handleDrawerOpen}
             className={open ? 'open' : ''}
           >
             <DrawerHeader>

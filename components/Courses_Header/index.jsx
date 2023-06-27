@@ -1,7 +1,23 @@
 import { Breadcrumbs, Button, Link, Typography } from '@mui/material';
 import styles from './CoursesHeader.module.css';
+import { useEffect, useState } from 'react';
 
 export default function CoursesHeader({ handleIndex, index, paramId }) {
+  const [title, setTitle] = useState('');
+
+  useEffect(() => {
+    if (sessionStorage.getItem('course')) {
+      let course = JSON.parse(sessionStorage.getItem('course'));
+      setTitle(course.title);
+    } else {
+      setTimeout(() => {
+        if (sessionStorage.getItem('course')) {
+          let course = JSON.parse(sessionStorage.getItem('course'));
+          setTitle(course.title);
+        }
+      }, 300);
+    }
+  }, []);
   return (
     <div className={styles.main}>
       <div className={styles.coursesRoute}>
@@ -14,17 +30,21 @@ export default function CoursesHeader({ handleIndex, index, paramId }) {
             color='text.primary'
             href={'/curso/' + paramId}
           >
-            Curso {paramId < 10 ? '0' + paramId : paramId}
+            Curso {paramId < 10 ? '0' + paramId : paramId}{' '}
+            {title != '' ? '- ' + title : ''}
           </Link>
-          <Typography color='text.primary'>
+          <p color='text.primary'>
             {index == 0 ? 'Información' : ''}
             {index == 1 ? 'Diploma' : ''}
             {index == 2 ? 'Alumnos matriculados' : ''}
-          </Typography>
+          </p>
         </Breadcrumbs>
       </div>
       <div className={styles.coursesInfoTop}>
-        <h1>Curso {paramId < 10 ? '0' + paramId : paramId}</h1>
+        <h1>
+          Curso {paramId < 10 ? '0' + paramId : paramId}{' '}
+          {title != '' ? '- ' + title : ''}
+        </h1>
       </div>
       <div className='buttons'>
         <Button

@@ -7,6 +7,10 @@ const nextConfig = {
   },
   experimental: {
     appDir: true
+  },
+  env: {
+    API_HOST: process.env.API_HOST,
+    HOST: process.env.HOST
   }
 };
 

@@ -21,7 +21,7 @@ export default function StudentsCoursesModal({
   useEffect(() => {
     if (ready) {
       axios
-        .get(`http://localhost:8080/coursesnotfromuser/${userId}`)
+        .get(`${process.env.API_HOST}/coursesnotfromuser/${userId}`)
         .then(response => {
           let tags = [];
           response.data.forEach(element => {
@@ -41,7 +41,7 @@ export default function StudentsCoursesModal({
 
   function handleSubmit() {
     axios
-      .post('http://localhost:8080/courses', tempCourse)
+      .post(`${process.env.API_HOST}/courses`, tempCourse)
       .then(response => {
         console.log(response);
       })

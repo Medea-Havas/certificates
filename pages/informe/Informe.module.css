@@ -1,0 +1,92 @@
+.content,
+.sectionHeader {
+  margin: 3rem auto;
+}
+.container {
+  background: #efefef;
+  padding: 2rem;
+}
+.content {
+  max-width: 1200px;
+}
+.datafields {
+  align-items: center;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 10px;
+  color: var(--bluelowlight);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+}
+.datafields:nth-child(even) {
+  background: rgba(245, 250, 255, 0.6);
+}
+.datafields h2 {
+  color: var(--blue);
+  font-size: var(--xs);
+  grid-column: 1;
+  margin: 0;
+  text-align: right;
+  text-transform: uppercase;
+}
+.datafields p {
+  align-items: center;
+  display: flex;
+  grid-column: 2/5;
+  justify-content: center;
+  padding: 0.5rem 0 0;
+  width: 100%;
+}
+.logo {
+  margin: 0 auto;
+  width: 10rem;
+}
+.main {
+  max-width: unset !important;
+}
+.sectionHeader {
+  max-width: 1600px;
+}
+.sectionHeader h1 {
+  color: var(--blue);
+  font-size: var(--lg);
+  line-height: 1.5;
+  margin: 1rem 0 3rem;
+  text-align: center;
+}
+.sectionHeader h1 br {
+  display: none;
+}
+@media (min-width: 900px) {
+  .datafields {
+    align-items: start;
+    background: none;
+    border-radius: none;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    padding: 0;
+  }
+  .datafields:nth-child(even) {
+    background: none;
+  }
+  .datafields p {
+    background: white;
+    border-radius: 0 10px 10px 0;
+    justify-content: start;
+    padding: 1rem 2rem;
+    width: auto;
+  }
+  .datafields h2 {
+    background: rgba(255, 255, 255, 0.4);
+    color: inherit;
+    padding: 1.25rem;
+    border-radius: 10px 0 0 10px;
+  }
+}
+@media (min-width: 400px) {
+  .sectionHeader h1 br {
+    display: block;
+  }
+}

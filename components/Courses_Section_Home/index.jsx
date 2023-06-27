@@ -1,4 +1,4 @@
-import { Alert, AlertTitle, Box, Button, Link } from '@mui/material';
+import { Alert, AlertTitle, Box, Button, Link, MenuItem } from '@mui/material';
 import {
   DataGrid,
   GridLinkOperator,
@@ -13,16 +13,25 @@ import moment from 'moment';
 import localization from 'moment/locale/es';
 import QuickSearchToolbar from '../Utils/searchbar';
 import Image from 'next/image';
+import TemplateModal from './templatemodal';
+import axios from 'axios';
 
 export default function CoursesSectionHome() {
   const [open, setOpen] = useState(false);
+  const [open2, setOpen2] = useState(false);
   const [courses, setCourses] = useState([]);
+  const [templates, setTemplates] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [warning, setWarning] = useState(false);
-  const [courseToRemove, setCourseToRemove] = useState(null);
+  const [updateData, setUpdateData] = useState(false);
+  const [courseTitleToRemove, setCourseTitleToRemove] = useState('');
+  const [courseIdToRemove, setCourseIdToRemove] = useState(0);
   const [coursesToUpdate, setCoursesToUpdate] = useState([]);
   const [resetCourses, setResetCourses] = useState(false);
+  const [ncCourse, setNCCourse] = useState({});
+  const [arrayTemplates, setArrayTemplates] = useState([]);
+  const API_HOST = process.env.API_HOST;
   const columns = [
     {
       headerName: 'Curso',
@@ -85,7 +94,7 @@ export default function CoursesSectionHome() {
     {
       headerName: 'Imagen',
       editable: false,
-      field: 'image',
+      field: 'certificate_thumbnail',
       sortable: false,
       headerAlign: 'center',
       align: 'center',
@@ -95,12 +104,13 @@ export default function CoursesSectionHome() {
         const onClick = e => {};
         return (
           <Image
-            src={'/pexels.jpeg'}
-            alt='Picture of the author'
+            src={
+              `${process.env.API_HOST}/assets/certificates/${params.value}` ||
+              './noimage.png'
+            }
+            alt='Certificate thumbnail'
             width={100}
             height={100}
-            // blurDataURL="data:..." automatically provided
-            // placeholder="blur" // Optional blur-up while loading
           />
         );
       }
@@ -121,8 +131,9 @@ export default function CoursesSectionHome() {
               <Button variant='outlined'>Ver</Button>
             </Link>
             <Button
-              data-id={`${params.row.title}`}
-              onClick={showError}
+              data-id={`${params.row.id}`}
+              data-title={`${params.row.title}`}
+              onClick={removeCourse}
               variant='outlined'
               className='warn'
             >
@@ -136,8 +147,12 @@ export default function CoursesSectionHome() {
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const showError = e => {
-    // setCourseToRemove(e.target.dataset.id);
+  const handleOpen2 = () => setOpen2(true);
+  const handleClose2 = () => setOpen2(false);
+
+  const removeCourse = e => {
+    setCourseIdToRemove(e.target.dataset.id);
+    setCourseTitleToRemove(e.target.dataset.title);
     setError(true);
   };
   const hideError = () => setError(false);
@@ -147,17 +162,29 @@ export default function CoursesSectionHome() {
   };
   const hideWarning = () => setWarning(false);
   const hideWarningAndReset = () => {
+    sessionStorage.removeItem('courses');
     setWarning(false);
-    setResetCourses(!resetCourses);
     setCoursesToUpdate([]);
+    setUpdateData(!updateData);
   };
   const handleRemoveCourse = () => {
-    //TODO Remove course
-    console.log('Remove course');
+    axios
+      .delete(`${API_HOST}/courses/${courseIdToRemove}`)
+      .then(response => {
+        if (response.status === 200) {
+          sessionStorage.setItem('courses', []);
+          setNCCourse({});
+          setCourseIdToRemove(0);
+          setCourseTitleToRemove('');
+          setError(false);
+          setUpdateData(!updateData);
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   };
   const updateCourse = newRow => {
-    //TODO Update course
-    console.log(newRow);
     const updatedRow = { ...newRow, isNew: false };
     var index = -1;
     for (var i = 0; i < coursesToUpdate.length; i++) {
@@ -175,35 +202,90 @@ export default function CoursesSectionHome() {
     setWarning(true);
     return updatedRow;
   };
+  const updateChanges = () => {
+    coursesToUpdate.forEach((value, index) => {
+      axios
+        .patch(`${API_HOST}/courses/${value.id}`, value)
+        .then(response => {
+          if (response.status === 200) {
+            console.log('Course with id ' + value.id + ' was updated');
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    });
+    hideWarningAndReset();
+  };
   const removeAccents = str => {
     return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
   };
 
+  const arrayTemplateFunction = () => {
+    if (!arrayTemplates.length) {
+      let tempTemplates = JSON.parse(sessionStorage.getItem('templates')) || [];
+      let arrayTemplates = [];
+      for (let i = 0; i < tempTemplates.length; i++) {
+        arrayTemplates.push(
+          <MenuItem
+            key={tempTemplates[i].id}
+            value={tempTemplates[i].id}
+            className={styles.menuitem}
+          >
+            {tempTemplates[i].title} (id: {tempTemplates[i].id})
+          </MenuItem>
+        );
+      }
+      setArrayTemplates(arrayTemplates);
+    }
+  };
+
   useEffect(() => {
     moment.updateLocale('es', localization);
-    if (!localStorage.getItem('courses')) {
-      fetch('https://certificates-api.hhytest.com/public/index.php/courses')
+    if (!sessionStorage.getItem('courses')) {
+      fetch(`${API_HOST}/courses`)
         .then(coursesList => coursesList.json())
         .then(adaptedCourses => {
           setCourses(adaptedCourses);
-          localStorage.setItem('courses', JSON.stringify(adaptedCourses));
+          sessionStorage.setItem('courses', JSON.stringify(adaptedCourses));
           setLoading(false);
         });
     } else {
-      let tempCourses = localStorage.getItem('courses');
+      let tempCourses = sessionStorage.getItem('courses');
       setCourses(JSON.parse(tempCourses));
       setLoading(false);
     }
-  }, [resetCourses]);
+    if (!sessionStorage.getItem('templates')) {
+      fetch(`${API_HOST}/templates`)
+        .then(templatesList => templatesList.json())
+        .then(adaptedTemplates => {
+          setTemplates(adaptedTemplates);
+          sessionStorage.setItem('templates', JSON.stringify(adaptedTemplates));
+          arrayTemplateFunction();
+          console.log(adaptedTemplates);
+        });
+    } else {
+      let tempTemplates = JSON.parse(sessionStorage.getItem('templates'));
+      setTemplates(tempTemplates);
+      arrayTemplateFunction();
+      console.log(tempTemplates);
+    }
+  }, [updateData]);
 
   return (
     <>
       <div>
         <div className='sectionHeader'>
           <h1>Cursos</h1>
-          <Button variant='outlined' onClick={handleOpen}>
-            + Nuevo Curso
-          </Button>
+          <p>{error}</p>
+          <div className={styles.creationButtons}>
+            <Button variant='outlined' onClick={handleOpen}>
+              + Nuevo curso
+            </Button>
+            <Button variant='outlined' onClick={handleOpen2}>
+              + Gestionar plantillas
+            </Button>
+          </div>
         </div>
         <div className={styles.table}>
           <DataGrid
@@ -232,7 +314,26 @@ export default function CoursesSectionHome() {
           />
         </div>
       </div>
-      <CoursesModal open={open} handleClose={handleClose} />
+      <CoursesModal
+        open={open}
+        handleClose={handleClose}
+        ncCourse={ncCourse}
+        setNCCourse={setNCCourse}
+        setCourses={setCourses}
+        resetCourses={resetCourses}
+        templates={arrayTemplates}
+        setUpdateData={setUpdateData}
+        updateData={updateData}
+      />
+      <TemplateModal
+        open={open2}
+        handleClose={handleClose2}
+        updateData={updateData}
+        setUpdateData={setUpdateData}
+        setArrayTemplates={setArrayTemplates}
+        arrayTemplateFunction={arrayTemplateFunction}
+        setTemplates={setTemplates}
+      />
       <Alert
         onClose={hideWarning}
         severity='warning'
@@ -251,7 +352,9 @@ export default function CoursesSectionHome() {
             </li>
           ))}
         </ul>
-        <Button variant='outlined'>Actualizar cambios</Button>
+        <Button variant='outlined' onClick={updateChanges}>
+          Actualizar cambios
+        </Button>
         <Button variant='outlined' onClick={hideWarningAndReset}>
           Deshechar cambios
         </Button>
@@ -265,7 +368,9 @@ export default function CoursesSectionHome() {
         className={`${error ? 'active' : ''}`}
       >
         <AlertTitle>¿Desea eliminar este curso?</AlertTitle>
-        <small className={styles.small}>{courseToRemove}</small>
+        <small className={styles.small}>
+          {courseTitleToRemove} (id:{courseIdToRemove})
+        </small>
         <Button
           variant='outlined'
           className={styles.updateButton}

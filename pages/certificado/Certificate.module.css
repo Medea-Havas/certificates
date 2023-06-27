@@ -1,0 +1,21 @@
+.bg {
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+}
+.pdf {
+  width: 100%;
+}
+.pdfContent {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  z-index: 2;
+}
+.qr {
+  position: absolute;
+  z-index: 3;
+}

@@ -11,8 +11,8 @@ export default function StudentsSectionInfo() {
 
   useEffect(() => {
     if (isReady) {
-      if (!localStorage.getItem('users')) {
-        fetch('http://localhost:8080/users')
+      if (!sessionStorage.getItem('users')) {
+        fetch(`${process.env.API_HOST}/users`)
           .then(usersList => usersList.json())
           .then(users =>
             users.map(user => {
@@ -26,13 +26,13 @@ export default function StudentsSectionInfo() {
           )
           .then(adaptedUsers => {
             setUsers(adaptedUsers);
-            localStorage.setItem('users', JSON.stringify(adaptedUsers));
+            sessionStorage.setItem('users', JSON.stringify(adaptedUsers));
             var selUser = adaptedUsers.filter(user => user.id == query.id)[0];
             setSelectedUser(selUser);
             setLoading(false);
           });
       } else {
-        let tempUsers = JSON.parse(localStorage.getItem('users'));
+        let tempUsers = JSON.parse(sessionStorage.getItem('users'));
         setUsers(tempUsers);
         let selUser = tempUsers.filter(user => user.id == query.id)[0];
         setSelectedUser(selUser);

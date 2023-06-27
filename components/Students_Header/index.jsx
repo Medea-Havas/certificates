@@ -16,10 +16,10 @@ export default function StudentsHeader({ handleIndex, index, paramId }) {
           >
             Alumno {paramId < 10 ? '0' + paramId : paramId}
           </Link>
-          <Typography color='text.primary'>
+          <p color='text.primary'>
             {index == 0 ? 'Información' : ''}
             {index == 1 ? 'Cursos matriculado' : ''}
-          </Typography>
+          </p>
         </Breadcrumbs>
       </div>
       <div className={styles.coursesInfoTop}>

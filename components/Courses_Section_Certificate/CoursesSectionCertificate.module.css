@@ -13,6 +13,10 @@
   font-size: var(--sm);
   margin-right: 0.625rem;
 }
+.chosenTemplate p:first-child {
+  font-size: 1.125rem;
+  margin: 1.5rem 0 0.75rem;
+}
 .coursesInfoTop {
   align-items: center;
   display: flex;
@@ -34,7 +38,6 @@
 .diplomaDiv {
   display: flex;
   flex-direction: column;
-  max-width: 32rem;
 }
 .diplomaTitle {
   margin-top: 1.25rem;
@@ -43,8 +46,37 @@
   margin-bottom: 0.5rem;
   margin-top: 2rem;
 }
+.mwidth {
+  max-width: 40rem;
+}
+.template {
+  margin-top: 4rem;
+}
+.template h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+.template p {
+  margin-bottom: 0.5rem;
+}
+.templateData {
+  margin-left: 1.5rem;
+}
+.templateSection {
+  font-size: 1.075rem;
+  margin-left: 0.75rem;
+  margin-top: 0.75rem;
+}
 .thumb {
   width: 16rem;
+}
+.updateButton {
+  display: inline-block;
+  margin-left: 4rem;
+}
+.upper {
+  margin: 2rem 0 1rem;
+  text-transform: uppercase;
 }
 .xsmall {
   font-size: var(--sm);

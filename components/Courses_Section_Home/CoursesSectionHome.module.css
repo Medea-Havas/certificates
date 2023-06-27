@@ -22,6 +22,20 @@
   padding-bottom: 0.5rem;
   margin: 0 0 0.25rem 0.75rem;
 }
+.creationButtons button {
+  margin-left: 1rem;
+}
+.explanation {
+  margin-top: 1rem;
+}
+.explanation p {
+  color: var(--steelbluelowlight);
+  font-size: var(--xs);
+  margin-bottom: 0.25rem;
+}
+.menuitem {
+  text-transform: none;
+}
 .modalContainer {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -47,11 +61,13 @@
   border-radius: 10px;
   color: var(--blue);
   left: 50%;
+  max-height: 90vh;
+  overflow-y: scroll;
   padding: 2rem;
   position: absolute;
   top: 50%;
-  width: 43.75rem;
   transform: translate(-50%, -50%);
+  width: 43.75rem;
 }
 .modalButtons {
   display: flex;
@@ -64,6 +80,28 @@
 }
 .modalButtonsCont button {
   margin-left: 1rem;
+}
+.modalTextField {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.modalTextField span {
+  color: red;
+}
+.modalTextField.file {
+  justify-content: end;
+}
+.modalTextField button {
+  height: 3rem;
+  position: relative;
+  top: 0.7rem;
+}
+.modalTextField p {
+  color: var(--steelbluelowlight);
+  font-size: var(--xs);
+  margin-bottom: 0.25rem;
+  text-transform: uppercase;
 }
 .searcherField {
   display: flex;
@@ -87,24 +125,38 @@
 .taBorder:focus {
   outline: 1px solid var(--steelbluehighlight);
 }
-.modalTextField {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-}
-.modalTextField.file {
-  justify-content: end;
-}
-.modalTextField button {
-  height: 3rem;
-  position: relative;
-  top: 0.7rem;
-}
-.modalTextField p {
+.templateItem {
+  align-items: center;
   color: var(--steelbluelowlight);
-  font-size: var(--xs);
-  margin-bottom: 0.25rem;
-  text-transform: uppercase;
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem;
+}
+.templateItem:hover {
+  background: #efefef;
+}
+.templateItem p {
+  font-size: var(--sm);
+}
+.templateItem button {
+  background: white;
+  border: 1px solid var(--steelbluelowlight);
+  color: var(--steelbluelowlight);
+  margin-left: 0.5rem;
+  padding: 0.25rem;
+}
+.templateItem button:hover {
+  background: white;
+  border: 1px solid var(--pinklowlight);
+  color: var(--pinklowlight);
+}
+.templateItem button.warn:hover {
+  background: white;
+  border: 1px solid var(--warn);
+  color: var(--warn);
+}
+.textarea {
+  grid-column: span 2;
 }
 .title {
   color: var(--steelbluelowlight);

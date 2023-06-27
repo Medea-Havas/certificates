@@ -225,6 +225,9 @@ a {
   color: inherit;
   text-decoration: none;
 }
+.logoline {
+  fill: #3e64ad;
+}
 .mb0 {
   margin-bottom: 0;
 }

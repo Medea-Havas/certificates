@@ -21,8 +21,8 @@ export default function CoursesSectionInfoEdit({ setShowEditForm }) {
 
   useEffect(() => {
     if (isReady) {
-      if (!localStorage.getItem('courses')) {
-        fetch('http://localhost:8080/courses')
+      if (!sessionStorage.getItem('courses')) {
+        fetch(`${process.env.API_HOST}/courses`)
           .then(coursesList => coursesList.json())
           .then(courses =>
             courses.map(course => {
@@ -37,7 +37,7 @@ export default function CoursesSectionInfoEdit({ setShowEditForm }) {
           )
           .then(adaptedCourses => {
             setCourses(adaptedCourses);
-            localStorage.setItem('courses', JSON.stringify(adaptedCourses));
+            sessionStorage.setItem('courses', JSON.stringify(adaptedCourses));
             var selCourse = adaptedCourses.filter(
               course => course.id == query.id
             )[0];
@@ -45,7 +45,7 @@ export default function CoursesSectionInfoEdit({ setShowEditForm }) {
             setLoading(false);
           });
       } else {
-        let tempCourses = JSON.parse(localStorage.getItem('courses'));
+        let tempCourses = JSON.parse(sessionStorage.getItem('courses'));
         setCourses(tempCourses);
         selectCourse(tempCourses);
         setLoading(false);
@@ -61,7 +61,7 @@ export default function CoursesSectionInfoEdit({ setShowEditForm }) {
   };
   const handleSubmit = async () => {
     setShowEditForm(false);
-    await fetch('http://localhost:8080/courses/' + Router.query.id, {
+    await fetch(`${process.env.API_HOST}/courses/${Router.query.id}`, {
       method: 'PATCH',
       headers: {
         Accept: '*/*',
@@ -82,7 +82,7 @@ export default function CoursesSectionInfoEdit({ setShowEditForm }) {
     let selCourse = tempCourses.filter(course => course.id == query.id)[0];
     console.log(selCourse);
     setSelectedCourse(selCourse);
-    localStorage.setItem('course', JSON.stringify(selCourse));
+    sessionStorage.setItem('course', JSON.stringify(selCourse));
   };
 
   return (

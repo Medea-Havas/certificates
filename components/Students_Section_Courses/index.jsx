@@ -125,7 +125,7 @@ export default function StudentsSectionCourses() {
 
   useEffect(() => {
     setLoading(true);
-    fetch('http://localhost:8080/coursesfromuser/' + query.id)
+    fetch(`${process.env.API_HOST}/coursesfromuser/${query.id}`)
       .then(coursesList => coursesList.json())
       .then(adaptedCourses => {
         setCourses(adaptedCourses);
