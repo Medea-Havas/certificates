@@ -1,60 +1,36 @@
 import React, { useState } from 'react';
 import { Button, CircularProgress } from '@mui/material';
 import styles from './CoursesSectionInfo.module.css';
-import { useEffect } from 'react';
-import { useRouter } from 'next/router';
 import moment from 'moment';
 import CoursesSectionInfoEdit from './edit';
 
-export default function CoursesSectionInfo() {
-  const [loading, setLoading] = useState(true);
-  const [courses, setCourses] = useState([]);
+export default function CoursesSectionInfo({
+  selectedCourse,
+  loadingCourses,
+  duration,
+  updateCoursesData,
+  setUpdateCoursesData,
+  setSelectedCourse
+}) {
   const [showEditForm, setShowEditForm] = useState(false);
-  const [selectedCourse, setSelectedCourse] = useState({});
-  const [duration, setDuration] = useState(0);
-  const { query, isReady } = useRouter();
 
   const editFormView = () => setShowEditForm(true);
-
-  useEffect(() => {
-    if (isReady) {
-      if (!sessionStorage.getItem('courses')) {
-        fetch(`${process.env.API_HOST}/courses`)
-          .then(coursesList => coursesList.json())
-          .then(adaptedCourses => {
-            setCourses(adaptedCourses);
-            sessionStorage.setItem('courses', JSON.stringify(adaptedCourses));
-            selectCourse(adaptedCourses);
-            setLoading(false);
-          });
-      } else {
-        let tempCourses = JSON.parse(sessionStorage.getItem('courses'));
-        setCourses(tempCourses);
-        selectCourse(tempCourses);
-        setLoading(false);
-      }
-    }
-  }, [isReady]);
-
-  const selectCourse = tempCourses => {
-    let selCourse = tempCourses.filter(course => course.id == query.id)[0];
-    setSelectedCourse(selCourse);
-    sessionStorage.setItem('course', JSON.stringify(selCourse));
-    // Duration in months
-    var iDate = moment(selCourse.date_init);
-    var eDate = moment(selCourse.date_end);
-    var difference = eDate.diff(iDate, 'days');
-    setDuration(difference);
-  };
 
   return (
     <div className={styles.main}>
       <div className={styles.coursesInfoContainer}>
         <h2>Información</h2>
-        {loading ? (
+        {loadingCourses ? (
           <CircularProgress />
         ) : showEditForm ? (
-          <CoursesSectionInfoEdit setShowEditForm={setShowEditForm} />
+          <CoursesSectionInfoEdit
+            setShowEditForm={setShowEditForm}
+            updateCoursesData={updateCoursesData}
+            setUpdateCoursesData={setUpdateCoursesData}
+            selectedCourse={selectedCourse}
+            setSelectedCourse={setSelectedCourse}
+            loadingCourses={loadingCourses}
+          />
         ) : (
           <>
             <div className={`${showEditForm ? 'active' : ''}`}>

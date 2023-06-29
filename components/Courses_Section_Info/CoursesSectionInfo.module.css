@@ -90,6 +90,9 @@
   grid-column: span 2 / span 2;
   justify-self: end;
 }
+.twocols button {
+  margin-left: 1rem;
+}
 .typeBold {
   font-weight: bold;
 }

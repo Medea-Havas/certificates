@@ -6,7 +6,10 @@ export default function CoursesHeader({ handleIndex, index, paramId }) {
   const [title, setTitle] = useState('');
 
   useEffect(() => {
-    if (sessionStorage.getItem('course')) {
+    if (
+      sessionStorage.getItem('course') &&
+      sessionStorage.getItem('course') != 'undefined'
+    ) {
       let course = JSON.parse(sessionStorage.getItem('course'));
       setTitle(course.title);
     } else {

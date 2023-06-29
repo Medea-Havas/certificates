@@ -1,111 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import { Button, CircularProgress, MenuItem, Select } from '@mui/material';
+import React from 'react';
+import { Button, CircularProgress, Select } from '@mui/material';
 import styles from './CoursesSectionCertificate.module.css';
-import { useRouter } from 'next/router';
-import moment from 'moment';
-import localization from 'moment/locale/es';
 
-export default function CoursesSectionCertificate() {
-  const { query, isReady } = useRouter();
-  const [loading, setLoading] = useState(true);
-  const [courses, setCourses] = useState([]);
-  const [selectedTemplate, setSelectedTemplate] = useState({});
-  const [selectedCourse, setSelectedCourse] = useState({});
-  const [templates, setTemplates] = useState([]);
-  const [updateData, setUpdateData] = useState(false);
-  const [update, setUpdate] = useState(false);
-  const [initialIndex, setInitialIndex] = useState(null);
-  const [arrayTemplates, setArrayTemplates] = useState([]);
-  const API_HOST = process.env.API_HOST;
-
-  const changeSelectedTemplate = e => {
-    var selTemplate = templates.filter(
-      template => template.id == parseInt(e.target.value)
-    )[0];
-    setSelectedTemplate(selTemplate);
-    setUpdate(true);
-  };
-
-  const updateTemplate = (e, id) => {
-    console.log(id);
-    console.log(e);
-  };
-
-  const arrayTemplateFunction = () => {
-    if (!arrayTemplates.length) {
-      let tempTemplates = JSON.parse(sessionStorage.getItem('templates')) || [];
-      let arrayTemplates = [];
-      let initialIndex = null;
-      for (let i = 0; i < tempTemplates.length; i++) {
-        if (arrayTemplates[i] == selectedTemplate.id) {
-          initialIndex = selectedTemplate.id;
-        }
-        arrayTemplates.push(
-          <MenuItem
-            key={tempTemplates[i].id}
-            value={tempTemplates[i].id}
-            className={styles.menuitem}
-          >
-            {tempTemplates[i].title} (id: {tempTemplates[i].id})
-          </MenuItem>
-        );
-      }
-      setArrayTemplates(arrayTemplates);
-      setInitialIndex(initialIndex);
-    }
-  };
-
-  const selectCourse = tempCourses => {
-    let selCourse = tempCourses.filter(course => course.id == query.id)[0];
-    setSelectedCourse(selCourse);
-    sessionStorage.setItem('course', JSON.stringify(selCourse));
-  };
-
-  useEffect(() => {
-    if (isReady) {
-      let tempCourses = JSON.parse(sessionStorage.getItem('courses'));
-      setCourses(tempCourses);
-      selectCourse(tempCourses);
-
-      if (!sessionStorage.getItem('templates')) {
-        fetch(`${API_HOST}/templates`)
-          .then(templatesList => templatesList.json())
-          .then(adaptedTemplates => {
-            setTemplates(adaptedTemplates);
-            sessionStorage.setItem(
-              'templates',
-              JSON.stringify(adaptedTemplates)
-            );
-            var selCourse = JSON.parse(sessionStorage.getItem('course'));
-            var selTemplate = adaptedTemplates.filter(
-              template => template.id == selCourse.template_id
-            )[0];
-            setSelectedTemplate(selTemplate);
-            arrayTemplateFunction();
-            setLoading(false);
-          });
-      } else {
-        let tempTemplates = JSON.parse(sessionStorage.getItem('templates'));
-        setTemplates(tempTemplates);
-        var selCourse = selectedCourse.length
-          ? selectedCourse
-          : JSON.parse(sessionStorage.getItem('course'));
-        var selTemplate = tempTemplates.filter(
-          template => template.id == selCourse.template_id
-        )[0];
-        setSelectedTemplate(selTemplate);
-        arrayTemplateFunction();
-        setLoading(false);
-      }
-      moment.updateLocale('es', localization);
-    }
-  }, [updateData]);
-
+export default function CoursesSectionCertificate({
+  loadingTemplates,
+  selectedCourse,
+  selectedTemplate,
+  update,
+  arrayTemplates,
+  changeSelectedTemplate,
+  updateTemplate
+}) {
   return (
     <div className={styles.main}>
       <div className={styles.diplomaContainer}>
         <h2>Diploma</h2>
-        {loading ? (
+        {loadingTemplates ? (
           <CircularProgress />
         ) : (
           <>
@@ -189,7 +99,6 @@ export default function CoursesSectionCertificate() {
               )}
               <div className={styles.chosenTemplate}>
                 <p>Posiciones:</p>
-                <p>{selectedTemplate.coords}</p>
                 <p className={styles.upper}>- Primera página -</p>
                 <p className={styles.templateSection}>[Nombre]</p>
                 <p className={styles.templateData}>

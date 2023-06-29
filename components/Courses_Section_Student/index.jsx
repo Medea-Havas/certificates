@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {
   DataGrid,
   GridLinkOperator,
@@ -6,20 +6,11 @@ import {
   esES
 } from '@mui/x-data-grid';
 import styles from './CoursesSectionStudent.module.css';
-import { useRouter } from 'next/router';
 import { Button } from '@mui/material';
 import Link from 'next/link';
 import QuickSearchToolbar from '../Utils/searchbar';
 
-export default function CoursesSectionStudent() {
-  const router = useRouter();
-  const [loading, setLoading] = useState(true);
-  const [students, setStudents] = useState([]);
-  const [error, setError] = useState(false);
-  const [warning, setWarning] = useState(false);
-  const [csToRemove, setCSToRemove] = useState(null);
-  const [csToUpdate, setCSToUpdate] = useState([]);
-  const [resetCS, setResetCS] = useState(false);
+export default function CoursesSectionStudent({ students, loading }) {
   const columns = [
     {
       headerName: 'Nombre',
@@ -64,7 +55,6 @@ export default function CoursesSectionStudent() {
           console.log(params.row.id);
         };
         const courseId = JSON.parse(sessionStorage.getItem('course')).id;
-        console.log(courseId);
         return (
           <>
             <Link href={'/alumno/' + params.row.id}>
@@ -86,15 +76,6 @@ export default function CoursesSectionStudent() {
       }
     }
   ];
-
-  useEffect(() => {
-    fetch(`${process.env.API_HOST}/usersfromcourse/${router.query.id}`)
-      .then(studentsList => studentsList.json())
-      .then(adaptedCourses => {
-        setStudents(adaptedCourses);
-        setLoading(false);
-      });
-  }, []);
 
   return (
     <div className={styles.main}>

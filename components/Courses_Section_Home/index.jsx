@@ -1,4 +1,12 @@
-import { Alert, AlertTitle, Box, Button, Link, MenuItem } from '@mui/material';
+import {
+  Alert,
+  AlertTitle,
+  Box,
+  Button,
+  CircularProgress,
+  Link,
+  MenuItem
+} from '@mui/material';
 import {
   DataGrid,
   GridLinkOperator,
@@ -32,6 +40,12 @@ export default function CoursesSectionHome() {
   const [ncCourse, setNCCourse] = useState({});
   const [arrayTemplates, setArrayTemplates] = useState([]);
   const API_HOST = process.env.API_HOST;
+  const [listItems, setListItems] = useState([]);
+  const [template, setTemplate] = useState({});
+  const [templatesLoaded, setTemplatesLoaded] = useState(false);
+  const [updateId, setUpdateId] = useState(-1);
+  moment.updateLocale('es', localization);
+
   const columns = [
     {
       headerName: 'Curso',
@@ -240,35 +254,98 @@ export default function CoursesSectionHome() {
     }
   };
 
+  const displayListItems = () => {
+    let tmp = JSON.parse(sessionStorage.getItem('templates'));
+    if (!templates) {
+      setTemplates(tmp);
+    }
+    let lis;
+    if (tmp) {
+      lis = tmp.map(t => (
+        <li key={t.id} className={styles.templateItem}>
+          <p>
+            {t.id} - {t.title}
+          </p>
+          <div className={styles.buttons}>
+            <Button
+              onClick={() => {
+                updateTemplate(t.id, t.title, t.coords);
+              }}
+            >
+              Editar
+            </Button>
+            <Button
+              onClick={() => {
+                removeTemplate(t.id);
+              }}
+              className={styles.warn}
+            >
+              Borrar
+            </Button>
+          </div>
+        </li>
+      ));
+    }
+    setListItems(lis);
+    arrayTemplateFunction();
+    setTemplatesLoaded(true);
+    console.log('Templates loaded');
+  };
+
+  const updateTemplate = (id, title, coords) => {
+    setTemplate({ id: id, title: title, coords: coords });
+    setUpdateId(id);
+    // console.log(index);
+    // console.log(title);
+    // console.log(coords);
+    // console.log(template);
+  };
+
+  const removeTemplate = index => {
+    axios
+      .delete(`${API_HOST}/templates/${index}`)
+      .then(response => {
+        if (response.status === 200) {
+          sessionStorage.removeItem('templates');
+          setArrayTemplates([]);
+          setTemplate({});
+          setUpdateData(!updateData);
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
   useEffect(() => {
-    moment.updateLocale('es', localization);
+    // Fetch courses
+    const fetchCourses = async () => {
+      const data = await fetch(`${API_HOST}/courses`);
+      const json = await data.json();
+      setCourses(json);
+      sessionStorage.setItem('courses', JSON.stringify(json));
+      setLoading(false);
+    };
     if (!sessionStorage.getItem('courses')) {
-      fetch(`${API_HOST}/courses`)
-        .then(coursesList => coursesList.json())
-        .then(adaptedCourses => {
-          setCourses(adaptedCourses);
-          sessionStorage.setItem('courses', JSON.stringify(adaptedCourses));
-          setLoading(false);
-        });
+      fetchCourses().catch(console.error);
     } else {
       let tempCourses = sessionStorage.getItem('courses');
       setCourses(JSON.parse(tempCourses));
       setLoading(false);
     }
+    // Fetch templates
+    const fetchTemplates = async () => {
+      const data = await fetch(`${API_HOST}/templates`);
+      const json = await data.json();
+      setTemplates(json);
+      sessionStorage.setItem('templates', JSON.stringify(json));
+      displayListItems();
+    };
     if (!sessionStorage.getItem('templates')) {
-      fetch(`${API_HOST}/templates`)
-        .then(templatesList => templatesList.json())
-        .then(adaptedTemplates => {
-          setTemplates(adaptedTemplates);
-          sessionStorage.setItem('templates', JSON.stringify(adaptedTemplates));
-          arrayTemplateFunction();
-          console.log(adaptedTemplates);
-        });
+      console.log('sessionStorage NO');
+      fetchTemplates().catch(console.error);
     } else {
-      let tempTemplates = JSON.parse(sessionStorage.getItem('templates'));
-      setTemplates(tempTemplates);
-      arrayTemplateFunction();
-      console.log(tempTemplates);
+      displayListItems();
     }
   }, [updateData]);
 
@@ -287,53 +364,72 @@ export default function CoursesSectionHome() {
             </Button>
           </div>
         </div>
-        <div className={styles.table}>
-          <DataGrid
-            getRowId={row => row.id}
-            columns={columns}
-            rows={courses}
-            rowHeight={80}
-            editMode='row'
-            processRowUpdate={updateCourse}
-            experimentalFeatures={{ newEditingApi: true }}
-            initialState={{
-              filter: {
-                filterModel: {
-                  items: [],
-                  quickFilterLogicOperator: GridLinkOperator.Or
+        {loading ? (
+          <CircularProgress />
+        ) : (
+          <div className={styles.table}>
+            <DataGrid
+              getRowId={row => row.id}
+              columns={columns}
+              rows={courses}
+              rowHeight={80}
+              editMode='row'
+              processRowUpdate={updateCourse}
+              experimentalFeatures={{ newEditingApi: true }}
+              initialState={{
+                filter: {
+                  filterModel: {
+                    items: [],
+                    quickFilterLogicOperator: GridLinkOperator.Or
+                  }
                 }
-              }
-            }}
-            slots={{ toolbar: GridToolbar }}
-            loading={loading}
-            components={{ Toolbar: QuickSearchToolbar }}
-            sx={{ overflowX: 'scroll' }}
-            disableSelectionOnClick
-            localeText={esES.components.MuiDataGrid.defaultProps.localeText}
-            onProcessRowUpdateError={error => console.warn(error)}
-          />
-        </div>
+              }}
+              slots={{ toolbar: GridToolbar }}
+              loading={loading}
+              components={{ Toolbar: QuickSearchToolbar }}
+              sx={{ overflowX: 'scroll' }}
+              disableSelectionOnClick
+              localeText={esES.components.MuiDataGrid.defaultProps.localeText}
+              onProcessRowUpdateError={error => console.warn(error)}
+            />
+          </div>
+        )}
       </div>
-      <CoursesModal
-        open={open}
-        handleClose={handleClose}
-        ncCourse={ncCourse}
-        setNCCourse={setNCCourse}
-        setCourses={setCourses}
-        resetCourses={resetCourses}
-        templates={arrayTemplates}
-        setUpdateData={setUpdateData}
-        updateData={updateData}
-      />
-      <TemplateModal
-        open={open2}
-        handleClose={handleClose2}
-        updateData={updateData}
-        setUpdateData={setUpdateData}
-        setArrayTemplates={setArrayTemplates}
-        arrayTemplateFunction={arrayTemplateFunction}
-        setTemplates={setTemplates}
-      />
+      {loading ? (
+        <CircularProgress />
+      ) : (
+        <CoursesModal
+          open={open}
+          handleClose={handleClose}
+          ncCourse={ncCourse}
+          setNCCourse={setNCCourse}
+          setCourses={setCourses}
+          resetCourses={resetCourses}
+          templates={arrayTemplates}
+          setUpdateData={setUpdateData}
+          updateData={updateData}
+        />
+      )}
+      {templatesLoaded ? (
+        <TemplateModal
+          open={open2}
+          handleClose={handleClose2}
+          updateData={updateData}
+          setUpdateData={setUpdateData}
+          setArrayTemplates={setArrayTemplates}
+          templates={templates}
+          setTemplates={setTemplates}
+          template={template}
+          setTemplate={setTemplate}
+          listItems={listItems}
+          setListItems={setListItems}
+          templatesLoaded={templatesLoaded}
+          updateId={updateId}
+          setUpdateId={setUpdateId}
+        />
+      ) : (
+        ''
+      )}
       <Alert
         onClose={hideWarning}
         severity='warning'

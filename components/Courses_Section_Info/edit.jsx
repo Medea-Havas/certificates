@@ -7,52 +7,14 @@ import Router, { useRouter } from 'next/router';
 import moment from 'moment';
 import localization from 'moment/locale/es';
 
-export default function CoursesSectionInfoEdit({ setShowEditForm }) {
-  const [loading, setLoading] = useState(true);
-  const [courses, setCourses] = useState([]);
-  const [selectedCourse, setSelectedCourse] = useState({});
-  const { query, isReady } = useRouter();
-  const [ncInitDate, setNCInitDate] = useState('');
-  const [ncEndDate, setNCEndDate] = useState('');
-  const [ncTutors, setNCTutors] = useState('');
-  const [ncCity, setNCCity] = useState('');
-  const [ncCredits, setNCCredits] = useState('');
-  const [ncFileNo, setNCFileNo] = useState('');
-
-  useEffect(() => {
-    if (isReady) {
-      if (!sessionStorage.getItem('courses')) {
-        fetch(`${process.env.API_HOST}/courses`)
-          .then(coursesList => coursesList.json())
-          .then(courses =>
-            courses.map(course => {
-              return {
-                ...course,
-                name: course.title,
-                initDate: course.date_init,
-                endDate: course.date_end,
-                fileNumber: course.file_number
-              };
-            })
-          )
-          .then(adaptedCourses => {
-            setCourses(adaptedCourses);
-            sessionStorage.setItem('courses', JSON.stringify(adaptedCourses));
-            var selCourse = adaptedCourses.filter(
-              course => course.id == query.id
-            )[0];
-            selectCourse(selCourse);
-            setLoading(false);
-          });
-      } else {
-        let tempCourses = JSON.parse(sessionStorage.getItem('courses'));
-        setCourses(tempCourses);
-        selectCourse(tempCourses);
-        setLoading(false);
-      }
-    }
-  }, [isReady]);
-
+export default function CoursesSectionInfoEdit({
+  setShowEditForm,
+  updateCoursesData,
+  setUpdateCoursesData,
+  selectedCourse,
+  setSelectedCourse,
+  loadingCourses
+}) {
   const handleField = type => event => {
     setSelectedCourse({
       ...selectedCourse,
@@ -70,25 +32,22 @@ export default function CoursesSectionInfoEdit({ setShowEditForm }) {
       body: JSON.stringify(selectedCourse)
     })
       .then(res => {
-        console.log('Actualizado');
+        sessionStorage.removeItem('courses');
+        setUpdateCoursesData(!updateCoursesData);
       })
       .catch(err => {
-        console.log(selectedCourse);
         console.log(err);
       });
   };
 
-  let selectCourse = tempCourses => {
-    let selCourse = tempCourses.filter(course => course.id == query.id)[0];
-    console.log(selCourse);
-    setSelectedCourse(selCourse);
-    sessionStorage.setItem('course', JSON.stringify(selCourse));
+  const goBack = () => {
+    setShowEditForm(false);
   };
 
   return (
-    <div class='editCourseForm'>
+    <>
       <div className={styles.coursesInfo}>
-        {loading ? (
+        {loadingCourses ? (
           <CircularProgress />
         ) : (
           <div className={styles.container}>
@@ -218,6 +177,9 @@ export default function CoursesSectionInfoEdit({ setShowEditForm }) {
               />
             </div>
             <div className={styles.twocols}>
+              <Button className='button' variant='outlined' onClick={goBack}>
+                Cancelar
+              </Button>
               <Button
                 className='button'
                 variant='outlined'
@@ -229,6 +191,6 @@ export default function CoursesSectionInfoEdit({ setShowEditForm }) {
           </div>
         )}
       </div>
-    </div>
+    </>
   );
 }

@@ -1,4 +1,10 @@
-import { Button, Input, TextField, Modal } from '@mui/material';
+import {
+  Button,
+  Input,
+  TextField,
+  Modal,
+  CircularProgress
+} from '@mui/material';
 import { TextareaAutosize } from '@mui/base';
 import { Box } from '@mui/system';
 import { useEffect, useState } from 'react';
@@ -11,54 +17,54 @@ export default function TemplateModal({
   open,
   updateData,
   setUpdateData,
-  arrayTemplateFunction,
   setArrayTemplates,
-  setTemplates
+  templates,
+  setTemplates,
+  listItems,
+  setListItems,
+  template,
+  setTemplate,
+  templatesLoaded,
+  editable,
+  setEditable,
+  updateId,
+  setUpdateId
 }) {
   const API_HOST = process.env.API_HOST;
-  const [listItems, setListItems] = useState([]);
-  const [template, setTemplate] = useState({});
-
-  useEffect(() => {
-    if (!sessionStorage.getItem('templates')) {
-      fetch(`${API_HOST}/templates`)
-        .then(templatesList => templatesList.json())
-        .then(adaptedTemplates => {
-          setTemplates(adaptedTemplates);
-          sessionStorage.setItem('templates', JSON.stringify(adaptedTemplates));
-          arrayTemplateFunction();
-        });
-    } else {
-      console.log('Eiquí');
-    }
-
-    let tmp = JSON.parse(sessionStorage.getItem('templates'));
-    let lis;
-    if (tmp) {
-      lis = tmp.map(t => (
-        <li key={t.id} className={styles.templateItem}>
-          <p>
-            {t.id} - {t.title}
-          </p>
-          <div className={styles.buttons}>
-            <Button>Editar</Button>
-            <Button className={styles.warn}>Borrar</Button>
-          </div>
-        </li>
-      ));
-    }
-    setListItems(lis);
-  }, [updateData]);
 
   function handleSubmit() {
     axios
-      .post(`${API_HOST}/templates`, template)
+      .post(`${API_HOST}/templates`, {
+        title: template.title,
+        coords: template.coords
+      })
       .then(response => {
         if (response.status === 201) {
           sessionStorage.removeItem('templates');
           setArrayTemplates([]);
-          setTemplate({});
+          setTemplate({ id: -1, title: '', coords: '' });
           setUpdateData(!updateData);
+          // handleClose();
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
+  function handleUpdateSubmit() {
+    axios
+      .patch(`${API_HOST}/templates/${template.id}`, {
+        title: template.title,
+        coords: template.coords
+      })
+      .then(response => {
+        if (response.status === 200) {
+          sessionStorage.removeItem('templates');
+          setArrayTemplates([]);
+          setTemplate({ id: -1, title: '', coords: '' });
+          setUpdateData(!updateData);
+          setUpdateId(-1);
           // handleClose();
         }
       })
@@ -128,6 +134,17 @@ export default function TemplateModal({
           >
             Cancelar
           </Button>
+          {updateId != -1 ? (
+            <Button
+              variant='contained'
+              className={`${styles.modalButton} ${styles.variant}`}
+              onClick={handleUpdateSubmit}
+            >
+              Editar ({updateId})
+            </Button>
+          ) : (
+            ''
+          )}
           <Button
             variant='contained'
             className={styles.modalButton}
@@ -137,7 +154,11 @@ export default function TemplateModal({
           </Button>
         </div>
         <p className={styles.title}>Plantillas</p>
-        <ul>{listItems}</ul>
+        {templatesLoaded ? (
+          <ul className={styles.listOverflow}>{listItems}</ul>
+        ) : (
+          <CircularProgress />
+        )}
       </Box>
     </Modal>
   );
