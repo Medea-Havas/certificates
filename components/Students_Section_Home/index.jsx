@@ -5,13 +5,14 @@ import {
   esES,
   GridToolbar
 } from '@mui/x-data-grid';
-import { Button, Box, Alert, AlertTitle, Link } from '@mui/material';
+import { Button, Alert, AlertTitle, Link } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import moment from 'moment';
 import localization from 'moment/locale/es';
 import StudentsModal from './modal';
 import styles from './StudentsSectionHome.module.css';
 import QuickSearchToolbar from '../Utils/searchbar';
+import axios from 'axios';
 
 export default function StudentsSectionHome() {
   const [open, setOpen] = useState(false);
@@ -19,9 +20,13 @@ export default function StudentsSectionHome() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [warning, setWarning] = useState(false);
-  const [userToRemove, setUserToRemove] = useState(null);
+  const [userToRemove, setUserToRemove] = useState({});
   const [usersToUpdate, setUsersToUpdate] = useState([]);
   const [resetUsers, setResetUsers] = useState(false);
+  const [ncStudent, setNCStudent] = useState('');
+  const API_HOST = process.env.API_HOST;
+  moment.updateLocale('es', localization);
+
   const columns = [
     {
       headerName: 'Nombre',
@@ -75,7 +80,8 @@ export default function StudentsSectionHome() {
               <Button variant='outlined'>Ver</Button>
             </Link>
             <Button
-              data-id={`${params.row.name} ${params.row.last_name}`}
+              data-id={params.row.id}
+              data-name={`${params.row.name} ${params.row.last_name}`}
               onClick={showError}
               variant='outlined'
               className='warn'
@@ -91,26 +97,26 @@ export default function StudentsSectionHome() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const showError = e => {
-    setUserToRemove(e.target.dataset.id);
+    setUserToRemove({
+      id: e.target.dataset.id,
+      name: e.target.dataset.name
+    });
     setError(true);
   };
   const hideError = () => setError(false);
-  const showWarning = e => {
-    setUserToRemove(e.target.dataset.id);
-    setWarning(true);
-  };
   const hideWarning = () => setWarning(false);
   const hideWarningAndReset = () => {
     setWarning(false);
     setResetUsers(!resetUsers);
     setUsersToUpdate([]);
   };
-  const handleRemoveUser = () => {
-    //TODO Remove user
-    console.log('Remove user');
+  const updateStudentField = (e, field) => {
+    setNCStudent(prevState => ({
+      ...prevState,
+      [field]: e.target.value
+    }));
   };
   const updateUser = newRow => {
-    //TODO Update user
     const updatedRow = { ...newRow, isNew: false };
     var index = -1;
     for (var i = 0; i < usersToUpdate.length; i++) {
@@ -128,12 +134,60 @@ export default function StudentsSectionHome() {
     setWarning(true);
     return updatedRow;
   };
-  const removeAccents = str => {
-    return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  const handleAddStudent = event => {
+    const addStudent = async () => {
+      await fetch(`${API_HOST}/users`, {
+        method: 'POST',
+        headers: {
+          Accept: '*/*',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(ncStudent)
+      })
+        .then(res => {
+          sessionStorage.removeItem('users');
+          setResetUsers(!resetUsers);
+          handleClose();
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    };
+    addStudent();
+  };
+  const handleUpdateUser = () => {
+    usersToUpdate.forEach((value, index) => {
+      axios
+        .patch(`${API_HOST}/users/${value.id}`, value)
+        .then(response => {
+          if (response.status === 200) {
+            console.log('User with id ' + value.id + ' was updated');
+          }
+          sessionStorage.removeItem('users');
+          setResetUsers(!resetUsers);
+          setWarning(false);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    });
+  };
+  const handleRemoveUser = () => {
+    axios
+      .delete(`${API_HOST}/users/${userToRemove.id}`)
+      .then(response => {
+        if (response.status === 200) {
+          sessionStorage.removeItem('users');
+          setResetUsers(!resetUsers);
+          setError(false);
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   };
 
   useEffect(() => {
-    moment.updateLocale('es', localization);
     if (!sessionStorage.getItem('users')) {
       fetch(`${process.env.API_HOST}/users`)
         .then(usersList => usersList.json())
@@ -192,7 +246,13 @@ export default function StudentsSectionHome() {
           />
         </div>
       </div>
-      <StudentsModal open={open} handleClose={handleClose} />
+      <StudentsModal
+        open={open}
+        handleClose={handleClose}
+        ncStudent={ncStudent}
+        handleAddStudent={handleAddStudent}
+        updateStudentField={updateStudentField}
+      />
       <Alert
         onClose={hideWarning}
         severity='warning'
@@ -201,7 +261,7 @@ export default function StudentsSectionHome() {
         <AlertTitle>Cambios detectados</AlertTitle>
         <ul className={styles.changesList}>
           {usersToUpdate.map(user => (
-            <li key={Math.random()}>
+            <li key={user.id}>
               <p>
                 {user.id} - {user.name} {user.last_name}
               </p>
@@ -211,7 +271,9 @@ export default function StudentsSectionHome() {
             </li>
           ))}
         </ul>
-        <Button variant='outlined'>Actualizar cambios</Button>
+        <Button variant='outlined' onClick={handleUpdateUser}>
+          Actualizar cambios
+        </Button>
         <Button variant='outlined' onClick={hideWarningAndReset}>
           Deshechar cambios
         </Button>
@@ -225,7 +287,7 @@ export default function StudentsSectionHome() {
         className={`${error ? 'active' : ''}`}
       >
         <AlertTitle>¿Desea eliminar este alumno?</AlertTitle>
-        <small className={styles.small}>{userToRemove}</small>
+        <small className={styles.small}>{userToRemove.name}</small>
         <Button
           variant='outlined'
           className={styles.updateButton}

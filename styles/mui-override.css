@@ -13,12 +13,15 @@ body .MuiButtonBase-root.MuiButton-outlined.warn:hover {
   border-color: var(--warn);
   color: var(--warn);
 }
-body .MuiList-root.MuiMenu-list {
-  background-color: var(--white);
-}
 body .MuiButtonBase-root.MuiButton-root.alt {
   background-color: var(--lightgray);
   color: var(--steelbluelowlight);
+}
+body .MuiDataGrid-cell[data-field='buttonActions'] {
+  width: 100% !important;
+}
+body .MuiList-root.MuiMenu-list {
+  background-color: var(--white);
 }
 body .MuiAlert-root .MuiButtonBase-root.MuiButton-outlined {
   background-color: transparent;
@@ -31,6 +34,9 @@ body .MuiAlert-root .MuiButtonBase-root.MuiButton-outlined {
 }
 main.page .MuiDataGrid-cell:focus-within {
   outline: none;
+}
+#modal #enrollStudent.MuiInputBase-input {
+  padding: 0.75rem 0.5rem 0.15rem;
 }
 #modal .MuiInputBase-input {
   font-size: var(--reg);
@@ -82,6 +88,9 @@ main.page .MuiDataGrid-cell:focus-within {
 .MuiCircularProgress-root {
   position: absolute;
 }
+.MuiDataGrid-root .MuiDataGrid-row {
+  width: 100%;
+}
 .MuiDataGrid-panelFooter {
   gap: 1rem;
 }
@@ -119,6 +128,9 @@ main.page .MuiDataGrid-cell:focus-within {
 }
 .MuiFormLabel-root.Mui-focused {
   transform: translate(14px, -20px) scale(0.75);
+}
+.MuiOutlinedInput-notchedOutline legend {
+  display: none;
 }
 .MuiPaper-root .MuiButton-root {
   justify-content: start;

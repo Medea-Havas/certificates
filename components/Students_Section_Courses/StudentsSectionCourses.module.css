@@ -64,6 +64,9 @@
 .modalButtonsCont button:nth-child(2) {
   margin-left: 1rem;
 }
+.modalTextField {
+  margin: 1rem 0;
+}
 .table {
   height: 60rem;
   margin: 2.5rem 0;

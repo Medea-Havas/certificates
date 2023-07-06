@@ -1,55 +1,17 @@
-import { Button, FormControl, MenuItem, Select, Modal } from '@mui/material';
+import { Button, FormControl, Select, Modal, TextField } from '@mui/material';
 import { Box } from '@mui/system';
-import { useEffect, useState } from 'react';
 import styles from './StudentsSectionCourses.module.css';
-import { useRouter } from 'next/router';
-import axios from 'axios';
 
 export default function StudentsCoursesModal({
+  handleCourseToEnrollChange,
   handleClose,
+  handleSubmit,
   open,
-  userId,
-  ready
+  optionCourses,
+  select,
+  completedDate,
+  updateDate
 }) {
-  const [select, setSelect] = useState('');
-  const [tempCourse, setTempCourse] = useState({});
-  const [optionCourses, setOptionCourses] = useState([]);
-  const handleChange = event => {
-    setTempCourse(event.target.value);
-  };
-
-  useEffect(() => {
-    if (ready) {
-      axios
-        .get(`${process.env.API_HOST}/coursesnotfromuser/${userId}`)
-        .then(response => {
-          let tags = [];
-          response.data.forEach(element => {
-            tags.push(
-              <MenuItem key={element.id} value={element.id}>
-                {element.id} - {element.title}
-              </MenuItem>
-            );
-          });
-          setOptionCourses(tags);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    }
-  }, [ready]);
-
-  function handleSubmit() {
-    axios
-      .post(`${process.env.API_HOST}/courses`, tempCourse)
-      .then(response => {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  }
-
   return (
     <Modal
       id='modal'
@@ -69,11 +31,20 @@ export default function StudentsCoursesModal({
                 id='demo-simple-select'
                 value={select}
                 label='Course'
-                onChange={handleChange}
+                onChange={handleCourseToEnrollChange}
                 styles={styles.controlLabel}
               >
                 {optionCourses}
               </Select>
+              <div className={styles.modalTextField}>
+                <p>Fecha curso completado</p>
+                <TextField
+                  variant='outlined'
+                  type='date'
+                  value={completedDate}
+                  onChange={e => updateDate(e)}
+                />
+              </div>
             </FormControl>
           </div>
         </div>

@@ -17,6 +17,7 @@ import moment from 'moment';
 import localization from 'moment/locale/es';
 import styles from './Certificate.module.css';
 import { CircularProgress } from '@mui/material';
+import axios from 'axios';
 
 export default function Certificate() {
   const [loading, setLoading] = useState(true);
@@ -24,20 +25,24 @@ export default function Certificate() {
   const [coords, setCoords] = useState([]);
   const [pdfHeight, setPdfHeight] = useState(0);
   const [cvs, setCVS] = useState('');
+  const [src, setSrc] = useState('');
   const { query, isReady } = useRouter();
   const ref = useRef(null);
-  const [src, setSrc] = useState('');
-  const API_HOST = process.env.API_HOST;
-  const HOST = process.env.HOST;
 
-  const CryptoJS = require('crypto-js');
+  const API_HOST = process.env.API_HOST;
+  const TEMP_API_HOST = 'https://certificates-api.hhytest.com/public';
+  const HOST = process.env.HOST;
   const userId = query.userId;
   const courseId = query.courseId;
+
+  const CryptoJS = require('crypto-js');
   const encryptWithAES = text => {
     const passphrase = 'integracion';
     const encrypted = CryptoJS.AES.encrypt(text, passphrase).toString();
     return encrypted.replaceAll('+', '-');
   };
+
+  moment.updateLocale('es', localization);
 
   Font.register({
     family: 'Helvetica',
@@ -50,19 +55,19 @@ export default function Certificate() {
     <Document>
       <Page size='A4' style={PdfStyles.page} orientation='landscape'>
         <Image
-          src={`${API_HOST}/assets/certificates/${studentCourse.certificate_image}`}
+          src={`${TEMP_API_HOST}/assets/certificates/${studentCourse.certificate_image}`}
           style={PdfStyles.bg}
         />
         <View>
           <Image
             src={src}
             className={PdfStyles.qr}
-            style={{ width: '90px', left: '190px' }}
+            style={{ left: '40px', top: '250px', width: '90px' }}
           />
         </View>
         <View style={PdfStyles.name}>
           <Text>
-            {studentCourse.name} {studentCourse.last_name}{' '}
+            {studentCourse.name} {studentCourse.last_name}
           </Text>
         </View>
         <View style={PdfStyles.file_number}>
@@ -78,7 +83,7 @@ export default function Certificate() {
       {studentCourse.certificate_image2 ? (
         <Page size='A4' style={PdfStyles.page} orientation='portrait'>
           <Image
-            src={studentCourse.certificate_image2}
+            src={`${TEMP_API_HOST}/assets/certificates/${studentCourse.certificate_image2}`}
             style={styles.bg}
           ></Image>
           <View style={PdfStyles.qr}>
@@ -123,7 +128,7 @@ export default function Certificate() {
       zIndex: 1
     },
     page: {
-      background: studentCourse.certificate_image,
+      background: `${TEMP_API_HOST}/assets/certificates/${studentCourse.certificate_image}`,
       flexDirection: 'row',
       width: '100%'
     },
@@ -136,8 +141,6 @@ export default function Certificate() {
     },
     qr: {
       position: 'absolute',
-      top: 10,
-      left: 10,
       zIndex: 4
     },
     name: {
@@ -207,39 +210,40 @@ export default function Certificate() {
 
   useEffect(() => {
     if (isReady) {
-      if (!pdfHeight) setPdfHeight(ref.current.offsetWidth * 0.8);
-      if (ref.current) {
-        fetch(`${API_HOST}/usercourse/${userId}/${courseId}`)
-          .then(coursesList => coursesList.json())
-          .then(studentCourseRes => {
-            setStudentCourse(studentCourseRes);
-            console.log(studentCourseRes.coords.split('*'));
-
-            let tempCoords = studentCourseRes.coords.split('*');
-            console.log(tempCoords);
-
-            var arCoords = [];
-            arCoords[0] = tempCoords[0].split(',');
-            arCoords[1] = tempCoords[1].split(',');
-            arCoords[2] = tempCoords[2].split(',');
-            arCoords[3] = tempCoords[3].split(',');
-            arCoords[4] = tempCoords[4].split(',');
-            arCoords[5] = tempCoords[5].split(',');
-            arCoords[6] = tempCoords[6].split(',');
-            arCoords[7] = tempCoords[7].split(',');
-            arCoords[8] = tempCoords[8].split(',');
-            setCoords(arCoords);
-            console.log(arCoords);
-
-            setCVS(encryptWithAES(userId + '-' + courseId));
+      axios
+        .get(`${API_HOST}/usercourse/${userId}/${courseId}`)
+        .then(coursesList => coursesList.data)
+        .then(studentCourseRes => {
+          setStudentCourse(studentCourseRes);
+          let tempCoords = studentCourseRes.coords.split('*');
+          var arCoords = [];
+          arCoords[0] = tempCoords[0].split(',');
+          arCoords[1] = tempCoords[1].split(',');
+          arCoords[2] = tempCoords[2].split(',');
+          arCoords[3] = tempCoords[3].split(',');
+          arCoords[4] = tempCoords[4].split(',');
+          arCoords[5] = tempCoords[5].split(',');
+          arCoords[6] = tempCoords[6].split(',');
+          arCoords[7] = tempCoords[7].split(',');
+          arCoords[8] = tempCoords[8].split(',');
+          setCoords(arCoords);
+          setCVS(encryptWithAES(userId + '-' + courseId));
+          if (!pdfHeight) setPdfHeight(ref.current.offsetWidth * 0.8);
+          setSrc(
+            `https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=${HOST}/informe?cvs=${cvs}&choe=UTF-8`
+          );
+          setLoading(false);
+        })
+        .then(res => {
+          console.log('cvs', cvs);
+        })
+        .catch(function (error) {
+          if (error) {
             setLoading(false);
-            setSrc(
-              `https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=${HOST}/informe?cvs=${cvs}&choe=UTF-8`
-            );
-          });
-      }
+            return;
+          }
+        });
     }
-    moment.updateLocale('es', localization);
   }, [isReady]);
 
   return (
@@ -261,14 +265,9 @@ export default function Certificate() {
           {loading ? (
             <CircularProgress />
           ) : src ? (
-            <>
-              <img
-                src={`${API_HOST}/assets/certificates/${studentCourse.certificate_image}`}
-              />
-              <PDF className={styles.pdf} />
-            </>
+            <PDF className={styles.pdf} />
           ) : (
-            { src }
+            'El certificado no existe'
           )}
         </div>
       </main>

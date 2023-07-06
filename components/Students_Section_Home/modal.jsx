@@ -2,20 +2,13 @@ import { TextField, Modal, Box, Button } from '@mui/material';
 import { useState } from 'react';
 import styles from './StudentsSectionHome.module.css';
 
-export default function StudentsModal({ handleClose, open }) {
-  const [ncStudent, setNCStudent] = useState('');
-
-  const handleSubmit = event => {
-    console.log(ncStudent);
-  };
-
-  const updateField = (e, field) => {
-    setNCStudent(prevState => ({
-      ...prevState,
-      [field]: e.target.value
-    }));
-  };
-
+export default function StudentsModal({
+  handleClose,
+  ncStudent,
+  open,
+  handleAddStudent,
+  updateStudentField
+}) {
   return (
     <Modal
       id='modal'
@@ -33,7 +26,7 @@ export default function StudentsModal({ handleClose, open }) {
               label=''
               variant='outlined'
               value={ncStudent.name}
-              onChange={e => updateField(e, 'name')}
+              onChange={e => updateStudentField(e, 'name')}
             />
           </div>
           <div className={styles.textFieldModal}>
@@ -42,7 +35,7 @@ export default function StudentsModal({ handleClose, open }) {
               label=''
               variant='outlined'
               value={ncStudent.last_name}
-              onChange={e => updateField(e, 'last_name')}
+              onChange={e => updateStudentField(e, 'last_name')}
             />
           </div>
           <div className={styles.textFieldModal}>
@@ -52,7 +45,7 @@ export default function StudentsModal({ handleClose, open }) {
               variant='outlined'
               type='email'
               value={ncStudent.email}
-              onChange={e => updateField(e, 'email')}
+              onChange={e => updateStudentField(e, 'email')}
             />
           </div>
           <div className={styles.textFieldModal}>
@@ -62,7 +55,7 @@ export default function StudentsModal({ handleClose, open }) {
               variant='outlined'
               type='nif'
               value={ncStudent.nif}
-              onChange={e => updateField(e, 'nif')}
+              onChange={e => updateStudentField(e, 'nif')}
             />
           </div>
         </div>
@@ -77,7 +70,7 @@ export default function StudentsModal({ handleClose, open }) {
           <Button
             variant='contained'
             className={styles.modalButton}
-            onClick={handleSubmit}
+            onClick={handleAddStudent}
           >
             Aceptar
           </Button>

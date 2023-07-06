@@ -9,12 +9,23 @@ import styles from './CoursesSectionStudent.module.css';
 import { Button } from '@mui/material';
 import Link from 'next/link';
 import QuickSearchToolbar from '../Utils/searchbar';
+import moment from 'moment';
+import localization from 'moment/locale/es';
 
-export default function CoursesSectionStudent({ students, loading }) {
+export default function CoursesSectionStudent({
+  students,
+  loadingStudents,
+  showStudentModal,
+  hideStudentModal,
+  removeStudentToEnroll
+}) {
+  moment.updateLocale('es', localization);
+
   const columns = [
     {
       headerName: 'Nombre',
       field: 'name',
+      flex: 1,
       width: 110,
       headerAlign: 'center',
       align: 'center'
@@ -40,28 +51,23 @@ export default function CoursesSectionStudent({ students, loading }) {
       headerAlign: 'center',
       align: 'center',
       Cell: props => {
-        moment(props.value).format('dd/MM/yyyy');
+        props.value;
+      },
+      valueFormatter: ({ value }) => {
+        return moment(value).format('L LT');
       }
     },
     {
       field: 'buttonActions',
       headerName: '',
       sortable: false,
-      flex: 1,
+      flex: 2,
       headerAlign: 'center',
       align: 'center',
       renderCell: params => {
-        const onClick = e => {
-          console.log(params.row.id);
-        };
         const courseId = JSON.parse(sessionStorage.getItem('course')).id;
         return (
           <>
-            <Link href={'/alumno/' + params.row.id}>
-              <Button className={styles.buttonStyle} variant='outlined'>
-                Ver alumno
-              </Button>
-            </Link>
             <Link
               href={
                 '/certificado?userId=' + params.row.id + '&courseId=' + courseId
@@ -71,6 +77,18 @@ export default function CoursesSectionStudent({ students, loading }) {
                 Certificado
               </Button>
             </Link>
+            <Link href={'/alumno/' + params.row.id}>
+              <Button className={styles.buttonStyle} variant='outlined'>
+                Ver
+              </Button>
+            </Link>
+            <Button
+              className={`${styles.buttonStyle} warn`}
+              variant='outlined'
+              onClick={() => removeStudentToEnroll(params.row)}
+            >
+              Borrar
+            </Button>
           </>
         );
       }
@@ -83,14 +101,15 @@ export default function CoursesSectionStudent({ students, loading }) {
         <div className={styles.alumnoTitle}>
           <h2>Alumnos matriculados</h2>
           <div>
-            <Button variant='outlined' className={styles.buttonTop}>
+            <Button
+              variant='outlined'
+              className={styles.buttonTop}
+              onClick={showStudentModal}
+            >
               Añadir alumno
             </Button>
             <Button variant='outlined' className={styles.buttonTop}>
               Cargar alumnos
-            </Button>
-            <Button variant='outlined' className={styles.buttonTop}>
-              Descargar alumnos
             </Button>
           </div>
         </div>
@@ -110,11 +129,14 @@ export default function CoursesSectionStudent({ students, loading }) {
             }}
             slots={{ toolbar: GridToolbar }}
             autoPageSize
-            loading={loading}
+            loading={loadingStudents}
             components={{ Toolbar: QuickSearchToolbar }}
             sx={{ overflowX: 'scroll' }}
             disableSelectionOnClick
-            localeText={esES.components.MuiDataGrid.defaultProps.localeText}
+            localeText={{
+              localeText: esES.components.MuiDataGrid.defaultProps.localeText,
+              noRowsLabel: 'Todavía no hay alumnos matriculados'
+            }}
             onProcessRowUpdateError={error => console.warn(error)}
           />
         </div>

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { CircularProgress } from '@mui/material';
 import { useRouter } from 'next/router';
 import styles from './HomeSectionStats.module.css';
+import axios from 'axios';
 
 export default function HomeSectionStats() {
   const [stats, setStats] = useState([]);
@@ -12,21 +13,15 @@ export default function HomeSectionStats() {
   useEffect(() => {
     if (isReady) {
       if (!sessionStorage.getItem('stats')) {
-        fetch(`${process.env.API_HOST}/stats`)
-          .then(statsList => {
-            if (statsList.ok) {
-              return statsList.json();
-            }
-          })
-          .then(res => {
-            if (!res) {
-              setError(true);
-              return;
-            }
-            setStats(res);
-            sessionStorage.setItem('stats', JSON.stringify(res));
-            setLoading(false);
-          });
+        axios.get(`${process.env.API_HOST}/stats`).then(statsList => {
+          if (statsList.status == 200) {
+            setStats(statsList.data);
+            sessionStorage.setItem('stats', JSON.stringify(statsList.data));
+          } else {
+            setError(true);
+          }
+          setLoading(false);
+        });
       } else {
         let tempStats = JSON.parse(sessionStorage.getItem('stats'));
         setStats(tempStats);

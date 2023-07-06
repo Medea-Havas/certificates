@@ -1,16 +1,37 @@
 import React from 'react';
-import { Button, CircularProgress, Select } from '@mui/material';
+import { Button, CircularProgress, Input, Select } from '@mui/material';
 import styles from './CoursesSectionCertificate.module.css';
 
 export default function CoursesSectionCertificate({
   loadingTemplates,
   selectedCourse,
+  setSelectedCourse,
   selectedTemplate,
   update,
   arrayTemplates,
   changeSelectedTemplate,
-  updateTemplate
+  updateTemplate,
+  updateCertificateThumbnail,
+  thumbnail,
+  setThumbnail
 }) {
+  const updateImage = (e, field) => {
+    console.log(e.target.files[0]);
+    console.log(typeof e.target.files[0]);
+    switch (field) {
+      case 'certificate_thumbnail':
+        setThumbnail(e.target.files[0]);
+        setSelectedCourse({ thumbnail: e.target.files[0] });
+        break;
+      case 'certificate_image':
+        setImg1(e.target.files[0]);
+        break;
+      case 'certificate_image2':
+        setImg2(e.target.files[0]);
+        break;
+    }
+  };
+
   return (
     <div className={styles.main}>
       <div className={styles.diplomaContainer}>
@@ -32,11 +53,24 @@ export default function CoursesSectionCertificate({
               ) : (
                 <img src='/noimage.png' alt='No image' />
               )}
-              <Button variant='outlined' className={styles.buttonImage}>
+              <Button
+                variant='outlined'
+                className={styles.buttonImage}
+                onClick={updateCertificateThumbnail}
+              >
                 {selectedCourse.certificate_thumbnail
                   ? 'Sustituir'
                   : 'Seleccionar'}
               </Button>
+              {/* <Input
+                type='file'
+                name='certificate_thumbnail'
+                className={styles.buttonImage}
+                value={selectedCourse.certificate_thumbnail}
+                onChange={e => updateImage(e, 'certificate_thumbnail')}
+              >
+                Insertar imagen
+              </Input> */}
             </div>
             <div className={styles.diplomaDiv}>
               <div className={styles.imageDiploma}>

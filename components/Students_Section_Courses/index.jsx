@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { DataGrid, GridLinkOperator, esES } from '@mui/x-data-grid';
-import { Button } from '@mui/material';
+import { Alert, AlertTitle, Button, MenuItem } from '@mui/material';
 import Modal from './modal';
 import styles from './StudentsSectionCourses.module.css';
 import { useRouter } from 'next/router';
@@ -8,15 +8,24 @@ import moment from 'moment';
 import Link from 'next/link';
 import Image from 'next/image';
 import QuickSearchToolbar from '../Utils/searchbar';
+import localization from 'moment/locale/es';
+import axios from 'axios';
 
 export default function StudentsSectionCourses() {
+  moment.updateLocale('es', localization);
   const [open, setOpen] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+  const [loadingUserCourses, setLoadingUserCourses] = useState(true);
+  const [updateData, setUpdateData] = useState(false);
   const [courses, setCourses] = useState([]);
+  const [courseToRemove, setCourseToRemove] = useState({});
+  const [optionCourses, setOptionCourses] = useState([]);
+  const [select, setSelect] = useState('');
+  const [completedDate, setCompletedDate] = useState(
+    moment().format('YYYY-MM-DD')
+  );
   const { query, isReady } = useRouter();
-
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const API_HOST = process.env.API_HOST;
 
   const columns = [
     {
@@ -101,11 +110,8 @@ export default function StudentsSectionCourses() {
       headerAlign: 'center',
       align: 'center',
       width: 240,
-      renderCell: params => {
-        const click = e => {
-          console.log(params.row.id);
-        };
-        return (
+      renderCell: params => (
+        <>
           <div className={styles.buttonActions}>
             <Link
               href={{
@@ -115,23 +121,110 @@ export default function StudentsSectionCourses() {
                 }
               }}
             >
-              <Button variant='outlined'>Ver curso</Button>
+              <Button variant='outlined'>Ver</Button>
             </Link>
           </div>
-        );
-      }
+          <Button
+            data-id={params.row.id}
+            data-name={`${params.row.name} ${params.row.last_name}`}
+            onClick={showError}
+            variant='outlined'
+            className='warn'
+          >
+            Borrar
+          </Button>
+        </>
+      )
     }
   ];
 
-  useEffect(() => {
-    setLoading(true);
-    fetch(`${process.env.API_HOST}/coursesfromuser/${query.id}`)
-      .then(coursesList => coursesList.json())
-      .then(adaptedCourses => {
-        setCourses(adaptedCourses);
-        setLoading(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => {
+    setOpen(false);
+    setSelect('');
+  };
+  const updateDate = e => {
+    setCompletedDate(e.target.value);
+  };
+  const handleCourseToEnrollChange = event => {
+    setSelect(event.target.value);
+  };
+  const showError = e => {
+    setCourseToRemove({
+      id: e.target.dataset.id,
+      name: e.target.dataset.name
+    });
+    setError(true);
+  };
+  const hideError = () => {
+    setError(false);
+  };
+  const resetData = () => {
+    setCourses([]);
+    setOptionCourses([]);
+    setCompletedDate(moment().format('YYYY-MM-DD'));
+    handleClose();
+    setUpdateData(!updateData);
+  };
+
+  const handleSubmit = () => {
+    let data = {
+      user_id: query.id,
+      course_id: select,
+      date_completed: completedDate
+    };
+    axios
+      .post(`${API_HOST}/userscourses`, data)
+      .then(response => {
+        resetData();
+      })
+      .catch(function (error) {
+        console.log(error);
       });
-  }, []);
+  };
+  const handleRemoveCourse = () => {
+    axios
+      .delete(`${API_HOST}/userscourses/${query.id}/${courseToRemove.id}`)
+      .then(response => {
+        if (response.status === 200) {
+          resetData();
+          hideError();
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    axios
+      .get(`${API_HOST}/coursesfromuser/${query.id}`)
+      .then(coursesList => {
+        if (coursesList.data.length) {
+          setCourses(coursesList.data);
+        }
+        setLoadingUserCourses(false);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    axios
+      .get(`${API_HOST}/coursesnotfromuser/${query.id}`)
+      .then(response => {
+        let tags = [];
+        response.data.forEach(element => {
+          tags.push(
+            <MenuItem key={element.id} value={element.id}>
+              {element.id} - {element.title}
+            </MenuItem>
+          );
+        });
+        setOptionCourses(tags);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }, [updateData]);
 
   return (
     <div>
@@ -154,7 +247,7 @@ export default function StudentsSectionCourses() {
               }
             }
           }}
-          loading={loading}
+          loading={loadingUserCourses}
           components={{ Toolbar: QuickSearchToolbar }}
           sx={{ overflowX: 'scroll' }}
           disableSelectionOnClick
@@ -164,9 +257,35 @@ export default function StudentsSectionCourses() {
       <Modal
         handleClose={handleClose}
         open={open}
-        userId={query.id}
-        ready={isReady}
+        handleCourseToEnrollChange={handleCourseToEnrollChange}
+        handleSubmit={handleSubmit}
+        optionCourses={optionCourses}
+        select={select}
+        completedDate={completedDate}
+        updateDate={updateDate}
       />
+      <Alert
+        onClose={hideError}
+        severity='error'
+        className={`${error ? 'active' : ''}`}
+      >
+        <AlertTitle>¿Desea eliminar la matrícula para este curso?</AlertTitle>
+        <small className={styles.small}>{courseToRemove.title}</small>
+        <Button
+          variant='outlined'
+          className={styles.updateButton}
+          onClick={handleRemoveCourse}
+        >
+          Sí, eliminar
+        </Button>
+        <Button
+          variant='outlined'
+          className={styles.cancelButton}
+          onClick={hideError}
+        >
+          No, cancelar
+        </Button>
+      </Alert>
     </div>
   );
 }
