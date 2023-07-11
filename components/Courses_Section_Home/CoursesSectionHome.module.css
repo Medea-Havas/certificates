@@ -33,16 +33,6 @@
   font-size: var(--xs);
   margin-bottom: 0.25rem;
 }
-.menuitem {
-  text-transform: none;
-}
-.modalContainer {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 0.75rem 1.5rem;
-  flex-wrap: wrap;
-  margin-bottom: 1rem;
-}
 .fieldsTitle {
   display: flex;
   justify-content: space-between;
@@ -55,6 +45,9 @@
 }
 .marginTop {
   margin-top: 0.675rem;
+}
+.menuitem {
+  text-transform: none;
 }
 .modalBox {
   background-color: var(--white);
@@ -84,13 +77,17 @@
 .modalButtonsCont button {
   margin-left: 1rem;
 }
+.modalContainer {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem 1.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
 .modalTextField {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-}
-.modalTextField span {
-  color: red;
 }
 .modalTextField.file {
   justify-content: end;
@@ -105,6 +102,9 @@
   font-size: var(--xs);
   margin-bottom: 0.25rem;
   text-transform: uppercase;
+}
+.modalTextField span {
+  color: red;
 }
 .searcherField {
   display: flex;
@@ -138,9 +138,6 @@
 .templateItem:hover {
   background: #efefef;
 }
-.templateItem p {
-  font-size: var(--sm);
-}
 .templateItem button {
   background: white;
   border: 1px solid var(--steelbluelowlight);
@@ -157,6 +154,9 @@
   background: white;
   border: 1px solid var(--warn);
   color: var(--warn);
+}
+.templateItem p {
+  font-size: var(--sm);
 }
 .textarea {
   grid-column: span 2;

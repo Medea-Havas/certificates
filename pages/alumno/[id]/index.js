@@ -1,7 +1,6 @@
 import React from 'react';
 import StudentsSectionInfo from '../../../components/Students_Section_Info';
 import StudentsSectionCourses from '../../../components/Students_Section_Courses';
-import styles from '../../../styles/Course.module.css';
 import { useState } from 'react';
 import StudentsHeader from '../../../components/Students_Header';
 import { useRouter } from 'next/router';
@@ -14,7 +13,7 @@ export default function Student() {
 
   return (
     <>
-      <main className={`page ${styles.main}`}>
+      <main className='page'>
         <div>
           <StudentsHeader
             index={index}

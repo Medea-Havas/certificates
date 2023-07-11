@@ -1,7 +1,6 @@
 import React from 'react';
 import Head from 'next/head';
 import CoursesSectionHome from '../components/Courses_Section_Home';
-import styles from '../styles/Courses.module.css';
 
 export default function Courses() {
   return (

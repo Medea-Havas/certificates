@@ -46,6 +46,9 @@
   margin-bottom: 0.5rem;
   margin-top: 2rem;
 }
+.imageFile {
+  display: none;
+}
 .mwidth {
   max-width: 40rem;
 }

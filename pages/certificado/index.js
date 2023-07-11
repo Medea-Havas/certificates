@@ -1,4 +1,3 @@
-import Head from 'next/head';
 import { useRouter } from 'next/router';
 import React, { useEffect, useRef, useState } from 'react';
 import {
@@ -9,40 +8,40 @@ import {
   StyleSheet,
   PDFViewer,
   Image,
-  Font,
-  PDFDownloadLink,
-  usePDF
+  Font
 } from '@react-pdf/renderer';
+import { CircularProgress } from '@mui/material';
+import Head from 'next/head';
 import moment from 'moment';
 import localization from 'moment/locale/es';
 import styles from './Certificate.module.css';
-import { CircularProgress } from '@mui/material';
 import axios from 'axios';
 
 export default function Certificate() {
-  const [loading, setLoading] = useState(true);
-  const [studentCourse, setStudentCourse] = useState({});
   const [coords, setCoords] = useState([]);
-  const [pdfHeight, setPdfHeight] = useState(0);
   const [cvs, setCVS] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [pdfHeight, setPdfHeight] = useState(0);
   const [src, setSrc] = useState('');
+  const [studentCourse, setStudentCourse] = useState({});
+
   const { query, isReady } = useRouter();
   const ref = useRef(null);
 
   const API_HOST = process.env.API_HOST;
-  const TEMP_API_HOST = 'https://certificates-api.hhytest.com/public';
   const HOST = process.env.HOST;
+  const TEMP_API_HOST = 'https://certificates-api.hhytest.com/public';
   const userId = query.userId;
   const courseId = query.courseId;
+  moment.updateLocale('es', localization);
 
   const CryptoJS = require('crypto-js');
+
   const encryptWithAES = text => {
     const passphrase = 'integracion';
     const encrypted = CryptoJS.AES.encrypt(text, passphrase).toString();
     return encrypted.replaceAll('+', '-');
   };
-
-  moment.updateLocale('es', localization);
 
   Font.register({
     family: 'Helvetica',
@@ -133,9 +132,9 @@ export default function Certificate() {
       width: '100%'
     },
     pdfContent: {
-      position: 'absolute',
       fontFamily: 'Helvetica',
       left: 0,
+      position: 'absolute',
       top: 0,
       width: '100%'
     },
@@ -144,67 +143,67 @@ export default function Certificate() {
       zIndex: 4
     },
     name: {
+      fontSize: coords[0] ? coords[0][3] : 0,
+      left: coords[0] ? coords[0][1] : 0,
       position: 'absolute',
       top: coords[0] ? coords[0][0] - 5 : 0,
-      left: coords[0] ? coords[0][1] : 0,
-      width: coords[0] ? coords[0][2] : 0,
-      fontSize: coords[0] ? coords[0][3] : 0
+      width: coords[0] ? coords[0][2] : 0
     },
     file_number: {
+      fontSize: coords[1] ? coords[1][3] : 0,
+      left: coords[1] ? coords[1][1] : 0,
       position: 'absolute',
       top: coords[1] ? coords[1][0] - 5 : 0,
-      left: coords[1] ? coords[1][1] : 0,
-      width: coords[1] ? coords[1][2] : 0,
-      fontSize: coords[1] ? coords[1][3] : 0
+      width: coords[1] ? coords[1][2] : 0
     },
     date: {
+      fontSize: coords[2] ? coords[2][3] : 0,
+      left: coords[2] ? coords[2][1] : 0,
       position: 'absolute',
       top: coords[2] ? coords[2][0] - 5 : 0,
-      left: coords[2] ? coords[2][1] : 0,
-      width: coords[2] ? coords[2][2] : 0,
-      fontSize: coords[2] ? coords[2][3] : 0
+      width: coords[2] ? coords[2][2] : 0
     },
     credits: {
+      fontSize: coords[3] ? coords[3][3] : 0,
+      left: coords[3] ? coords[3][1] : 0,
       position: 'absolute',
       top: coords[3] ? coords[3][0] - 5 : 0,
-      left: coords[3] ? coords[3][1] : 0,
-      width: coords[3] ? coords[3][2] : 0,
-      fontSize: coords[3] ? coords[3][3] : 0
+      width: coords[3] ? coords[3][2] : 0
     },
     sec_name: {
+      fontSize: coords[4] ? coords[4][3] : 0,
+      left: coords[4] ? coords[4][1] : 0,
       position: 'absolute',
       top: coords[4] ? coords[4][0] : 0,
-      left: coords[4] ? coords[4][1] : 0,
-      width: coords[4] ? coords[4][2] : 0,
-      fontSize: coords[4] ? coords[4][3] : 0
+      width: coords[4] ? coords[4][2] : 0
     },
     sec_nif: {
+      fontSize: coords[5] ? coords[5][3] : 0,
+      left: coords[5] ? coords[5][1] : 0,
       position: 'absolute',
       top: coords[5] ? coords[5][0] : 0,
-      left: coords[5] ? coords[5][1] : 0,
-      width: coords[5] ? coords[5][2] : 0,
-      fontSize: coords[5] ? coords[5][3] : 0
+      width: coords[5] ? coords[5][2] : 0
     },
     sec_file_number: {
+      fontSize: coords[6] ? coords[6][3] : 0,
+      left: coords[6] ? coords[6][1] : 0,
       position: 'absolute',
       top: coords[6] ? coords[6][0] : 0,
-      left: coords[6] ? coords[6][1] : 0,
-      width: coords[6] ? coords[6][2] : 0,
-      fontSize: coords[6] ? coords[6][3] : 0
+      width: coords[6] ? coords[6][2] : 0
     },
     sec_credits: {
+      fontSize: coords[7] ? coords[7][3] : 0,
+      left: coords[7] ? coords[7][1] : 0,
       position: 'absolute',
       top: coords[7] ? coords[7][0] : 0,
-      left: coords[7] ? coords[7][1] : 0,
-      width: coords[7] ? coords[7][2] : 0,
-      fontSize: coords[7] ? coords[7][3] : 0
+      width: coords[7] ? coords[7][2] : 0
     },
     sec_hours: {
+      fontSize: coords[8] ? coords[8][3] : 0,
+      left: coords[8] ? coords[8][1] : 0,
       position: 'absolute',
       top: coords[8] ? coords[8][0] : 0,
-      left: coords[8] ? coords[8][1] : 0,
-      width: coords[8] ? coords[8][2] : 0,
-      fontSize: coords[8] ? coords[8][3] : 0
+      width: coords[8] ? coords[8][2] : 0
     }
   });
 

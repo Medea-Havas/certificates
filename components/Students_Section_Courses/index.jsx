@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { DataGrid, GridLinkOperator, esES } from '@mui/x-data-grid';
 import { Alert, AlertTitle, Button, MenuItem } from '@mui/material';
+import { useRouter } from 'next/router';
 import Modal from './modal';
 import styles from './StudentsSectionCourses.module.css';
-import { useRouter } from 'next/router';
 import moment from 'moment';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -12,20 +12,22 @@ import localization from 'moment/locale/es';
 import axios from 'axios';
 
 export default function StudentsSectionCourses() {
-  moment.updateLocale('es', localization);
-  const [open, setOpen] = useState(false);
-  const [error, setError] = useState(false);
-  const [loadingUserCourses, setLoadingUserCourses] = useState(true);
-  const [updateData, setUpdateData] = useState(false);
-  const [courses, setCourses] = useState([]);
-  const [courseToRemove, setCourseToRemove] = useState({});
-  const [optionCourses, setOptionCourses] = useState([]);
-  const [select, setSelect] = useState('');
   const [completedDate, setCompletedDate] = useState(
     moment().format('YYYY-MM-DD')
   );
+  const [courses, setCourses] = useState([]);
+  const [courseToRemove, setCourseToRemove] = useState({});
+  const [error, setError] = useState(false);
+  const [loadingUserCourses, setLoadingUserCourses] = useState(true);
+  const [open, setOpen] = useState(false);
+  const [optionCourses, setOptionCourses] = useState([]);
+  const [select, setSelect] = useState('');
+  const [updateData, setUpdateData] = useState(false);
+
   const { query, isReady } = useRouter();
+
   const API_HOST = process.env.API_HOST;
+  moment.updateLocale('es', localization);
 
   const columns = [
     {
@@ -83,22 +85,22 @@ export default function StudentsSectionCourses() {
     },
     {
       headerName: 'Imagen',
-      field: 'imagen',
+      field: 'certificate_thumbnail',
       sortable: false,
       headerAlign: 'center',
       align: 'center',
       minWidth: 100,
       flex: 1,
       renderCell: params => {
-        const onClick = e => {};
         return (
           <Image
-            src={'/pexels.jpeg'}
             alt='Picture of the author'
-            width={100}
             height={100}
-            // blurDataURL="data:..." automatically provided
-            // placeholder="blur" // Optional blur-up while loading
+            src={
+              `${process.env.API_HOST}/assets/certificates/${params.value}` ||
+              './noimage.png'
+            }
+            width={100}
           />
         );
       }
@@ -138,35 +140,27 @@ export default function StudentsSectionCourses() {
     }
   ];
 
-  const handleOpen = () => setOpen(true);
   const handleClose = () => {
     setOpen(false);
     setSelect('');
   };
-  const updateDate = e => {
-    setCompletedDate(e.target.value);
-  };
   const handleCourseToEnrollChange = event => {
     setSelect(event.target.value);
   };
-  const showError = e => {
-    setCourseToRemove({
-      id: e.target.dataset.id,
-      name: e.target.dataset.name
-    });
-    setError(true);
+  const handleOpen = () => setOpen(true);
+  const handleRemoveCourse = () => {
+    axios
+      .delete(`${API_HOST}/userscourses/${query.id}/${courseToRemove.id}`)
+      .then(response => {
+        if (response.status === 200) {
+          resetData();
+          hideError();
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   };
-  const hideError = () => {
-    setError(false);
-  };
-  const resetData = () => {
-    setCourses([]);
-    setOptionCourses([]);
-    setCompletedDate(moment().format('YYYY-MM-DD'));
-    handleClose();
-    setUpdateData(!updateData);
-  };
-
   const handleSubmit = () => {
     let data = {
       user_id: query.id,
@@ -182,18 +176,25 @@ export default function StudentsSectionCourses() {
         console.log(error);
       });
   };
-  const handleRemoveCourse = () => {
-    axios
-      .delete(`${API_HOST}/userscourses/${query.id}/${courseToRemove.id}`)
-      .then(response => {
-        if (response.status === 200) {
-          resetData();
-          hideError();
-        }
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+  const hideError = () => {
+    setError(false);
+  };
+  const showError = e => {
+    setCourseToRemove({
+      id: e.target.dataset.id,
+      name: e.target.dataset.name
+    });
+    setError(true);
+  };
+  const resetData = () => {
+    setCourses([]);
+    setOptionCourses([]);
+    setCompletedDate(moment().format('YYYY-MM-DD'));
+    handleClose();
+    setUpdateData(!updateData);
+  };
+  const updateDate = e => {
+    setCompletedDate(e.target.value);
   };
 
   useEffect(() => {
@@ -236,9 +237,10 @@ export default function StudentsSectionCourses() {
       </div>
       <div className={styles.table}>
         <DataGrid
+          autoPageSize
           columns={columns}
-          rows={courses}
-          rowHeight={120}
+          components={{ Toolbar: QuickSearchToolbar }}
+          disableSelectionOnClick
           initialState={{
             filter: {
               filterModel: {
@@ -248,40 +250,43 @@ export default function StudentsSectionCourses() {
             }
           }}
           loading={loadingUserCourses}
-          components={{ Toolbar: QuickSearchToolbar }}
+          localeText={{
+            localeText: esES.components.MuiDataGrid.defaultProps.localeText,
+            noRowsLabel: 'Todavía no está matriculado en ningún curso'
+          }}
+          rowHeight={80}
+          rows={courses}
           sx={{ overflowX: 'scroll' }}
-          disableSelectionOnClick
-          localeText={esES.components.MuiDataGrid.defaultProps.localeText}
         />
       </div>
       <Modal
+        completedDate={completedDate}
         handleClose={handleClose}
-        open={open}
         handleCourseToEnrollChange={handleCourseToEnrollChange}
         handleSubmit={handleSubmit}
+        open={open}
         optionCourses={optionCourses}
         select={select}
-        completedDate={completedDate}
         updateDate={updateDate}
       />
       <Alert
+        className={`${error ? 'active' : ''}`}
         onClose={hideError}
         severity='error'
-        className={`${error ? 'active' : ''}`}
       >
         <AlertTitle>¿Desea eliminar la matrícula para este curso?</AlertTitle>
         <small className={styles.small}>{courseToRemove.title}</small>
         <Button
-          variant='outlined'
           className={styles.updateButton}
           onClick={handleRemoveCourse}
+          variant='outlined'
         >
           Sí, eliminar
         </Button>
         <Button
-          variant='outlined'
           className={styles.cancelButton}
           onClick={hideError}
+          variant='outlined'
         >
           No, cancelar
         </Button>

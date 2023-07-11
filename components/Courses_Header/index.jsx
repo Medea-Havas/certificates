@@ -1,6 +1,6 @@
-import { Breadcrumbs, Button, Link, Typography } from '@mui/material';
-import styles from './CoursesHeader.module.css';
+import { Breadcrumbs, Button, Link } from '@mui/material';
 import { useEffect, useState } from 'react';
+import styles from './CoursesHeader.module.css';
 
 export default function CoursesHeader({ handleIndex, index, paramId }) {
   const [title, setTitle] = useState('');
@@ -21,6 +21,7 @@ export default function CoursesHeader({ handleIndex, index, paramId }) {
       }, 300);
     }
   }, []);
+
   return (
     <div className={styles.main}>
       <div className={styles.coursesRoute}>

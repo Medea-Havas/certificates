@@ -3,22 +3,22 @@ import { Box } from '@mui/system';
 import styles from './StudentsSectionCourses.module.css';
 
 export default function StudentsCoursesModal({
-  handleCourseToEnrollChange,
+  completedDate,
   handleClose,
+  handleCourseToEnrollChange,
   handleSubmit,
   open,
   optionCourses,
   select,
-  completedDate,
   updateDate
 }) {
   return (
     <Modal
+      aria-describedby='modal-modal-description'
+      aria-labelledby='modal-modal-title'
       id='modal'
       open={open}
       onClose={handleClose}
-      aria-labelledby='modal-modal-title'
-      aria-describedby='modal-modal-description'
     >
       <Box className={styles.modalBox}>
         <p className={styles.title}>Matricular en curso</p>
@@ -27,22 +27,22 @@ export default function StudentsCoursesModal({
             <p>Seleccione un curso</p>
             <FormControl fullWidth>
               <Select
+                label='Course'
                 labelId='demo-simple-select-label'
                 id='demo-simple-select'
-                value={select}
-                label='Course'
                 onChange={handleCourseToEnrollChange}
                 styles={styles.controlLabel}
+                value={select}
               >
                 {optionCourses}
               </Select>
               <div className={styles.modalTextField}>
                 <p>Fecha curso completado</p>
                 <TextField
-                  variant='outlined'
+                  onChange={e => updateDate(e)}
                   type='date'
                   value={completedDate}
-                  onChange={e => updateDate(e)}
+                  variant='outlined'
                 />
               </div>
             </FormControl>
@@ -50,16 +50,16 @@ export default function StudentsCoursesModal({
         </div>
         <div className={styles.modalButtonsCont}>
           <Button
-            variant='contained'
             className={`${styles.modalButton} alt`}
             onClick={handleClose}
+            variant='contained'
           >
             Cancelar
           </Button>
           <Button
-            variant='contained'
             className={styles.modalButton}
             onClick={handleSubmit}
+            variant='contained'
           >
             Aceptar
           </Button>

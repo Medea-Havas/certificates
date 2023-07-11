@@ -2,12 +2,14 @@ import { useEffect, useState } from 'react';
 import { CircularProgress } from '@mui/material';
 import { useRouter } from 'next/router';
 import styles from './HomeSectionStats.module.css';
+import moment from 'moment';
 import axios from 'axios';
 
 export default function HomeSectionStats() {
-  const [stats, setStats] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [stats, setStats] = useState([]);
+
   const { isReady } = useRouter();
 
   useEffect(() => {
@@ -48,7 +50,7 @@ export default function HomeSectionStats() {
               <div className={styles.centeredCont}>
                 <p className='mb1 typeL'>Total Cursos</p>
                 {stats.totals.map(totals => (
-                  <p key={totals.courses} className='typeXL'>
+                  <p className='typeXL' key={totals.courses}>
                     {totals.courses}
                   </p>
                 ))}
@@ -60,11 +62,13 @@ export default function HomeSectionStats() {
                 .slice(0)
                 .reverse()
                 .map(stat => (
-                  <div key={stat.id} className='mb1-2'>
+                  <div className='mb1-2' key={stat.id}>
                     <p className='type'>{stat.title}</p>
                     <p className='typeS'>
-                      {stat.date_created}
-                      {stat.date_modified ? ' | (mod. ' + stat.date + ')' : ''}
+                      {moment(stat.date_created).format('L LT')}
+                      {stat.date_modified
+                        ? ' | (mod. ' + moment(stat.date).format('L LT') + ')'
+                        : ''}
                     </p>
                   </div>
                 ))}
@@ -75,7 +79,7 @@ export default function HomeSectionStats() {
               <div className={styles.centeredCont}>
                 <p className='mb1 typeL'>Total Alumnos</p>
                 {stats.totals.map(totals => (
-                  <p key={totals.users} className='typeXL'>
+                  <p className='typeXL' key={totals.users}>
                     {totals.users}
                   </p>
                 ))}
@@ -87,11 +91,13 @@ export default function HomeSectionStats() {
                 .slice(0)
                 .reverse()
                 .map(stat => (
-                  <div key={stat.id} className='mb1-2'>
+                  <div className='mb1-2' key={stat.id}>
                     <p className='type'>{stat.name}</p>
                     <p className='typeS'>
-                      {stat.date_created}
-                      {stat.date_modified ? ' | (mod. ' + stat.date + ')' : ''}
+                      {moment(stat.date_created).format('L LT')}
+                      {stat.date_modified
+                        ? ' | (mod. ' + moment(stat.date).format('L LT') + ')'
+                        : ''}
                     </p>
                   </div>
                 ))}

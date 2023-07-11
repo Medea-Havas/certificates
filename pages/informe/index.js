@@ -1,16 +1,17 @@
-import Head from 'next/head';
-import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
-import styles from './Informe.module.css';
+import { useRouter } from 'next/router';
 import { ReactSVG } from 'react-svg';
 import { CircularProgress } from '@mui/material';
+import Head from 'next/head';
+import styles from './Informe.module.css';
 import moment from 'moment';
 import localization from 'moment/locale/es';
 
 export default function Report() {
-  const { query, isReady } = useRouter();
-  const [loading, setLoading] = useState(true);
   const [info, setInfo] = useState({});
+  const [loading, setLoading] = useState(true);
+
+  const { query, isReady } = useRouter();
 
   const cvs = query.cvs;
   const CryptoJS = require('crypto-js');

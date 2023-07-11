@@ -1,7 +1,6 @@
-import '../styles/globals.css'
-import '../styles/mui-override.css'
-import '../styles/transition.css'
-import Layout from '../components/Layout/index'
+import '../styles/globals.css';
+import '../styles/mui-override.css';
+import Layout from '../components/Layout/index';
 
 export default function App({ Component, pageProps }) {
   return (
@@ -10,5 +9,5 @@ export default function App({ Component, pageProps }) {
         <Component {...pageProps} />
       </Layout>
     </>
-  )
+  );
 }

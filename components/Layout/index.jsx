@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import MainContent from '../MainContent/index';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import styles from './Layout.module.css';
 import { theme } from '../../utils/theme';
+import MainContent from '../MainContent/index';
+import styles from './Layout.module.css';
 
 const themeCreated = createTheme(theme);
 

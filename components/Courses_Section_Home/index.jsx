@@ -1,7 +1,6 @@
 import {
   Alert,
   AlertTitle,
-  Box,
   Button,
   CircularProgress,
   Link,
@@ -13,8 +12,7 @@ import {
   esES,
   GridToolbar
 } from '@mui/x-data-grid';
-import { useEffect } from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './CoursesSectionHome.module.css';
 import CoursesModal from './modal';
 import moment from 'moment';
@@ -25,25 +23,25 @@ import TemplateModal from './templatemodal';
 import axios from 'axios';
 
 export default function CoursesSectionHome() {
+  const [arrayTemplates, setArrayTemplates] = useState([]);
+  const [courses, setCourses] = useState([]);
+  const [courseIdToRemove, setCourseIdToRemove] = useState(0);
+  const [courseTitleToRemove, setCourseTitleToRemove] = useState('');
+  const [coursesToUpdate, setCoursesToUpdate] = useState([]);
+  const [error, setError] = useState(false);
+  const [listItems, setListItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [ncCourse, setNCCourse] = useState({});
   const [open, setOpen] = useState(false);
   const [open2, setOpen2] = useState(false);
-  const [courses, setCourses] = useState([]);
-  const [templates, setTemplates] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
-  const [warning, setWarning] = useState(false);
-  const [updateData, setUpdateData] = useState(false);
-  const [courseTitleToRemove, setCourseTitleToRemove] = useState('');
-  const [courseIdToRemove, setCourseIdToRemove] = useState(0);
-  const [coursesToUpdate, setCoursesToUpdate] = useState([]);
   const [resetCourses, setResetCourses] = useState(false);
-  const [ncCourse, setNCCourse] = useState({});
-  const [arrayTemplates, setArrayTemplates] = useState([]);
-  const API_HOST = process.env.API_HOST;
-  const [listItems, setListItems] = useState([]);
   const [template, setTemplate] = useState({});
+  const [templates, setTemplates] = useState([]);
   const [templatesLoaded, setTemplatesLoaded] = useState(false);
+  const [updateData, setUpdateData] = useState(false);
   const [updateId, setUpdateId] = useState(-1);
+  const [warning, setWarning] = useState(false);
+  const API_HOST = process.env.API_HOST;
   moment.updateLocale('es', localization);
 
   const columns = [
@@ -115,16 +113,15 @@ export default function CoursesSectionHome() {
       minWidth: 100,
       flex: 1,
       renderCell: params => {
-        const onClick = e => {};
         return (
           <Image
+            alt='Certificate thumbnail'
+            height={100}
             src={
               `${process.env.API_HOST}/assets/certificates/${params.value}` ||
               './noimage.png'
             }
-            alt='Certificate thumbnail'
             width={100}
-            height={100}
           />
         );
       }
@@ -145,11 +142,11 @@ export default function CoursesSectionHome() {
               <Button variant='outlined'>Ver</Button>
             </Link>
             <Button
+              className='warn'
               data-id={`${params.row.id}`}
               data-title={`${params.row.title}`}
               onClick={removeCourse}
               variant='outlined'
-              className='warn'
             >
               Borrar
             </Button>
@@ -158,82 +155,6 @@ export default function CoursesSectionHome() {
       }
     }
   ];
-
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-  const handleOpen2 = () => setOpen2(true);
-  const handleClose2 = () => setOpen2(false);
-
-  const removeCourse = e => {
-    setCourseIdToRemove(e.target.dataset.id);
-    setCourseTitleToRemove(e.target.dataset.title);
-    setError(true);
-  };
-  const hideError = () => setError(false);
-  const showWarning = e => {
-    setCourseToRemove(e.target.dataset.id);
-    setWarning(true);
-  };
-  const hideWarning = () => setWarning(false);
-  const hideWarningAndReset = () => {
-    sessionStorage.removeItem('courses');
-    setWarning(false);
-    setCoursesToUpdate([]);
-    setUpdateData(!updateData);
-  };
-  const handleRemoveCourse = () => {
-    axios
-      .delete(`${API_HOST}/courses/${courseIdToRemove}`)
-      .then(response => {
-        if (response.status === 200) {
-          sessionStorage.setItem('courses', []);
-          setNCCourse({});
-          setCourseIdToRemove(0);
-          setCourseTitleToRemove('');
-          setError(false);
-          setUpdateData(!updateData);
-        }
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  };
-  const updateCourse = newRow => {
-    const updatedRow = { ...newRow, isNew: false };
-    var index = -1;
-    for (var i = 0; i < coursesToUpdate.length; i++) {
-      if (coursesToUpdate[i].id == newRow.id) {
-        index = i;
-      }
-    }
-    if (index == -1) {
-      setCoursesToUpdate([...coursesToUpdate, newRow]);
-    } else {
-      const newArray = [...coursesToUpdate];
-      newArray.splice(index, 1, newRow);
-      setCoursesToUpdate(newArray);
-    }
-    setWarning(true);
-    return updatedRow;
-  };
-  const updateChanges = () => {
-    coursesToUpdate.forEach((value, index) => {
-      axios
-        .patch(`${API_HOST}/courses/${value.id}`, value)
-        .then(response => {
-          if (response.status === 200) {
-            console.log('Course with id ' + value.id + ' was updated');
-          }
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    });
-    hideWarningAndReset();
-  };
-  const removeAccents = str => {
-    return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-  };
 
   const arrayTemplateFunction = () => {
     if (!arrayTemplates.length) {
@@ -253,7 +174,6 @@ export default function CoursesSectionHome() {
       setArrayTemplates(arrayTemplates);
     }
   };
-
   const displayListItems = () => {
     let tmp = JSON.parse(sessionStorage.getItem('templates'));
     if (!templates) {
@@ -289,18 +209,78 @@ export default function CoursesSectionHome() {
     setListItems(lis);
     arrayTemplateFunction();
     setTemplatesLoaded(true);
-    console.log('Templates loaded');
   };
-
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const handleOpen2 = () => setOpen2(true);
+  const handleClose2 = () => setOpen2(false);
+  const handleRemoveCourse = () => {
+    axios
+      .delete(`${API_HOST}/courses/${courseIdToRemove}`)
+      .then(response => {
+        if (response.status === 200) {
+          sessionStorage.setItem('courses', []);
+          setNCCourse({});
+          setCourseIdToRemove(0);
+          setCourseTitleToRemove('');
+          setError(false);
+          setUpdateData(!updateData);
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+  const hideError = () => setError(false);
+  const hideWarning = () => setWarning(false);
+  const hideWarningAndReset = () => {
+    sessionStorage.removeItem('courses');
+    setWarning(false);
+    setCoursesToUpdate([]);
+    setUpdateData(!updateData);
+  };
+  const removeCourse = e => {
+    setCourseIdToRemove(e.target.dataset.id);
+    setCourseTitleToRemove(e.target.dataset.title);
+    setError(true);
+  };
+  const updateChanges = () => {
+    coursesToUpdate.forEach((value, index) => {
+      axios
+        .patch(`${API_HOST}/courses/${value.id}`, value)
+        .then(response => {
+          if (response.status === 200) {
+            console.log('Course with id ' + value.id + ' was updated');
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    });
+    hideWarningAndReset();
+  };
+  const updateCourse = newRow => {
+    const updatedRow = { ...newRow, isNew: false };
+    var index = -1;
+    for (var i = 0; i < coursesToUpdate.length; i++) {
+      if (coursesToUpdate[i].id == newRow.id) {
+        index = i;
+      }
+    }
+    if (index == -1) {
+      setCoursesToUpdate([...coursesToUpdate, newRow]);
+    } else {
+      const newArray = [...coursesToUpdate];
+      newArray.splice(index, 1, newRow);
+      setCoursesToUpdate(newArray);
+    }
+    setWarning(true);
+    return updatedRow;
+  };
   const updateTemplate = (id, title, coords) => {
     setTemplate({ id: id, title: title, coords: coords });
     setUpdateId(id);
-    // console.log(index);
-    // console.log(title);
-    // console.log(coords);
-    // console.log(template);
   };
-
   const removeTemplate = index => {
     axios
       .delete(`${API_HOST}/templates/${index}`)
@@ -342,7 +322,6 @@ export default function CoursesSectionHome() {
       displayListItems();
     };
     if (!sessionStorage.getItem('templates')) {
-      console.log('sessionStorage NO');
       fetchTemplates().catch(console.error);
     } else {
       displayListItems();
@@ -369,13 +348,13 @@ export default function CoursesSectionHome() {
         ) : (
           <div className={styles.table}>
             <DataGrid
-              getRowId={row => row.id}
+              autoPageSize
               columns={columns}
-              rows={courses}
-              rowHeight={80}
+              components={{ Toolbar: QuickSearchToolbar }}
+              disableSelectionOnClick
               editMode='row'
-              processRowUpdate={updateCourse}
               experimentalFeatures={{ newEditingApi: true }}
+              getRowId={row => row.id}
               initialState={{
                 filter: {
                   filterModel: {
@@ -384,13 +363,17 @@ export default function CoursesSectionHome() {
                   }
                 }
               }}
-              slots={{ toolbar: GridToolbar }}
               loading={loading}
-              components={{ Toolbar: QuickSearchToolbar }}
-              sx={{ overflowX: 'scroll' }}
-              disableSelectionOnClick
-              localeText={esES.components.MuiDataGrid.defaultProps.localeText}
+              localeText={{
+                localeText: esES.components.MuiDataGrid.defaultProps.localeText,
+                noRowsLabel: 'Todavía no hay cursos disponibles. ¡Crea uno!'
+              }}
               onProcessRowUpdateError={error => console.warn(error)}
+              processRowUpdate={updateCourse}
+              rowHeight={80}
+              rows={courses}
+              slots={{ toolbar: GridToolbar }}
+              sx={{ overflowX: 'scroll' }}
             />
           </div>
         )}
@@ -399,41 +382,38 @@ export default function CoursesSectionHome() {
         <CircularProgress />
       ) : (
         <CoursesModal
-          open={open}
           handleClose={handleClose}
           ncCourse={ncCourse}
-          setNCCourse={setNCCourse}
-          setCourses={setCourses}
+          open={open}
           resetCourses={resetCourses}
-          templates={arrayTemplates}
+          setCourses={setCourses}
+          setNCCourse={setNCCourse}
           setUpdateData={setUpdateData}
+          templates={arrayTemplates}
           updateData={updateData}
         />
       )}
       {templatesLoaded ? (
         <TemplateModal
-          open={open2}
           handleClose={handleClose2}
-          updateData={updateData}
-          setUpdateData={setUpdateData}
-          setArrayTemplates={setArrayTemplates}
-          templates={templates}
-          setTemplates={setTemplates}
-          template={template}
-          setTemplate={setTemplate}
           listItems={listItems}
-          setListItems={setListItems}
+          open={open2}
+          updateData={updateData}
+          setArrayTemplates={setArrayTemplates}
+          setUpdateData={setUpdateData}
+          setTemplate={setTemplate}
+          setUpdateId={setUpdateId}
+          template={template}
           templatesLoaded={templatesLoaded}
           updateId={updateId}
-          setUpdateId={setUpdateId}
         />
       ) : (
         ''
       )}
       <Alert
+        className={`${warning ? 'active' : ''}`}
         onClose={hideWarning}
         severity='warning'
-        className={`${warning ? 'active' : ''}`}
       >
         <AlertTitle>Cambios detectados</AlertTitle>
         <ul className={styles.changesList}>
@@ -459,25 +439,25 @@ export default function CoursesSectionHome() {
         </Button>
       </Alert>
       <Alert
+        className={`${error ? 'active' : ''}`}
         onClose={hideError}
         severity='error'
-        className={`${error ? 'active' : ''}`}
       >
         <AlertTitle>¿Desea eliminar este curso?</AlertTitle>
         <small className={styles.small}>
           {courseTitleToRemove} (id:{courseIdToRemove})
         </small>
         <Button
-          variant='outlined'
           className={styles.updateButton}
           onClick={handleRemoveCourse}
+          variant='outlined'
         >
           Sí, eliminar
         </Button>
         <Button
-          variant='outlined'
           className={styles.cancelButton}
           onClick={hideError}
+          variant='outlined'
         >
           No, cancelar
         </Button>

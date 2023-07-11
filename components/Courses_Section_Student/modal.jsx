@@ -1,35 +1,29 @@
 import {
   Button,
-  Input,
   TextField,
   Modal,
-  Select,
   CircularProgress,
   Autocomplete
 } from '@mui/material';
-import { TextareaAutosize } from '@mui/base';
 import { Box } from '@mui/system';
 import styles from './CoursesSectionStudent.module.css';
 import React from 'react';
 
 export default function EnrollStudentModal({
+  arrayStudentsNotEnrolled,
   handleEnrollStudent,
   hideStudentModal,
-  openStudentModal,
-  studentToEnroll,
-  setStudentToEnroll,
-  studentsNotEnrolled,
-  arrayStudentsNotEnrolled,
   loadingStudentsNotEnrolled,
+  openStudentModal,
   studentToEnrollChange
 }) {
   return (
     <Modal
+      aria-describedby='modal-modal-description'
+      aria-labelledby='modal-modal-title'
       id='modal'
       open={openStudentModal}
       onClose={hideStudentModal}
-      aria-labelledby='modal-modal-title'
-      aria-describedby='modal-modal-description'
     >
       <Box className={styles.modalBox}>
         <p className={styles.title}>Matricular alumno</p>
@@ -39,41 +33,34 @@ export default function EnrollStudentModal({
               <CircularProgress />
             ) : (
               <Autocomplete
-                id='enrollStudent'
-                options={arrayStudentsNotEnrolled}
                 autoComplete
+                id='enrollStudent'
                 includeInputInList
+                onChange={(e, val) => studentToEnrollChange(e, val)}
+                options={arrayStudentsNotEnrolled}
                 renderInput={params => (
                   <TextField
                     {...params}
                     label='Alumnos*'
-                    variant='standard'
                     value={params.value || 'novalue'}
+                    variant='standard'
                   />
                 )}
-                onChange={(e, val) => studentToEnrollChange(e, val)}
               />
-              // <Select
-              //   value={studentToEnroll}
-              //   onChange={e => setStudentToEnroll(parseInt(e.target.value))}
-              //   styles={styles.controlLabel}
-              // >
-              //   {arrayStudentsNotEnrolled}
-              // </Select>
             )}
           </div>
           <div className={styles.modalButtonsCont}>
             <Button
-              variant='contained'
               className={`${styles.modalButton} alt`}
               onClick={hideStudentModal}
+              variant='contained'
             >
               Cancelar
             </Button>
             <Button
-              variant='contained'
               className={styles.modalButton}
               onClick={handleEnrollStudent}
+              variant='contained'
             >
               Aceptar
             </Button>

@@ -8,27 +8,38 @@ import React from 'react';
 
 export default function CoursesModal({
   handleClose,
-  open,
   ncCourse,
-  setNCCourse,
+  open,
   setCourses,
-  templates,
+  setNCCourse,
   setUpdateData,
+  templates,
   updateData
 }) {
   const API_HOST = process.env.API_HOST;
-  const [select, setSelect] = useState('');
-  const [thumb, setThumb] = useState({});
   const [img1, setImg1] = useState({});
   const [img2, setImg2] = useState({});
-  const [reqTitle, setReqTitle] = useState(true);
-  const [reqFileNumber, setReqFileNumber] = useState(true);
-  const [reqCredits, setReqCredits] = useState(true);
-  const [reqTemplate, setReqTemplate] = useState(true);
-  const [reqCertThumb, setCertThumb] = useState(true);
   const [reqCertImage, setCertImage] = useState(true);
+  const [reqCertThumb, setCertThumb] = useState(true);
+  const [reqCredits, setReqCredits] = useState(true);
+  const [reqFileNumber, setReqFileNumber] = useState(true);
+  const [reqTemplate, setReqTemplate] = useState(true);
+  const [reqTitle, setReqTitle] = useState(true);
+  const [select, setSelect] = useState('');
+  const [thumb, setThumb] = useState({});
 
-  function handleSubmit() {
+  const checkRequired = () => {
+    setReqTitle(ncCourse.title);
+    setReqFileNumber(ncCourse.file_number);
+    setReqCredits(ncCourse.credits);
+    setReqTemplate(ncCourse.template);
+    setCertThumb(ncCourse.certificate_thumbnail);
+    setCertImage(ncCourse.certificate_image);
+    return (
+      reqTitle && reqFileNumber && reqCredits && reqCertThumb && reqCertImage
+    );
+  };
+  const handleSubmit = () => {
     if (checkRequired()) {
       let tempData = new FormData();
       tempData.append('title', ncCourse.title);
@@ -66,20 +77,7 @@ export default function CoursesModal({
           console.log(error);
         });
     }
-  }
-
-  function checkRequired() {
-    setReqTitle(ncCourse.title);
-    setReqFileNumber(ncCourse.file_number);
-    setReqCredits(ncCourse.credits);
-    setReqTemplate(ncCourse.template);
-    setCertThumb(ncCourse.certificate_thumbnail);
-    setCertImage(ncCourse.certificate_image);
-    return (
-      reqTitle && reqFileNumber && reqCredits && reqCertThumb && reqCertImage
-    );
-  }
-
+  };
   const updateField = (e, field) => {
     setNCCourse(prevState => ({
       ...prevState,
@@ -104,11 +102,11 @@ export default function CoursesModal({
 
   return (
     <Modal
-      id='modal'
-      open={open}
-      onClose={handleClose}
-      aria-labelledby='modal-modal-title'
       aria-describedby='modal-modal-description'
+      aria-labelledby='modal-modal-title'
+      id='modal'
+      onClose={handleClose}
+      open={open}
     >
       <Box className={styles.modalBox}>
         <p className={styles.title}>Nuevo curso</p>
@@ -119,53 +117,53 @@ export default function CoursesModal({
             </p>
             <TextField
               error={reqTitle ? false : true}
+              onChange={e => updateField(e, 'title')}
               variant='outlined'
               value={ncCourse.title}
-              onChange={e => updateField(e, 'title')}
             />
           </div>
           <div className={styles.modalTextField}>
             <p>Tutor(es)</p>
             <TextField
-              variant='outlined'
-              value={ncCourse.tutors}
               onChange={e => updateField(e, 'tutors')}
+              value={ncCourse.tutors}
+              variant='outlined'
             />
           </div>
           <div className={styles.modalTextField}>
             <p>Fecha de inicio</p>
             <TextField
-              variant='outlined'
+              onChange={e => updateField(e, 'date_init')}
               type='date'
               value={ncCourse.date_init}
-              onChange={e => updateField(e, 'date_init')}
+              variant='outlined'
             />
           </div>
           <div className={styles.modalTextField}>
             <p>Fecha de fin</p>
             <TextField
-              variant='outlined'
+              onChange={e => updateField(e, 'date_end')}
               type='date'
               value={ncCourse.date_end}
-              onChange={e => updateField(e, 'date_end')}
+              variant='outlined'
             />
           </div>
           <div className={styles.modalTextField}>
             <p>Ciudad</p>
             <TextField
-              variant='outlined'
-              value={ncCourse.city}
               onChange={e => updateField(e, 'city')}
+              value={ncCourse.city}
+              variant='outlined'
             />
           </div>
           <div className={styles.modalTextField}>
             <p>Horas</p>
             <TextField
+              inputProps={{ min: 0 }}
+              onChange={e => updateField(e, 'hours')}
+              value={ncCourse.hours}
               variant='outlined'
               type='number'
-              inputProps={{ min: 0 }}
-              value={ncCourse.hours}
-              onChange={e => updateField(e, 'hours')}
             />
           </div>
           <div className={styles.modalTextField}>
@@ -174,11 +172,11 @@ export default function CoursesModal({
             </p>
             <TextField
               error={reqCredits ? false : true}
-              variant='outlined'
-              type='number'
               inputProps={{ min: 0 }}
-              value={ncCourse.credits}
               onChange={e => updateField(e, 'credits')}
+              type='number'
+              value={ncCourse.credits}
+              variant='outlined'
             />
           </div>
           <div className={styles.modalTextField}>
@@ -187,25 +185,25 @@ export default function CoursesModal({
             </p>
             <TextField
               error={reqFileNumber ? false : true}
+              onChange={e => updateField(e, 'file_number')}
               variant='outlined'
               value={ncCourse.file_number}
-              onChange={e => updateField(e, 'file_number')}
             />
           </div>
           <div className={styles.modalTextField}>
             <p>Acreditado por</p>
             <TextField
-              variant='outlined'
-              value={ncCourse.accredited_by}
               onChange={e => updateField(e, 'accredited_by')}
+              value={ncCourse.accredited_by}
+              variant='outlined'
             />
           </div>
           <div className={styles.modalTextField}>
             <p>Entidad acreditadora</p>
             <TextField
-              variant='outlined'
-              value={ncCourse.accrediting_entity}
               onChange={e => updateField(e, 'accrediting_entity')}
+              value={ncCourse.accrediting_entity}
+              variant='outlined'
             />
           </div>
           <div className={`${styles.modalTextField} ${styles.textarea}`}>
@@ -213,9 +211,9 @@ export default function CoursesModal({
             <TextareaAutosize
               className={styles.taBorder}
               minRows='4'
-              variant='outlined'
-              value={ncCourse.content}
               onChange={e => updateField(e, 'content')}
+              value={ncCourse.content}
+              variant='outlined'
             />
           </div>
           <div className={styles.modalTextField}>
@@ -224,9 +222,9 @@ export default function CoursesModal({
             </p>
             <Select
               error={reqTemplate ? false : true}
-              value={select.toString()}
               onChange={e => setSelect(parseInt(e.target.value))}
               styles={styles.controlLabel}
+              value={select.toString()}
             >
               {templates}
             </Select>
@@ -236,12 +234,12 @@ export default function CoursesModal({
               Miniatura del certificado<span>*</span>
             </p>
             <Input
-              error={reqCertThumb ? false : true}
-              type='file'
-              name='certificate_thumbnail'
               className={styles.imageButton}
-              value={ncCourse.certificate_thumbnail}
+              error={reqCertThumb ? false : true}
+              name='certificate_thumbnail'
               onChange={e => updateImage(e, 'certificate_thumbnail')}
+              type='file'
+              value={ncCourse.certificate_thumbnail}
             >
               Insertar imagen
             </Input>
@@ -251,12 +249,12 @@ export default function CoursesModal({
               Imagen del certificado<span>*</span>
             </p>
             <Input
-              error={reqCertImage ? false : true}
-              type='file'
-              name='certificate_image'
               className={styles.imageButton}
-              value={ncCourse.certificate_image}
+              error={reqCertImage ? false : true}
+              name='certificate_image'
               onChange={e => updateImage(e, 'certificate_image')}
+              type='file'
+              value={ncCourse.certificate_image}
             >
               Insertar imagen
             </Input>
@@ -264,11 +262,11 @@ export default function CoursesModal({
           <div className={`${styles.modalTextField} ${styles.file}`}>
             <p>2ª imagen del certificado</p>
             <Input
-              type='file'
-              name='certificate_image2'
               className={styles.imageButton}
-              value={ncCourse.certificate_image2}
+              name='certificate_image2'
               onChange={e => updateImage(e, 'certificate_image2')}
+              type='file'
+              value={ncCourse.certificate_image2}
             >
               Insertar imagen
             </Input>
@@ -276,16 +274,16 @@ export default function CoursesModal({
         </div>
         <div className={styles.modalButtonsCont}>
           <Button
-            variant='contained'
             className={`${styles.modalButton} alt`}
             onClick={handleClose}
+            variant='contained'
           >
             Cancelar
           </Button>
           <Button
-            variant='contained'
             className={styles.modalButton}
             onClick={handleSubmit}
+            variant='contained'
           >
             Aceptar
           </Button>

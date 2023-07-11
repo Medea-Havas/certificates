@@ -1,37 +1,23 @@
-import React from 'react';
 import { Button, CircularProgress, Input, Select } from '@mui/material';
+import React from 'react';
 import styles from './CoursesSectionCertificate.module.css';
 
 export default function CoursesSectionCertificate({
-  loadingTemplates,
-  selectedCourse,
-  setSelectedCourse,
-  selectedTemplate,
-  update,
   arrayTemplates,
   changeSelectedTemplate,
-  updateTemplate,
-  updateCertificateThumbnail,
-  thumbnail,
-  setThumbnail
+  imageRef,
+  image2Ref,
+  loadingTemplates,
+  openCertificateImageFile,
+  openCertificateImage2File,
+  openCertificateThumbnailFile,
+  selectedCourse,
+  selectedTemplate,
+  thumbnailRef,
+  update,
+  updateImage,
+  updateTemplate
 }) {
-  const updateImage = (e, field) => {
-    console.log(e.target.files[0]);
-    console.log(typeof e.target.files[0]);
-    switch (field) {
-      case 'certificate_thumbnail':
-        setThumbnail(e.target.files[0]);
-        setSelectedCourse({ thumbnail: e.target.files[0] });
-        break;
-      case 'certificate_image':
-        setImg1(e.target.files[0]);
-        break;
-      case 'certificate_image2':
-        setImg2(e.target.files[0]);
-        break;
-    }
-  };
-
   return (
     <div className={styles.main}>
       <div className={styles.diplomaContainer}>
@@ -56,21 +42,21 @@ export default function CoursesSectionCertificate({
               <Button
                 variant='outlined'
                 className={styles.buttonImage}
-                onClick={updateCertificateThumbnail}
+                onClick={openCertificateThumbnailFile}
               >
                 {selectedCourse.certificate_thumbnail
                   ? 'Sustituir'
                   : 'Seleccionar'}
               </Button>
-              {/* <Input
+              <Input
                 type='file'
                 name='certificate_thumbnail'
-                className={styles.buttonImage}
-                value={selectedCourse.certificate_thumbnail}
+                className={styles.imageFile}
+                ref={thumbnailRef}
                 onChange={e => updateImage(e, 'certificate_thumbnail')}
               >
                 Insertar imagen
-              </Input> */}
+              </Input>
             </div>
             <div className={styles.diplomaDiv}>
               <div className={styles.imageDiploma}>
@@ -85,9 +71,22 @@ export default function CoursesSectionCertificate({
               ) : (
                 <img src='/noimage.png' alt='No image' />
               )}
-              <Button variant='outlined' className={styles.buttonImage}>
+              <Button
+                variant='outlined'
+                className={styles.buttonImage}
+                onClick={openCertificateImageFile}
+              >
                 {selectedCourse.certificate_image ? 'Sustituir' : 'Seleccionar'}
               </Button>
+              <Input
+                type='file'
+                name='certificate_image'
+                className={styles.imageFile}
+                ref={imageRef}
+                onChange={e => updateImage(e, 'certificate_image')}
+              >
+                Insertar imagen
+              </Input>
             </div>
             <div className={styles.diplomaDiv}>
               <div className={styles.imageDiploma}>
@@ -106,11 +105,24 @@ export default function CoursesSectionCertificate({
                   alt='No image'
                 />
               )}
-              <Button variant='outlined' className={styles.buttonImage}>
+              <Button
+                variant='outlined'
+                className={styles.buttonImage}
+                onClick={openCertificateImage2File}
+              >
                 {selectedCourse.certificate_image2
                   ? 'Sustituir'
                   : 'Seleccionar'}
               </Button>
+              <Input
+                type='file'
+                name='certificate_image2'
+                className={styles.imageFile}
+                ref={image2Ref}
+                onChange={e => updateImage(e, 'certificate_image2')}
+              >
+                Insertar imagen
+              </Input>
             </div>
             <div className={styles.template}>
               <h3>Plantilla:</h3>

@@ -9,10 +9,10 @@
   width: 100%;
 }
 .menuButton {
-  color: var(--steelbluelowlight);
   background: transparent;
-  padding: 1.5rem;
+  color: var(--steelbluelowlight);
   font-size: var(--reg);
   font-weight: normal;
+  padding: 1.5rem;
   text-transform: none;
 }

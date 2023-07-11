@@ -1,4 +1,4 @@
-import { Breadcrumbs, Button, Link, Typography } from '@mui/material';
+import { Breadcrumbs, Button, Link } from '@mui/material';
 import styles from './StudentsHeader.module.css';
 
 export default function StudentsHeader({ handleIndex, index, paramId }) {
@@ -6,13 +6,13 @@ export default function StudentsHeader({ handleIndex, index, paramId }) {
     <div className={styles.main}>
       <div className={styles.coursesRoute}>
         <Breadcrumbs aria-label='breadcrumb' color='text.primary'>
-          <Link underline='hover' color='text.primary' href='/alumnos'>
+          <Link color='text.primary' href='/alumnos' underline='hover'>
             Alumnos
           </Link>
           <Link
-            underline='hover'
             color='text.primary'
             href={'/alumno/' + paramId}
+            underline='hover'
           >
             Alumno {paramId < 10 ? '0' + paramId : paramId}
           </Link>
@@ -27,16 +27,16 @@ export default function StudentsHeader({ handleIndex, index, paramId }) {
       </div>
       <div className='buttons'>
         <Button
-          variant='contained'
           className={`${styles.button} ${index == 0 ? 'selected' : ''}`}
           onClick={() => handleIndex(0)}
+          variant='contained'
         >
           Información
         </Button>
         <Button
-          variant='contained'
           className={`${styles.button} ${index == 1 ? 'selected' : ''}`}
           onClick={() => handleIndex(1)}
+          variant='contained'
         >
           Cursos matriculado
         </Button>

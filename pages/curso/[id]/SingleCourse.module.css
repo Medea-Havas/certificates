@@ -1,0 +1,5 @@
+.small {
+  display: block;
+  font-size: var(--sm);
+  margin-bottom: 0.75rem;
+}

@@ -31,10 +31,10 @@
 .button {
   font-size: x-small;
   height: 2rem;
-  width: 9.375rem;
   margin-bottom: 2rem;
   margin-right: 1.25rem;
   margin-top: 2.5rem;
+  width: 9.375rem;
 }
 .buttonTop {
   font-size: var(--sm);

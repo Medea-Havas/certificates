@@ -5,8 +5,8 @@
   width: 100%;
 }
 .coursesInfoTitle {
-  padding-top: 2.5rem;
   padding-bottom: 1.25rem;
+  padding-top: 2.5rem;
 }
 .coursesInfoTop {
   align-items: center;
@@ -27,13 +27,13 @@
   justify-content: space-between;
   width: 50%;
 }
-.divInfoCont {
-  width: 50%;
-}
 .divInfoColCont {
   display: flex;
   justify-content: space-between;
   margin-top: 2rem;
+}
+.divInfoCont {
+  width: 50%;
 }
 .typeBold {
   font-weight: bold;

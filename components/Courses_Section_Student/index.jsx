@@ -1,23 +1,23 @@
-import React from 'react';
 import {
   DataGrid,
   GridLinkOperator,
   GridToolbar,
   esES
 } from '@mui/x-data-grid';
-import styles from './CoursesSectionStudent.module.css';
 import { Button } from '@mui/material';
+import React from 'react';
+import styles from './CoursesSectionStudent.module.css';
 import Link from 'next/link';
 import QuickSearchToolbar from '../Utils/searchbar';
 import moment from 'moment';
 import localization from 'moment/locale/es';
 
 export default function CoursesSectionStudent({
-  students,
   loadingStudents,
+  removeStudentToEnroll,
   showStudentModal,
-  hideStudentModal,
-  removeStudentToEnroll
+  showExcelModal,
+  students
 }) {
   moment.updateLocale('es', localization);
 
@@ -84,8 +84,8 @@ export default function CoursesSectionStudent({
             </Link>
             <Button
               className={`${styles.buttonStyle} warn`}
-              variant='outlined'
               onClick={() => removeStudentToEnroll(params.row)}
+              variant='outlined'
             >
               Borrar
             </Button>
@@ -102,23 +102,28 @@ export default function CoursesSectionStudent({
           <h2>Alumnos matriculados</h2>
           <div>
             <Button
-              variant='outlined'
               className={styles.buttonTop}
               onClick={showStudentModal}
+              variant='outlined'
             >
               Añadir alumno
             </Button>
-            <Button variant='outlined' className={styles.buttonTop}>
+            <Button
+              className={styles.buttonTop}
+              onClick={showExcelModal}
+              variant='outlined'
+            >
               Cargar alumnos
             </Button>
           </div>
         </div>
         <div className={styles.table}>
           <DataGrid
-            getRowId={row => row.id}
+            autoPageSize
             columns={columns}
-            rows={students}
-            rowHeight={80}
+            components={{ Toolbar: QuickSearchToolbar }}
+            disableSelectionOnClick
+            getRowId={row => row.id}
             initialState={{
               filter: {
                 filterModel: {
@@ -127,17 +132,16 @@ export default function CoursesSectionStudent({
                 }
               }
             }}
-            slots={{ toolbar: GridToolbar }}
-            autoPageSize
-            loading={loadingStudents}
-            components={{ Toolbar: QuickSearchToolbar }}
-            sx={{ overflowX: 'scroll' }}
-            disableSelectionOnClick
             localeText={{
               localeText: esES.components.MuiDataGrid.defaultProps.localeText,
               noRowsLabel: 'Todavía no hay alumnos matriculados'
             }}
+            loading={loadingStudents}
             onProcessRowUpdateError={error => console.warn(error)}
+            rows={students}
+            rowHeight={80}
+            slots={{ toolbar: GridToolbar }}
+            sx={{ overflowX: 'scroll' }}
           />
         </div>
       </div>

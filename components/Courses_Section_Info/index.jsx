@@ -5,12 +5,12 @@ import moment from 'moment';
 import CoursesSectionInfoEdit from './edit';
 
 export default function CoursesSectionInfo({
-  selectedCourse,
-  loadingCourses,
   duration,
-  updateCoursesData,
+  loadingCourses,
+  selectedCourse,
+  setSelectedCourse,
   setUpdateCoursesData,
-  setSelectedCourse
+  updateCoursesData
 }) {
   const [showEditForm, setShowEditForm] = useState(false);
 
@@ -24,12 +24,12 @@ export default function CoursesSectionInfo({
           <CircularProgress />
         ) : showEditForm ? (
           <CoursesSectionInfoEdit
-            setShowEditForm={setShowEditForm}
-            updateCoursesData={updateCoursesData}
-            setUpdateCoursesData={setUpdateCoursesData}
+            loadingCourses={loadingCourses}
             selectedCourse={selectedCourse}
             setSelectedCourse={setSelectedCourse}
-            loadingCourses={loadingCourses}
+            setShowEditForm={setShowEditForm}
+            setUpdateCoursesData={setUpdateCoursesData}
+            updateCoursesData={updateCoursesData}
           />
         ) : (
           <>
@@ -86,7 +86,7 @@ export default function CoursesSectionInfo({
                 <p className={styles.newLine}>{selectedCourse.content}</p>
               </div>
               <div className={styles.coursesInfoFull}>
-                <Button variant='outlined' onClick={editFormView}>
+                <Button onClick={editFormView} variant='outlined'>
                   Editar
                 </Button>
               </div>

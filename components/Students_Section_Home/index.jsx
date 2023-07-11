@@ -15,15 +15,16 @@ import QuickSearchToolbar from '../Utils/searchbar';
 import axios from 'axios';
 
 export default function StudentsSectionHome() {
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [ncStudent, setNCStudent] = useState('');
   const [open, setOpen] = useState(false);
   const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
-  const [warning, setWarning] = useState(false);
+  const [resetUsers, setResetUsers] = useState(false);
   const [userToRemove, setUserToRemove] = useState({});
   const [usersToUpdate, setUsersToUpdate] = useState([]);
-  const [resetUsers, setResetUsers] = useState(false);
-  const [ncStudent, setNCStudent] = useState('');
+  const [warning, setWarning] = useState(false);
+
   const API_HOST = process.env.API_HOST;
   moment.updateLocale('es', localization);
 
@@ -94,46 +95,6 @@ export default function StudentsSectionHome() {
     }
   ];
 
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-  const showError = e => {
-    setUserToRemove({
-      id: e.target.dataset.id,
-      name: e.target.dataset.name
-    });
-    setError(true);
-  };
-  const hideError = () => setError(false);
-  const hideWarning = () => setWarning(false);
-  const hideWarningAndReset = () => {
-    setWarning(false);
-    setResetUsers(!resetUsers);
-    setUsersToUpdate([]);
-  };
-  const updateStudentField = (e, field) => {
-    setNCStudent(prevState => ({
-      ...prevState,
-      [field]: e.target.value
-    }));
-  };
-  const updateUser = newRow => {
-    const updatedRow = { ...newRow, isNew: false };
-    var index = -1;
-    for (var i = 0; i < usersToUpdate.length; i++) {
-      if (usersToUpdate[i].id == newRow.id) {
-        index = i;
-      }
-    }
-    if (index == -1) {
-      setUsersToUpdate([...usersToUpdate, newRow]);
-    } else {
-      const newArray = [...usersToUpdate];
-      newArray.splice(index, 1, newRow);
-      setUsersToUpdate(newArray);
-    }
-    setWarning(true);
-    return updatedRow;
-  };
   const handleAddStudent = event => {
     const addStudent = async () => {
       await fetch(`${API_HOST}/users`, {
@@ -155,6 +116,22 @@ export default function StudentsSectionHome() {
     };
     addStudent();
   };
+  const handleClose = () => setOpen(false);
+  const handleOpen = () => setOpen(true);
+  const handleRemoveUser = () => {
+    axios
+      .delete(`${API_HOST}/users/${userToRemove.id}`)
+      .then(response => {
+        if (response.status === 200) {
+          sessionStorage.removeItem('users');
+          setResetUsers(!resetUsers);
+          setError(false);
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
   const handleUpdateUser = () => {
     usersToUpdate.forEach((value, index) => {
       axios
@@ -172,19 +149,43 @@ export default function StudentsSectionHome() {
         });
     });
   };
-  const handleRemoveUser = () => {
-    axios
-      .delete(`${API_HOST}/users/${userToRemove.id}`)
-      .then(response => {
-        if (response.status === 200) {
-          sessionStorage.removeItem('users');
-          setResetUsers(!resetUsers);
-          setError(false);
-        }
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+  const hideError = () => setError(false);
+  const hideWarning = () => setWarning(false);
+  const hideWarningAndReset = () => {
+    setWarning(false);
+    setResetUsers(!resetUsers);
+    setUsersToUpdate([]);
+  };
+  const showError = e => {
+    setUserToRemove({
+      id: e.target.dataset.id,
+      name: e.target.dataset.name
+    });
+    setError(true);
+  };
+  const updateUser = newRow => {
+    const updatedRow = { ...newRow, isNew: false };
+    var index = -1;
+    for (var i = 0; i < usersToUpdate.length; i++) {
+      if (usersToUpdate[i].id == newRow.id) {
+        index = i;
+      }
+    }
+    if (index == -1) {
+      setUsersToUpdate([...usersToUpdate, newRow]);
+    } else {
+      const newArray = [...usersToUpdate];
+      newArray.splice(index, 1, newRow);
+      setUsersToUpdate(newArray);
+    }
+    setWarning(true);
+    return updatedRow;
+  };
+  const updateStudentField = (e, field) => {
+    setNCStudent(prevState => ({
+      ...prevState,
+      [field]: e.target.value
+    }));
   };
 
   useEffect(() => {
@@ -213,20 +214,20 @@ export default function StudentsSectionHome() {
       <div>
         <div className={styles.studentsTop}>
           <h1>Alumnos</h1>
-          <Button variant='outlined' onClick={handleOpen}>
+          <Button onClick={handleOpen} variant='outlined'>
             <AddIcon fontSize='13' />
             &emsp;Nuevo Alumno
           </Button>
         </div>
         <div className={styles.table}>
           <DataGrid
-            getRowId={row => row.id}
+            autoPageSize
             columns={columns}
-            rows={users}
-            rowHeight={80}
+            components={{ Toolbar: QuickSearchToolbar }}
+            disableSelectionOnClick
             editMode='row'
-            processRowUpdate={updateUser}
             experimentalFeatures={{ newEditingApi: true }}
+            getRowId={row => row.id}
             initialState={{
               filter: {
                 filterModel: {
@@ -235,28 +236,31 @@ export default function StudentsSectionHome() {
                 }
               }
             }}
-            slots={{ toolbar: GridToolbar }}
-            autoPageSize
             loading={loading}
-            components={{ Toolbar: QuickSearchToolbar }}
-            sx={{ overflowX: 'scroll' }}
-            disableSelectionOnClick
-            localeText={esES.components.MuiDataGrid.defaultProps.localeText}
+            localeText={{
+              localeText: esES.components.MuiDataGrid.defaultProps.localeText,
+              noRowsLabel: 'Todavía no hay alumnos. ¡Crea uno!'
+            }}
             onProcessRowUpdateError={error => console.warn(error)}
+            processRowUpdate={updateUser}
+            rows={users}
+            rowHeight={80}
+            slots={{ toolbar: GridToolbar }}
+            sx={{ overflowX: 'scroll' }}
           />
         </div>
       </div>
       <StudentsModal
-        open={open}
+        handleAddStudent={handleAddStudent}
         handleClose={handleClose}
         ncStudent={ncStudent}
-        handleAddStudent={handleAddStudent}
+        open={open}
         updateStudentField={updateStudentField}
       />
       <Alert
+        className={`${warning ? 'active' : ''}`}
         onClose={hideWarning}
         severity='warning'
-        className={`${warning ? 'active' : ''}`}
       >
         <AlertTitle>Cambios detectados</AlertTitle>
         <ul className={styles.changesList}>
@@ -271,34 +275,34 @@ export default function StudentsSectionHome() {
             </li>
           ))}
         </ul>
-        <Button variant='outlined' onClick={handleUpdateUser}>
+        <Button onClick={handleUpdateUser} variant='outlined'>
           Actualizar cambios
         </Button>
-        <Button variant='outlined' onClick={hideWarningAndReset}>
+        <Button onClick={hideWarningAndReset} variant='outlined'>
           Deshechar cambios
         </Button>
-        <Button variant='outlined' onClick={hideWarning}>
+        <Button onClick={hideWarning} variant='outlined'>
           Cancelar
         </Button>
       </Alert>
       <Alert
+        className={`${error ? 'active' : ''}`}
         onClose={hideError}
         severity='error'
-        className={`${error ? 'active' : ''}`}
       >
         <AlertTitle>¿Desea eliminar este alumno?</AlertTitle>
         <small className={styles.small}>{userToRemove.name}</small>
         <Button
-          variant='outlined'
           className={styles.updateButton}
           onClick={handleRemoveUser}
+          variant='outlined'
         >
           Sí, eliminar
         </Button>
         <Button
-          variant='outlined'
           className={styles.cancelButton}
           onClick={hideError}
+          variant='outlined'
         >
           No, cancelar
         </Button>

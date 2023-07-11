@@ -1,21 +1,20 @@
 import { TextField, Modal, Box, Button } from '@mui/material';
-import { useState } from 'react';
 import styles from './StudentsSectionHome.module.css';
 
 export default function StudentsModal({
+  handleAddStudent,
   handleClose,
   ncStudent,
   open,
-  handleAddStudent,
   updateStudentField
 }) {
   return (
     <Modal
-      id='modal'
-      open={open}
-      onClose={handleClose}
-      aria-labelledby='modal-modal-title'
       aria-describedby='modal-modal-description'
+      aria-labelledby='modal-modal-title'
+      id='modal'
+      onClose={handleClose}
+      open={open}
     >
       <Box className={styles.modalBox}>
         <p className={styles.title}>Nuevo alumno</p>
@@ -24,53 +23,53 @@ export default function StudentsModal({
             <p>Nombre</p>
             <TextField
               label=''
+              onChange={e => updateStudentField(e, 'name')}
               variant='outlined'
               value={ncStudent.name}
-              onChange={e => updateStudentField(e, 'name')}
             />
           </div>
           <div className={styles.textFieldModal}>
             <p>Apellidos</p>
             <TextField
               label=''
+              onChange={e => updateStudentField(e, 'last_name')}
               variant='outlined'
               value={ncStudent.last_name}
-              onChange={e => updateStudentField(e, 'last_name')}
             />
           </div>
           <div className={styles.textFieldModal}>
             <p>Email</p>
             <TextField
               label=''
-              variant='outlined'
-              type='email'
-              value={ncStudent.email}
               onChange={e => updateStudentField(e, 'email')}
+              type='email'
+              variant='outlined'
+              value={ncStudent.email}
             />
           </div>
           <div className={styles.textFieldModal}>
             <p>NIF/NIE</p>
             <TextField
               label=''
-              variant='outlined'
+              onChange={e => updateStudentField(e, 'nif')}
               type='nif'
               value={ncStudent.nif}
-              onChange={e => updateStudentField(e, 'nif')}
+              variant='outlined'
             />
           </div>
         </div>
         <div className={styles.modalButtonsCont}>
           <Button
-            variant='contained'
             className={`${styles.modalButton} alt`}
             onClick={handleClose}
+            variant='contained'
           >
             Cancelar
           </Button>
           <Button
-            variant='contained'
             className={styles.modalButton}
             onClick={handleAddStudent}
+            variant='contained'
           >
             Aceptar
           </Button>

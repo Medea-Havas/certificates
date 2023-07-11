@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Button } from '@mui/material';
 import styles from './StudentsSectionInfo.module.css';
 import { useRouter } from 'next/router';
 
 export default function StudentsSectionInfo() {
   const [loading, setLoading] = useState(true);
-  const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState({});
+  const [users, setUsers] = useState([]);
+
   const { query, isReady } = useRouter();
 
   useEffect(() => {

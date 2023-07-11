@@ -1,6 +1,9 @@
-import styles from './MainContent.module.css';
 import * as React from 'react';
+import { Button, Link, SwipeableDrawer } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import { useState } from 'react';
+import { useRouter } from 'next/router';
+import styles from './MainContent.module.css';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -10,10 +13,7 @@ import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Footer from '../Footer';
-import { Button, Link, SwipeableDrawer } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import { useState } from 'react';
-import { useRouter } from 'next/router';
 
 const drawerWidth = 18.75;
 
@@ -45,32 +45,33 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 export default function MainContent({ children }) {
   const [open, setOpen] = useState(true);
-  const router = useRouter();
 
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
+  const router = useRouter();
 
   const handleDrawerClose = () => {
     setOpen(false);
   };
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
 
   if (router.pathname == '/informe') return <Box>{children}</Box>;
+
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
       <div className={styles.appDrawerContainer}>
         <AppBar
-          position='fixed'
           open={open}
+          position='fixed'
           sx={{ backgroundColor: '#2e2940' }}
         >
           <Toolbar>
             <IconButton
-              color='inherit'
               aria-label='open drawer'
-              onClick={handleDrawerOpen}
+              color='inherit'
               edge='start'
+              onClick={handleDrawerOpen}
               sx={{ mr: 2, ...(open && { display: 'none' }) }}
             >
               <MenuIcon />
@@ -89,6 +90,11 @@ export default function MainContent({ children }) {
         </AppBar>
         <div className={styles.drawerContainer}>
           <SwipeableDrawer
+            anchor='left'
+            className={open ? 'open' : ''}
+            onClose={handleDrawerClose}
+            onOpen={handleDrawerOpen}
+            open={open}
             sx={{
               display: { xs: 'block', sm: 'none' },
               width: `${drawerWidth}rem`,
@@ -103,14 +109,9 @@ export default function MainContent({ children }) {
               }
             }}
             variant='persistent'
-            anchor='left'
-            open={open}
-            onClose={handleDrawerClose}
-            onOpen={handleDrawerOpen}
-            className={open ? 'open' : ''}
           >
             <DrawerHeader>
-              <IconButton onClick={handleDrawerClose} className='iconButton'>
+              <IconButton className='iconButton' onClick={handleDrawerClose}>
                 <CloseIcon />
               </IconButton>
             </DrawerHeader>
@@ -129,23 +130,23 @@ export default function MainContent({ children }) {
             <Divider />
           </SwipeableDrawer>
           <Drawer
+            anchor='left'
+            className={open ? 'open' : ''}
+            open={open}
             sx={{
               display: { xs: 'none', sm: 'block' },
-              width: `${drawerWidth}rem`,
               flexShrink: 0,
+              width: `${drawerWidth}rem`,
               '& .MuiDrawer-paper': {
-                width: `${drawerWidth}rem`,
+                backgroundColor: '#7CB1DE',
                 boxSizing: 'border-box',
-                backgroundColor: '#7CB1DE'
+                width: `${drawerWidth}rem`
               }
             }}
             variant='persistent'
-            anchor='left'
-            open={open}
-            className={open ? 'open' : ''}
           >
             <DrawerHeader>
-              <IconButton onClick={handleDrawerClose} className='iconButton'>
+              <IconButton className='iconButton' onClick={handleDrawerClose}>
                 <CloseIcon />
               </IconButton>
             </DrawerHeader>
@@ -164,8 +165,8 @@ export default function MainContent({ children }) {
             <Divider />
           </Drawer>
           <Box
-            sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }}
             className={open ? 'open' : 'closed'}
+            sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }}
           >
             {children}
           </Box>

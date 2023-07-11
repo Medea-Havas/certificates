@@ -2,20 +2,20 @@
   margin-top: 1.5rem;
 }
 .button {
+  font-size: var(--sm);
   margin-right: 1.5rem;
   padding: 0.675rem 0.675rem;
-  font-size: var(--sm);
   width: 12rem;
 }
 .buttonTop {
   margin-right: 0.675rem;
 }
 .coursesInfoTop {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
   padding: 2rem 0;
   width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 }
 .coursesRoute {
   margin-top: 2rem;
@@ -57,9 +57,6 @@
   justify-content: space-around;
   margin: 2rem 0;
 }
-.modalTextField span {
-  color: red;
-}
 .modalTextField.file {
   justify-content: end;
 }
@@ -69,11 +66,14 @@
   margin-bottom: 0.25rem;
   text-transform: uppercase;
 }
+.modalTextField span {
+  color: red;
+}
 .table {
   height: 40rem;
-  width: 100%;
-  margin-top: 1.5rem;
   margin-bottom: 1.5rem;
+  margin-top: 1.5rem;
+  width: 100%;
 }
 .title {
   color: var(--steelbluelowlight);

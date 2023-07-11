@@ -1,9 +1,6 @@
 import React from 'react';
 import Head from 'next/head';
-import CoursesSectionHome from '../components/Courses_Section_Home';
 import CoursesSectionInfo from '../components/Courses_Section_Info';
-import CoursesSectionCertificate from '../components/Courses_Section_Certificate';
-import CoursesSectionStudent from '../components/Courses_Section_Student';
 import styles from '../styles/Course.module.css';
 import CoursesHeader from '../components/Courses_Header';
 

@@ -1,125 +1,59 @@
-import React, { useEffect } from 'react';
-import CoursesSectionInfo from '../../../components/Courses_Section_Info';
-import CoursesSectionCertificate from '../../../components/Courses_Section_Certificate';
-import CoursesSectionStudent from '../../../components/Courses_Section_Student';
-import styles from '../../../styles/Course.module.css';
-import CoursesHeader from '../../../components/Courses_Header';
+import React, { useEffect, useRef } from 'react';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { Alert, AlertTitle, Button, MenuItem } from '@mui/material';
+import CoursesSectionInfo from '../../../components/Courses_Section_Info';
+import CoursesSectionCertificate from '../../../components/Courses_Section_Certificate';
+import CoursesSectionStudent from '../../../components/Courses_Section_Student';
+import CoursesHeader from '../../../components/Courses_Header';
 import axios from 'axios';
 import localization from 'moment/locale/es';
 import moment from 'moment';
 import EnrollStudentModal from '../../../components/Courses_Section_Student/modal';
+import readXlsxFile from 'read-excel-file';
+import ExcelModal from '../../../components/Courses_Section_Student/excelModal';
+import styles from './SingleCourse.module.css';
 
 export default function Course() {
+  const [arrayStudentsNotEnrolled, setArrayStudentsNotEnrolled] = useState([]);
+  const [arrayTemplates, setArrayTemplates] = useState([]);
+  const [courses, setCourses] = useState([]);
+  const [duration, setDuration] = useState(0);
+  const [excel, setExcel] = useState({});
   const [index, setIndex] = useState(0);
+  const [initialIndex, setInitialIndex] = useState(-1);
+  const [initialIndex2, setInitialIndex2] = useState(-1);
   const [loadingCourses, setLoadingCourses] = useState(true);
   const [loadingTemplates, setLoadingTemplates] = useState(true);
   const [loadingStudents, setLoadingStudents] = useState(true);
   const [loadingStudentsNotEnrolled, setLoadingStudentsNotEnrolled] =
     useState(true);
+  const [openExcelModal, setOpenExcelModal] = useState(false);
   const [openStudentModal, setOpenStudentModal] = useState(false);
-  const [studentToEnroll, setStudentToEnroll] = useState({});
-  const [studentsNotEnrolled, setStudentsNotEnrolled] = useState([]);
-  const [courses, setCourses] = useState([]);
   const [selectedCourse, setSelectedCourse] = useState({});
+  const [selectedTemplate, setSelectedTemplate] = useState({});
+  const [students, setStudents] = useState([]);
+  const [studentError, setStudentError] = useState(false);
+  const [studentsNotEnrolled, setStudentsNotEnrolled] = useState([]);
+  const [studentToEnroll, setStudentToEnroll] = useState({});
   const [studentToRemove, setStudentToRemove] = useState({});
   const [templates, setTemplates] = useState([]);
-  const [arrayTemplates, setArrayTemplates] = useState([]);
-  const [arrayStudentsNotEnrolled, setArrayStudentsNotEnrolled] = useState([]);
-  const [selectedTemplate, setSelectedTemplate] = useState({});
-  const [selectedStudent, setSelectedStudent] = useState({});
-  const [students, setStudents] = useState([]);
+  const [thumbnail, setThumbnail] = useState({});
   const [updateCoursesData, setUpdateCoursesData] = useState(false);
-  const [updateTemplatesData, setUpdateTemplatesData] = useState(false);
   const [updateStudentsData, setUpdateStudentsData] = useState(false);
   const [updateStudentsNotEnrolledData, setUpdateStudentsNotEnrolledData] =
     useState(false);
+  const [updateTemplatesData, setUpdateTemplatesData] = useState(false);
   const [update, setUpdate] = useState(false);
-  const [initialIndex, setInitialIndex] = useState(-1);
-  const [initialIndex2, setInitialIndex2] = useState(-1);
-  const [duration, setDuration] = useState(0);
-  const [thumbnail, setThumbnail] = useState({});
-  const [studentError, setStudentError] = useState(false);
+
+  const imageRef = useRef();
+  const image2Ref = useRef();
+  const thumbnailRef = useRef();
 
   const { query, isReady } = useRouter();
   const paramId = query.id;
   const API_HOST = process.env.API_HOST;
-
   moment.updateLocale('es', localization);
-  const handleIndex = index => setIndex(index);
-  const showStudentError = () => setStudentError(true);
-  const hideStudentError = () => setStudentError(false);
-  const removeStudentToEnroll = val => {
-    setStudentToRemove({
-      id: val.id,
-      name: `${val.name} ${val.last_name}`,
-      value: val
-    });
-    showStudentError();
-  };
-  const handleRemoveStudentToEnroll = () => {
-    axios
-      .delete(`${API_HOST}/userscourses/${studentToRemove.id}/${paramId}`)
-      .then(() => {
-        setStudentToRemove({});
-        sessionStorage.removeItem('students');
-        setStudents([]);
-        setUpdateStudentsData(!updateStudentsData);
-        hideStudentError();
-      })
-      .catch(error => console.log(error));
-  };
-
-  const selectCourse = tempCourses => {
-    if (isReady) {
-      let selCourse = tempCourses.filter(course => {
-        return course.id == paramId;
-      })[0];
-      setSelectedCourse(selCourse);
-      sessionStorage.setItem('course', JSON.stringify(selCourse));
-      // Duration in months
-      var iDate = moment(selCourse.date_init);
-      var eDate = moment(selCourse.date_end);
-      var difference = eDate.diff(iDate, 'days');
-      setDuration(difference);
-    }
-  };
-
-  const changeSelectedTemplate = e => {
-    var selTemplate = templates.filter(
-      template => template.id == parseInt(e.target.value)
-    )[0];
-    setSelectedTemplate(selTemplate);
-    setUpdate(true);
-  };
-
-  const studentToEnrollChange = (e, val) => {
-    setStudentToEnroll(val);
-  };
-
-  const updateTemplate = (e, id) => {
-    axios
-      .patch(
-        `${API_HOST}/coursetemplate/${selectedCourse.course_template_id}`,
-        {
-          template_id: id
-        }
-      )
-      .then(response => {
-        if (response.status === 200) {
-          setSelectedCourse({});
-          sessionStorage.removeItem('courses');
-          sessionStorage.removeItem('templates');
-          setUpdateCoursesData(!updateCoursesData);
-          setUpdateTemplatesData(!updateTemplatesData);
-        }
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  };
 
   const arrayTemplateFunction = () => {
     if (!arrayTemplates.length) {
@@ -134,7 +68,7 @@ export default function Course() {
           <MenuItem
             key={tempTemplates[i].id}
             value={tempTemplates[i].id}
-            className={styles.menuitem}
+            // className={styles.menuitem}
           >
             {tempTemplates[i].title} (id: {tempTemplates[i].id})
           </MenuItem>
@@ -144,7 +78,108 @@ export default function Course() {
       setInitialIndex(initialIndex);
     }
   };
-
+  const changeSelectedTemplate = e => {
+    var selTemplate = templates.filter(
+      template => template.id == parseInt(e.target.value)
+    )[0];
+    setSelectedTemplate(selTemplate);
+    setUpdate(true);
+  };
+  const handleEnrollStudent = () => {
+    let data = {
+      user_id: studentToEnroll.value,
+      course_id: paramId,
+      date_completed: moment().format()
+    };
+    axios
+      .post(`${API_HOST}/userscourses`, data)
+      .then(res => {
+        if (res.status == 201) {
+          setUpdateStudentsData(!updateStudentsData);
+          setUpdateStudentsNotEnrolledData(!updateStudentsNotEnrolledData);
+          hideStudentModal();
+        }
+      })
+      .catch(error => console.log(error));
+  };
+  const handleExcel = () => {
+    axios
+      .post(`${API_HOST}/loadusers`, excel)
+      .then(res => {
+        sessionStorage.removeItem('courses');
+        sessionStorage.removeItem('students');
+        setUpdateCoursesData(!updateCoursesData);
+        setUpdateStudentsData(!updateStudentsData);
+        setExcel({});
+        hideExcelModal();
+      })
+      .catch(error => console.log(error));
+  };
+  const handleIndex = index => setIndex(index);
+  const handleRemoveStudentToEnroll = () => {
+    axios
+      .delete(`${API_HOST}/userscourses/${studentToRemove.id}/${paramId}`)
+      .then(() => {
+        setStudentToRemove({});
+        sessionStorage.removeItem('students');
+        setStudents([]);
+        setUpdateStudentsData(!updateStudentsData);
+        hideStudentError();
+      })
+      .catch(error => console.log(error));
+  };
+  const hideExcelModal = () => setOpenExcelModal(false);
+  const hideStudentError = () => setStudentError(false);
+  const hideStudentModal = () => setOpenStudentModal(false);
+  const openCertificateImageFile = () => {
+    imageRef.current.children[0].click();
+  };
+  const openCertificateImage2File = () => {
+    image2Ref.current.children[0].click();
+  };
+  const openCertificateThumbnailFile = () => {
+    thumbnailRef.current.children[0].click();
+  };
+  const processExcel = e => {
+    let tempRows = [];
+    readXlsxFile(e.target.files[0]).then(rows => {
+      for (var i = 1; i < rows.length; i++) {
+        let tempRow = {};
+        tempRow.name = rows[i][0];
+        tempRow.last_name = rows[i][1];
+        tempRow.email = rows[i][2];
+        tempRow.nif = rows[i][3];
+        tempRow.course = paramId;
+        tempRows.push(tempRow);
+      }
+      setExcel(tempRows);
+    });
+  };
+  const removeStudentToEnroll = val => {
+    setStudentToRemove({
+      id: val.id,
+      name: `${val.name} ${val.last_name}`,
+      value: val
+    });
+    showStudentError();
+  };
+  const selectCourse = tempCourses => {
+    if (isReady) {
+      let selCourse = tempCourses.filter(course => {
+        return course.id == paramId;
+      })[0];
+      setSelectedCourse(selCourse);
+      sessionStorage.setItem('course', JSON.stringify(selCourse));
+      // Duration in months
+      var iDate = moment(selCourse.date_init);
+      var eDate = moment(selCourse.date_end);
+      var difference = eDate.diff(iDate, 'days');
+      setDuration(difference);
+    }
+  };
+  const showExcelModal = () => setOpenExcelModal(true);
+  const showStudentError = () => setStudentError(true);
+  const showStudentModal = () => setOpenStudentModal(true);
   const studentsNotEnrolledToArray = () => {
     if (!arrayStudentsNotEnrolled.length) {
       let tempStudentsNotEnrolled =
@@ -168,51 +203,59 @@ export default function Course() {
       }
     }
   };
-
-  const updateCertificateThumbnail = () => {
+  const studentToEnrollChange = (e, val) => {
+    setStudentToEnroll(val);
+  };
+  const updateImage = (e, field) => {
     let tempData = new FormData();
-    tempData.append('certificate_thumbnail', thumb);
+    tempData.append('certificate_id', paramId);
+    switch (field) {
+      case 'certificate_thumbnail':
+        tempData.append('type', 'thumbnail');
+        tempData.append('certificate_thumbnail', e.target.files[0]);
+        break;
+      case 'certificate_image':
+        tempData.append('type', 'image');
+        tempData.append('certificate_image', e.target.files[0]);
+        break;
+      case 'certificate_image2':
+        tempData.append('type', 'image2');
+        tempData.append('certificate_image2', e.target.files[0]);
+        break;
+    }
 
     axios
-      .patch(`${API_HOST}/courses`, tempData)
+      .post(`${API_HOST}/courses`, tempData)
       .then(response => {
-        if (response.status === 201) {
-          console.log('Updated');
-
-          // setCourses(prevState => ({
-          //   ...prevState,
-          //   ncCourse
-          // }));
-          // sessionStorage.setItem('courses', []);
-          // setNCCourse({});
-          // setUpdateData(!updateData);
-          // handleClose();
+        if (response.status === 200) {
+          sessionStorage.removeItem('courses');
+          setUpdateCoursesData(!updateCoursesData);
         }
       })
       .catch(function (error) {
         console.log(error);
       });
-    // setUpdateCoursesData(!updateCoursesData);
   };
-
-  const showStudentModal = () => setOpenStudentModal(true);
-  const hideStudentModal = () => setOpenStudentModal(false);
-  const handleEnrollStudent = () => {
-    let data = {
-      user_id: studentToEnroll.value,
-      course_id: paramId,
-      date_completed: moment().format()
-    };
+  const updateTemplate = (e, id) => {
     axios
-      .post(`${API_HOST}/userscourses`, data)
-      .then(res => {
-        if (res.status == 201) {
-          setUpdateStudentsData(!updateStudentsData);
-          setUpdateStudentsNotEnrolledData(!updateStudentsNotEnrolledData);
-          hideStudentModal();
+      .patch(
+        `${API_HOST}/coursetemplate/${selectedCourse.course_template_id}`,
+        {
+          template_id: id
+        }
+      )
+      .then(response => {
+        if (response.status === 200) {
+          setSelectedCourse({});
+          sessionStorage.removeItem('courses');
+          sessionStorage.removeItem('templates');
+          setUpdateCoursesData(!updateCoursesData);
+          setUpdateTemplatesData(!updateTemplatesData);
         }
       })
-      .catch(error => console.log(error));
+      .catch(function (error) {
+        console.log(error);
+      });
   };
 
   // Courses
@@ -292,6 +335,7 @@ export default function Course() {
     }
   }, [isReady, updateStudentsData]);
 
+  // Users not enrolled in course
   useEffect(() => {
     if (isReady) {
       const fetchStudentsNotEnrolled = async () => {
@@ -324,75 +368,82 @@ export default function Course() {
       <main className='page main'>
         <div>
           <CoursesHeader
-            index={index}
             handleIndex={handleIndex}
+            index={index}
             paramId={paramId}
           />
           {index === 0 && (
             <CoursesSectionInfo
-              selectedCourse={selectedCourse}
-              loadingCourses={loadingCourses}
               duration={duration}
-              updateCoursesData={updateCoursesData}
-              setUpdateCoursesData={setUpdateCoursesData}
+              loadingCourses={loadingCourses}
+              selectedCourse={selectedCourse}
               setSelectedCourse={setSelectedCourse}
+              setUpdateCoursesData={setUpdateCoursesData}
+              updateCoursesData={updateCoursesData}
             />
           )}
           {index === 1 && (
             <CoursesSectionCertificate
-              loadingTemplates={loadingTemplates}
-              setSelectedCourse={setSelectedCourse}
-              selectedCourse={selectedCourse}
-              selectedTemplate={selectedTemplate}
-              update={update}
               arrayTemplates={arrayTemplates}
               changeSelectedTemplate={changeSelectedTemplate}
+              imageRef={imageRef}
+              image2Ref={image2Ref}
+              loadingTemplates={loadingTemplates}
+              openCertificateImageFile={openCertificateImageFile}
+              openCertificateImage2File={openCertificateImage2File}
+              openCertificateThumbnailFile={openCertificateThumbnailFile}
+              selectedCourse={selectedCourse}
+              selectedTemplate={selectedTemplate}
+              thumbnailRef={thumbnailRef}
+              update={update}
+              updateImage={updateImage}
               updateTemplate={updateTemplate}
-              updateCertificateThumbnail={updateCertificateThumbnail}
-              thumbnail={thumbnail}
-              setThumbnail={setThumbnail}
             />
           )}
           {index === 2 && (
             <>
               <CoursesSectionStudent
-                students={students}
-                loadingStudents={loadingStudents}
-                showStudentModal={showStudentModal}
                 hideStudentModal={hideStudentModal}
+                loadingStudents={loadingStudents}
                 removeStudentToEnroll={removeStudentToEnroll}
+                showExcelModal={showExcelModal}
+                showStudentModal={showStudentModal}
+                students={students}
               />
               <EnrollStudentModal
+                arrayStudentsNotEnrolled={arrayStudentsNotEnrolled}
                 handleEnrollStudent={handleEnrollStudent}
                 hideStudentModal={hideStudentModal}
-                openStudentModal={openStudentModal}
-                studentToEnroll={studentToEnroll}
-                setStudentToEnroll={setStudentToEnroll}
-                studentsNotEnrolled={studentsNotEnrolled}
-                arrayStudentsNotEnrolled={arrayStudentsNotEnrolled}
                 loadingStudentsNotEnrolled={loadingStudentsNotEnrolled}
+                openStudentModal={openStudentModal}
                 studentToEnrollChange={studentToEnrollChange}
               />
+              <ExcelModal
+                handleExcel={handleExcel}
+                hideExcelModal={hideExcelModal}
+                openExcelModal={openExcelModal}
+                processExcel={processExcel}
+              />
               <Alert
+                className={`${studentError ? 'active' : ''}`}
                 onClose={hideStudentError}
                 severity='error'
-                className={`${studentError ? 'active' : ''}`}
               >
                 <AlertTitle>¿Desea desmatricular a este estudiante?</AlertTitle>
                 <small className={styles.small}>
                   {studentToRemove.name} (id:{studentToRemove.id})
                 </small>
                 <Button
-                  variant='outlined'
-                  className={styles.updateButton}
+                  className='updateButton'
                   onClick={handleRemoveStudentToEnroll}
+                  variant='outlined'
                 >
                   Sí, eliminar
                 </Button>
                 <Button
-                  variant='outlined'
-                  className={styles.cancelButton}
+                  className='cancelButton'
                   onClick={hideStudentError}
+                  variant='outlined'
                 >
                   No, cancelar
                 </Button>

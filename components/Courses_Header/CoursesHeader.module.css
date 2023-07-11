@@ -27,13 +27,13 @@
   justify-content: space-between;
   width: 50%;
 }
-.divInfoCont {
-  width: 50%;
-}
 .divInfoColCont {
   display: flex;
   justify-content: space-between;
   margin-top: 2rem;
+}
+.divInfoCont {
+  width: 50%;
 }
 .typeBold {
   font-weight: bold;
