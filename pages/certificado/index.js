@@ -20,6 +20,7 @@ import axios from 'axios';
 export default function Certificate() {
   const [coords, setCoords] = useState([]);
   const [cvs, setCVS] = useState('');
+  const [loadedToken, setLoadedToken] = useState(false);
   const [loading, setLoading] = useState(true);
   const [pdfHeight, setPdfHeight] = useState(0);
   const [src, setSrc] = useState('');
@@ -208,6 +209,27 @@ export default function Certificate() {
   });
 
   useEffect(() => {
+    if (
+      !sessionStorage.getItem('token') ||
+      sessionStorage.getItem('token') == ''
+    ) {
+      Router.push('/login');
+    } else {
+      axios.interceptors.request.use(
+        function (config) {
+          const token = sessionStorage.getItem('token');
+          config.headers.Authorization = 'Bearer ' + token;
+          return config;
+        },
+        function (error) {
+          return Promise.reject(error);
+        }
+      );
+      setLoadedToken(true);
+    }
+  }, []);
+
+  useEffect(() => {
     if (isReady) {
       axios
         .get(`${API_HOST}/usercourse/${userId}/${courseId}`)
@@ -245,7 +267,7 @@ export default function Certificate() {
     }
   }, [isReady]);
 
-  return (
+  return loadedToken ? (
     <>
       <Head>
         <title>Certificados Medea - Certificado</title>
@@ -269,6 +291,21 @@ export default function Certificate() {
             'El certificado no existe'
           )}
         </div>
+      </main>
+    </>
+  ) : (
+    <>
+      <Head>
+        <title>Certificados Medea</title>
+        <meta
+          name='description'
+          content='Gestor de certificados de los cursos de Medea'
+        />
+        <meta name='viewport' content='width=device-width, initial-scale=1' />
+        <link rel='icon' href='/favicon.ico' />
+      </Head>
+      <main className='main'>
+        <p className='centered'>No está autorizado para ver el contenido</p>
       </main>
     </>
   );

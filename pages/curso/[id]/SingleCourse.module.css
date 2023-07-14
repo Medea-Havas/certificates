@@ -1,5 +1,14 @@
+.smallList {
+  display: block;
+  font-size: var(--sm);
+  margin-bottom: 0.25rem;
+}
 .small {
   display: block;
   font-size: var(--sm);
   margin-bottom: 0.75rem;
+}
+.smallWarn {
+  font-size: var(--sm);
+  margin: 0.5rem 0 1rem;
 }

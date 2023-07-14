@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { Alert, AlertTitle, Button, MenuItem } from '@mui/material';
+import Router from 'next/router';
 import CoursesSectionInfo from '../../../components/Courses_Section_Info';
 import CoursesSectionCertificate from '../../../components/Courses_Section_Certificate';
 import CoursesSectionStudent from '../../../components/Courses_Section_Student';
@@ -18,11 +19,14 @@ export default function Course() {
   const [arrayStudentsNotEnrolled, setArrayStudentsNotEnrolled] = useState([]);
   const [arrayTemplates, setArrayTemplates] = useState([]);
   const [courses, setCourses] = useState([]);
+  const [duplicatedIds, setDuplicatedIds] = useState([]);
+  const [duplicatedIdsWarn, setDuplicatedIdsWarn] = useState(false);
   const [duration, setDuration] = useState(0);
   const [excel, setExcel] = useState({});
   const [index, setIndex] = useState(0);
   const [initialIndex, setInitialIndex] = useState(-1);
   const [initialIndex2, setInitialIndex2] = useState(-1);
+  const [loadedToken, setLoadedToken] = useState(false);
   const [loadingCourses, setLoadingCourses] = useState(true);
   const [loadingTemplates, setLoadingTemplates] = useState(true);
   const [loadingStudents, setLoadingStudents] = useState(true);
@@ -112,6 +116,20 @@ export default function Course() {
         setUpdateStudentsData(!updateStudentsData);
         setExcel({});
         hideExcelModal();
+        if (res.data.messages.excluded.length) {
+          setDuplicatedIds([]);
+          for (
+            let index = 0;
+            index < res.data.messages.excluded.length;
+            index++
+          ) {
+            setDuplicatedIds(duplicated => [
+              ...duplicated,
+              res.data.messages.excluded[index]
+            ]);
+          }
+          setDuplicatedIdsWarn(true);
+        }
       })
       .catch(error => console.log(error));
   };
@@ -128,6 +146,7 @@ export default function Course() {
       })
       .catch(error => console.log(error));
   };
+  const hideDuplicatedIdsWarn = () => setDuplicatedIdsWarn(false);
   const hideExcelModal = () => setOpenExcelModal(false);
   const hideStudentError = () => setStudentError(false);
   const hideStudentModal = () => setOpenStudentModal(false);
@@ -258,16 +277,37 @@ export default function Course() {
       });
   };
 
+  useEffect(() => {
+    if (
+      !sessionStorage.getItem('token') ||
+      sessionStorage.getItem('token') == ''
+    ) {
+      Router.push('/login');
+    } else {
+      axios.interceptors.request.use(
+        function (config) {
+          const token = sessionStorage.getItem('token');
+          config.headers.Authorization = 'Bearer ' + token;
+          return config;
+        },
+        function (error) {
+          return Promise.reject(error);
+        }
+      );
+      setLoadedToken(true);
+    }
+  }, []);
+
   // Courses
   useEffect(() => {
     if (isReady) {
       const fetchCourses = async () => {
-        const data = await fetch(`${API_HOST}/courses`);
-        const json = await data.json();
-        setCourses(json);
-        sessionStorage.setItem('courses', JSON.stringify(json));
-        selectCourse(json);
-        setLoadingCourses(false);
+        const data = await axios.get(`${API_HOST}/courses`).then(res => {
+          setCourses(res.data);
+          sessionStorage.setItem('courses', JSON.stringify(res.data));
+          selectCourse(res.data);
+          setLoadingCourses(false);
+        });
       };
       if (!sessionStorage.getItem('courses')) {
         fetchCourses().catch(console.error);
@@ -284,17 +324,17 @@ export default function Course() {
   useEffect(() => {
     if (isReady) {
       const fetchTemplates = async () => {
-        const data = await fetch(`${API_HOST}/templates`);
-        const json = await data.json();
-        setTemplates(json);
-        sessionStorage.setItem('templates', JSON.stringify(json));
-        var selCourse = JSON.parse(sessionStorage.getItem('course'));
-        var selTemplate = json.filter(
-          template => template.id == selCourse.template_id
-        )[0];
-        setSelectedTemplate(selTemplate);
-        arrayTemplateFunction();
-        setLoadingTemplates(false);
+        const data = await axios.get(`${API_HOST}/templates`).then(res => {
+          setTemplates(res.data);
+          sessionStorage.setItem('templates', JSON.stringify(res.data));
+          var selCourse = JSON.parse(sessionStorage.getItem('course'));
+          var selTemplate = res.data.filter(
+            template => template.id == selCourse.template_id
+          )[0];
+          setSelectedTemplate(selTemplate);
+          arrayTemplateFunction();
+          setLoadingTemplates(false);
+        });
       };
       if (!sessionStorage.getItem('templates')) {
         fetchTemplates().catch(console.error);
@@ -318,10 +358,12 @@ export default function Course() {
   useEffect(() => {
     if (isReady) {
       const fetchStudents = async () => {
-        const data = await fetch(`${API_HOST}/usersfromcourse/${paramId}`);
-        const json = await data.json();
-        setStudents(json);
-        setLoadingStudents(false);
+        const data = await axios
+          .get(`${API_HOST}/usersfromcourse/${paramId}`)
+          .then(res => {
+            setStudents(res.data);
+            setLoadingStudents(false);
+          });
       };
       if (!sessionStorage.getItem('usersfromcourse')) {
         fetchStudents().catch(console.error);
@@ -339,15 +381,19 @@ export default function Course() {
   useEffect(() => {
     if (isReady) {
       const fetchStudentsNotEnrolled = async () => {
-        const data = await fetch(
-          `${API_HOST}/courseusersnotenrolled/${paramId}`
-        ).catch(error => console.log(error));
-        const json = await data.json();
-        setStudentsNotEnrolled(json);
-        sessionStorage.setItem('studentsnotenrolled', JSON.stringify(json));
-        setStudentToEnroll(json[0].id);
-        studentsNotEnrolledToArray();
-        setLoadingStudentsNotEnrolled(false);
+        const data = await axios
+          .get(`${API_HOST}/courseusersnotenrolled/${paramId}`)
+          .then(res => {
+            setStudentsNotEnrolled(res.data);
+            sessionStorage.setItem(
+              'studentsnotenrolled',
+              JSON.stringify(res.data)
+            );
+            setStudentToEnroll(res.data[0].id);
+            studentsNotEnrolledToArray();
+            setLoadingStudentsNotEnrolled(false);
+          })
+          .catch(error => console.log(error));
       };
       if (!sessionStorage.getItem('studentsnotenrolled')) {
         fetchStudentsNotEnrolled().catch(console.error);
@@ -363,7 +409,7 @@ export default function Course() {
     }
   }, [isReady, updateStudentsNotEnrolledData]);
 
-  return (
+  return loadedToken ? (
     <>
       <main className='page main'>
         <div>
@@ -425,6 +471,30 @@ export default function Course() {
                 processExcel={processExcel}
               />
               <Alert
+                className={`${duplicatedIdsWarn ? 'active' : ''}`}
+                onClose={hideDuplicatedIdsWarn}
+                severity='warning'
+              >
+                <AlertTitle>
+                  Los usuarios con los siguientes DNI ya existen:
+                </AlertTitle>
+                {duplicatedIds.map(dup => (
+                  <small className={styles.smallList} key={dup}>
+                    {dup}
+                  </small>
+                ))}
+                <p className={styles.smallWarn}>
+                  Revisar si hay que asignarlos a este curso en "Añadir alumno"
+                </p>
+                <Button
+                  className='cancelButton'
+                  onClick={hideDuplicatedIdsWarn}
+                  variant='outlined'
+                >
+                  OK
+                </Button>
+              </Alert>
+              <Alert
                 className={`${studentError ? 'active' : ''}`}
                 onClose={hideStudentError}
                 severity='error'
@@ -453,5 +523,9 @@ export default function Course() {
         </div>
       </main>
     </>
+  ) : (
+    <main className='main'>
+      <p className='centered'>No está autorizado para ver el contenido</p>
+    </main>
   );
 }

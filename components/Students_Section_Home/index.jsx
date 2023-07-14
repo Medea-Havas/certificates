@@ -97,14 +97,8 @@ export default function StudentsSectionHome() {
 
   const handleAddStudent = event => {
     const addStudent = async () => {
-      await fetch(`${API_HOST}/users`, {
-        method: 'POST',
-        headers: {
-          Accept: '*/*',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(ncStudent)
-      })
+      await axios
+        .post(`${API_HOST}/users`, JSON.stringify(ncStudent))
         .then(res => {
           sessionStorage.removeItem('users');
           setResetUsers(!resetUsers);
@@ -190,8 +184,9 @@ export default function StudentsSectionHome() {
 
   useEffect(() => {
     if (!sessionStorage.getItem('users')) {
-      fetch(`${process.env.API_HOST}/users`)
-        .then(usersList => usersList.json())
+      axios
+        .get(`${process.env.API_HOST}/users`)
+        .then(usersList => usersList.data)
         .then(users => {
           setUsers(users);
           sessionStorage.setItem('users', JSON.stringify(users));

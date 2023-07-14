@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from './StudentsSectionInfo.module.css';
 import { useRouter } from 'next/router';
+import axios from 'axios';
 
 export default function StudentsSectionInfo() {
   const [loading, setLoading] = useState(true);
@@ -12,8 +13,9 @@ export default function StudentsSectionInfo() {
   useEffect(() => {
     if (isReady) {
       if (!sessionStorage.getItem('users')) {
-        fetch(`${process.env.API_HOST}/users`)
-          .then(usersList => usersList.json())
+        axios
+          .get(`${process.env.API_HOST}/users`)
+          .then(usersList => usersList.data.json())
           .then(users =>
             users.map(user => {
               return {

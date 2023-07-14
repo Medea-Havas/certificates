@@ -38,6 +38,7 @@ export default function CoursesSectionHome() {
   const [template, setTemplate] = useState({});
   const [templates, setTemplates] = useState([]);
   const [templatesLoaded, setTemplatesLoaded] = useState(false);
+  const [token, setToken] = useState('');
   const [updateData, setUpdateData] = useState(false);
   const [updateId, setUpdateId] = useState(-1);
   const [warning, setWarning] = useState(false);
@@ -298,13 +299,22 @@ export default function CoursesSectionHome() {
   };
 
   useEffect(() => {
+    if (sessionStorage.getItem('token')) {
+      setToken(sessionStorage.getItem('token'));
+      axios.defaults.headers.common = { Authorization: `bearer ${token}` };
+    }
+  }, []);
+
+  useEffect(() => {
     // Fetch courses
     const fetchCourses = async () => {
-      const data = await fetch(`${API_HOST}/courses`);
-      const json = await data.json();
-      setCourses(json);
-      sessionStorage.setItem('courses', JSON.stringify(json));
-      setLoading(false);
+      await axios.get(`${API_HOST}/courses`).then(coursesList => {
+        if (coursesList.data.length) {
+          setCourses(coursesList.data);
+          sessionStorage.setItem('courses', JSON.stringify(coursesList.data));
+          setLoading(false);
+        }
+      });
     };
     if (!sessionStorage.getItem('courses')) {
       fetchCourses().catch(console.error);
@@ -315,11 +325,13 @@ export default function CoursesSectionHome() {
     }
     // Fetch templates
     const fetchTemplates = async () => {
-      const data = await fetch(`${API_HOST}/templates`);
-      const json = await data.json();
-      setTemplates(json);
-      sessionStorage.setItem('templates', JSON.stringify(json));
-      displayListItems();
+      await axios.get(`${API_HOST}/templates`).then(templatesList => {
+        if (templatesList.data.length) {
+          setTemplates(templatesList.data);
+          sessionStorage.setItem('templates', JSON.stringify(coursesList.data));
+          displayListItems();
+        }
+      });
     };
     if (!sessionStorage.getItem('templates')) {
       fetchTemplates().catch(console.error);

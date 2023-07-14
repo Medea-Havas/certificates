@@ -63,6 +63,7 @@ main.page .MuiDataGrid-cell:focus-within {
   color: var(--steelbluelowlight);
 }
 .MuiBox-root {
+  position: relative;
   width: 100%;
 }
 .MuiBox-root.open {

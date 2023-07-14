@@ -1,0 +1,28 @@
+.buttonCont {
+  display: flex;
+  justify-content: flex-end;
+}
+.form {
+  margin: 0 auto;
+  max-width: 30rem;
+}
+.form h1 {
+  margin: 3rem 0;
+}
+.loginButton {
+  height: 3rem;
+  position: relative;
+  top: 0.7rem;
+}
+.textField {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  margin-bottom: 1rem;
+}
+.textField p {
+  color: var(--steelbluelowlight);
+  font-size: var(--xs);
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+}
